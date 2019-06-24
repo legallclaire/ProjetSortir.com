@@ -35,6 +35,7 @@
         "symfony/web-server-bundle": "*"
     },
     "config": {
+        "secure-http":false,
         "preferred-install": {
             "*": "dist"
         },
@@ -77,5 +78,22 @@
             "allow-contrib": false,
             "require": "3.4.*"
         }
-    }
+    },
+    "repositories": [
+
+        {
+
+            "type": "composer",
+
+            "url": "http://nexus.depot-eni.fr:8081/repository/composer-proxy-packagist.org/"
+
+        },
+
+        {
+
+            "packagist.org": false
+
+        }
+
+    ]
 }
