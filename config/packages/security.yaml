@@ -24,11 +24,11 @@ security:
                 path: participants_logout
                 target: participants_login
             provider: app_user_provider
-#            remember_me:
-#                key: "%secret%"
-#                lifetime: 77760000 #equivaut à 90 jours en secondes
-#                path: /
-#                domain: ~
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 #equivaut à une semaine en secondes
+                path: /
+
 
 
 
