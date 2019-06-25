@@ -31,10 +31,6 @@ class Sorties
      */
     private $datedebut;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $duree;
 
     /**
      * @ORM\Column(type="datetime")
@@ -76,6 +72,11 @@ class Sorties
      */
     private $etats_no_etat;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $datefin;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -113,18 +114,6 @@ class Sorties
     public function setDatedebut(\DateTimeInterface $datedebut): self
     {
         $this->datedebut = $datedebut;
-
-        return $this;
-    }
-
-    public function getDuree(): ?int
-    {
-        return $this->duree;
-    }
-
-    public function setDuree(?int $duree): self
-    {
-        $this->duree = $duree;
 
         return $this;
     }
@@ -221,6 +210,18 @@ class Sorties
     public function setEtatsNoEtat(int $etats_no_etat): self
     {
         $this->etats_no_etat = $etats_no_etat;
+
+        return $this;
+    }
+
+    public function getDatefin(): ?\DateTimeInterface
+    {
+        return $this->datefin;
+    }
+
+    public function setDatefin(?\DateTimeInterface $datefin): self
+    {
+        $this->datefin = $datefin;
 
         return $this;
     }

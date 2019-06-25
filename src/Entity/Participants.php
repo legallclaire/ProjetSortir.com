@@ -3,11 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ParticipantsRepository")
+ * @UniqueEntity(fields={"pseudo"})
+ * @UniqueEntity(fields={"mail"})
  */
-class Participants
+class Participants implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -22,7 +27,9 @@ class Participants
     private $no_participant;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30, unique=true)
+     * @Assert\Length(max=30, maxMessage="{{ limit }} caractères maxi")
+     * @Assert\NotBlank()
      */
     private $pseudo;
 
@@ -42,12 +49,16 @@ class Participants
     private $telephone;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, unique=true)
+     * @Assert\Length(max=20, maxMessage="{{ limit }} caractères maxi")
+     * @Assert\NotBlank()
      */
     private $mail;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=255, maxMessage="{{ limit }} caractères maxi")
+     * @Assert\NotBlank()
      */
     private $mot_de_passe;
 
@@ -65,6 +76,11 @@ class Participants
      * @ORM\Column(type="integer")
      */
     private $sites_no_site;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $organisateur;
 
     public function getId(): ?int
     {
@@ -187,6 +203,82 @@ class Participants
     public function setSitesNoSite(int $sites_no_site): self
     {
         $this->sites_no_site = $sites_no_site;
+
+        return $this;
+    }
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     *     public function getRoles()
+     *     {
+     *         return ['ROLE_USER'];
+     *     }
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
+     */
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text
+     * password will be salted, encoded, and then compared to this value.
+     *
+     * @return string The password
+     */
+    public function getPassword()
+    {
+        // TODO: Implement getPassword() method.
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+    }
+
+    public function getOrganisateur(): ?bool
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(bool $organisateur): self
+    {
+        $this->organisateur = $organisateur;
 
         return $this;
     }

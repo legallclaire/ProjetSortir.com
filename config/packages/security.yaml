@@ -1,6 +1,6 @@
 security:
     encoders:
-        App\Entity\User:
+        App\Entity\Participants:
                 algorithm: bcrypt
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -8,8 +8,8 @@ security:
         #in_memory: { memory: ~ }
         app_user_provider:
             entity:
-                class: App\Entity\User
-                property: username
+                class: App\Entity\Participants
+                property: mail
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -18,11 +18,11 @@ security:
             anonymous: true
             logout_on_user_change: true
             form_login:
-                login_path: user_login
-                check_path: user_login
+                login_path: participants_login
+                check_path: participants_login
             logout:
-                path: user_logout
-                target: user_login
+                path: participants_logout
+                target: participants_login
             provider: app_user_provider
 
 
