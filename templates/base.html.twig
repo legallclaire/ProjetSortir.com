@@ -11,10 +11,35 @@
 
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+        {% block main %}
+        <div class="container">
+
+
+
+
+
+
+        </div>
+
+
+
+        {% endblock %}
+
+
+
+
+        {% endblock %}
+
+
         {% block javascripts %}
             <script src={{ asset('js/bootstrap.bundle.min.js')}}></script>
             <script src={{ asset('js/bootstrap.min.js')}}></script>
         {% endblock %}
     </body>
 </html>
+
+
+
+
+

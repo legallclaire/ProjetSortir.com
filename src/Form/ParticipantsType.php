@@ -16,31 +16,20 @@ class ParticipantsType extends AbstractType
     {
         $builder
             //->add('no_participant')
-            ->add('pseudo', TextType::class,[
-                'label'=>'Pseudo',
+            ->add('pseudo', TextType::class, [
+                'label' => 'Identifiant',
             ])
-            //->add('nom')
-            //->add('prenom')
-            //->add('telephone')
-            //->add('mail')
-            ->add('mot_de_passe', RepeatedType::class,[
-                'type'=>PasswordType::class,
-                'invalid_message'=>'Vous n\'avez pas saisi le même mot de passe',
-                'first_options'=>[
-                    'label'=>'Mot de passe'
+
+            ->add('mot_de_passe', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Vous n\'avez pas saisi le même mot de passe',
+                'first_options' => [
+                    'label' => 'Mot de passe'
                 ],
-                'second_options'=> [
-                    'label'=>'Confirmation du mot de passe'
+                'second_options' => [
+                    'label' => 'Confirmation du mot de passe'
                 ]
-            ])
-        ;
-            
-            //->add('administrateur')
-            //->add('actif')
-            //->add('sites_no_site')
-            //->add('organisateur')
-            //->add('sorties')
-        ;
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver)
