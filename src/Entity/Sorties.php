@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,26 +49,52 @@ class Sorties
      */
     private $descriptioninfos;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $etatsortie;
 
     /**
      * @ORM\Column(type="string", length=250, nullable=true)
      */
     private $urlPhoto;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $organisateur;
-
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $datefin;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Lieux")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $lieu;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Etats")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etat;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sites")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Participants", inversedBy="sorties")
+     */
+    private $participantsInscrit;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Participants", inversedBy="sortiesOrganisees")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organisateur;
+
+    public function __construct()
+    {
+        $this->participantsInscrit = new ArrayCollection();
+    }
 
 
 
@@ -147,17 +175,6 @@ class Sorties
         return $this;
     }
 
-    public function getEtatsortie(): ?int
-    {
-        return $this->etatsortie;
-    }
-
-    public function setEtatsortie(?int $etatsortie): self
-    {
-        $this->etatsortie = $etatsortie;
-
-        return $this;
-    }
 
     public function getUrlPhoto(): ?string
     {
@@ -171,17 +188,6 @@ class Sorties
         return $this;
     }
 
-    public function getOrganisateur(): ?int
-    {
-        return $this->organisateur;
-    }
-
-    public function setOrganisateur(int $organisateur): self
-    {
-        $this->organisateur = $organisateur;
-
-        return $this;
-    }
 
     public function getDatefin(): ?\DateTimeInterface
     {
@@ -191,6 +197,80 @@ class Sorties
     public function setDatefin(?\DateTimeInterface $datefin): self
     {
         $this->datefin = $datefin;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieux
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieux $lieu): self
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etats
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etats $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getSite(): ?Sites
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Sites $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Participants[]
+     */
+    public function getParticipantsInscrit(): Collection
+    {
+        return $this->participantsInscrit;
+    }
+
+    public function addParticipantsInscrit(Participants $participantsInscrit): self
+    {
+        if (!$this->participantsInscrit->contains($participantsInscrit)) {
+            $this->participantsInscrit[] = $participantsInscrit;
+        }
+
+        return $this;
+    }
+
+    public function removeParticipantsInscrit(Participants $participantsInscrit): self
+    {
+        if ($this->participantsInscrit->contains($participantsInscrit)) {
+            $this->participantsInscrit->removeElement($participantsInscrit);
+        }
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?Participants
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participants $organisateur): self
+    {
+        $this->organisateur = $organisateur;
 
         return $this;
     }
