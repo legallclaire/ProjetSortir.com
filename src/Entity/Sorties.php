@@ -62,20 +62,13 @@ class Sorties
      */
     private $organisateur;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $lieux_no_lieu;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $etats_no_etat;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $datefin;
+
+
 
     public function getId(): ?int
     {
@@ -190,30 +183,6 @@ class Sorties
         return $this;
     }
 
-    public function getLieuxNoLieu(): ?int
-    {
-        return $this->lieux_no_lieu;
-    }
-
-    public function setLieuxNoLieu(int $lieux_no_lieu): self
-    {
-        $this->lieux_no_lieu = $lieux_no_lieu;
-
-        return $this;
-    }
-
-    public function getEtatsNoEtat(): ?int
-    {
-        return $this->etats_no_etat;
-    }
-
-    public function setEtatsNoEtat(int $etats_no_etat): self
-    {
-        $this->etats_no_etat = $etats_no_etat;
-
-        return $this;
-    }
-
     public function getDatefin(): ?\DateTimeInterface
     {
         return $this->datefin;
@@ -225,4 +194,6 @@ class Sorties
 
         return $this;
     }
+
+
 }

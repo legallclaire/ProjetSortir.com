@@ -41,10 +41,6 @@ class Lieux
      */
     private $longitude;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $villes_no_ville;
 
     public function getId(): ?int
     {
@@ -111,15 +107,4 @@ class Lieux
         return $this;
     }
 
-    public function getVillesNoVille(): ?int
-    {
-        return $this->villes_no_ville;
-    }
-
-    public function setVillesNoVille(int $villes_no_ville): self
-    {
-        $this->villes_no_ville = $villes_no_ville;
-
-        return $this;
-    }
 }
