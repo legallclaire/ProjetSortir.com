@@ -20,15 +20,9 @@ class ParticipantsType extends AbstractType
                 'label' => 'Identifiant',
             ])
 
-            ->add('mot_de_passe', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Vous n\'avez pas saisi le même mot de passe',
-                'first_options' => [
-                    'label' => 'Mot de passe'
-                ],
-                'second_options' => [
-                    'label' => 'Confirmation du mot de passe'
-                ]
+            ->add('mot_de_passe', PasswordType::class, [
+                'label' => 'Mot de passe',
+
             ]);;
     }
 
