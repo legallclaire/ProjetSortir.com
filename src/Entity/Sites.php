@@ -15,7 +15,7 @@ class Sites
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $no_site;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=30)
@@ -23,9 +23,9 @@ class Sites
     private $nom_site;
 
 
-    public function getNoSite(): ?int
+    public function getId(): ?int
     {
-        return $this->no_site;
+        return $this->id;
     }
 
     public function getNomSite(): ?string

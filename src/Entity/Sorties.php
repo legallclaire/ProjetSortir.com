@@ -18,7 +18,7 @@ class Sorties
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $no_sortie;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=30)
@@ -70,28 +70,31 @@ class Sorties
      */
     private $site;
 
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Participants", inversedBy="sorties")
-     */
-    private $participantsInscrit;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Participants", inversedBy="sortiesOrganisees")
      * @ORM\JoinColumn(nullable=false)
      */
     private $organisateur;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Participants", inversedBy="sortiesPrevues")
+     */
+    private $participants;
+
+
+
+
     public function __construct()
     {
         $this->participantsInscrit = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 
 
 
-    public function getNoSortie(): ?int
+    public function getId(): ?int
     {
-        return $this->no_sortie;
+        return $this->id;
     }
 
     public function getNom(): ?string
@@ -203,32 +206,6 @@ class Sorties
         return $this;
     }
 
-    /**
-     * @return Collection|Participants[]
-     */
-    public function getParticipantsInscrit(): Collection
-    {
-        return $this->participantsInscrit;
-    }
-
-    public function addParticipantsInscrit(Participants $participantsInscrit): self
-    {
-        if (!$this->participantsInscrit->contains($participantsInscrit)) {
-            $this->participantsInscrit[] = $participantsInscrit;
-        }
-
-        return $this;
-    }
-
-    public function removeParticipantsInscrit(Participants $participantsInscrit): self
-    {
-        if ($this->participantsInscrit->contains($participantsInscrit)) {
-            $this->participantsInscrit->removeElement($participantsInscrit);
-        }
-
-        return $this;
-    }
-
     public function getOrganisateur(): ?Participants
     {
         return $this->organisateur;
@@ -240,6 +217,34 @@ class Sorties
 
         return $this;
     }
+
+    /**
+     * @return Collection|Participants[]
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participants $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Participants $participant): self
+    {
+        if ($this->participants->contains($participant)) {
+            $this->participants->removeElement($participant);
+        }
+
+        return $this;
+    }
+
+
 
 
 }

@@ -57,7 +57,7 @@ class SortiesController extends Controller
     }
 
     /**
-     * @Route("/ajouter", name="sorties_ajoutter")
+     * @Route("/ajouter", name="sorties_ajouter")
      */
     public function ajouterSorties(EntityManagerInterface $em, Request $request){
         $sortie = new Sorties();
@@ -66,7 +66,7 @@ class SortiesController extends Controller
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
             $em->persist($sortie);
             $em->flush();
-            return $this->redirectToRoute("sorties_ajoutter");
+            return $this->redirectToRoute("sorties_ajouter");
         }
     }
 

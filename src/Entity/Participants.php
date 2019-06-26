@@ -22,7 +22,7 @@ class Participants implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $no_participant;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=30, unique=true)
@@ -70,20 +70,17 @@ class Participants implements UserInterface
      */
     private $actif;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $sites_no_site;
 
     /**
      * @ORM\Column(type="boolean")
      */
     private $organisateur;
 
+
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Sorties", mappedBy="participantsInscrit")
+     * @ORM\Column(type="string", length=250, nullable=true)
      */
-    private $sorties;
+    private $urlPhoto;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sorties", mappedBy="organisateur", orphanRemoval=true)
@@ -91,19 +88,27 @@ class Participants implements UserInterface
     private $sortiesOrganisees;
 
     /**
-     * @ORM\Column(type="string", length=250, nullable=true)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sorties", mappedBy="participants")
      */
-    private $urlPhoto;
+    private $sortiesPrevues;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sites")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
 
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
         $this->sortiesOrganisees = new ArrayCollection();
+        $this->sortiesPrevues = new ArrayCollection();
     }
 
-    public function getNoParticipant(): ?int
+    public function getId(): ?int
     {
-        return $this->no_participant;
+        return $this->id;
     }
 
     public function getPseudo(): ?string
@@ -202,17 +207,6 @@ class Participants implements UserInterface
         return $this;
     }
 
-    public function getSitesNoSite(): ?int
-    {
-        return $this->sites_no_site;
-    }
-
-    public function setSitesNoSite(int $sites_no_site): self
-    {
-        $this->sites_no_site = $sites_no_site;
-
-        return $this;
-    }
 
     /**
      * Returns the roles granted to the user.
@@ -230,7 +224,14 @@ class Participants implements UserInterface
      */
     public function getRoles()
     {
-        return ['ROLE_USER'];
+
+        $roles = ['ROLE_USER'];
+
+        if ($this->getAdministrateur()){
+
+            $roles [] = 'ROLE_ADMIN';
+    }
+        return $roles;
     }
 
     /**
@@ -290,30 +291,15 @@ class Participants implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Sorties[]
-     */
-    public function getSorties(): Collection
+
+    public function getUrlPhoto(): ?string
     {
-        return $this->sorties;
+        return $this->urlPhoto;
     }
 
-    public function addSorty(Sorties $sorty): self
+    public function setUrlPhoto(?string $urlPhoto): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-            $sorty->addParticipantsInscrit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSorty(Sorties $sorty): self
-    {
-        if ($this->sorties->contains($sorty)) {
-            $this->sorties->removeElement($sorty);
-            $sorty->removeParticipantsInscrit($this);
-        }
+        $this->urlPhoto = $urlPhoto;
 
         return $this;
     }
@@ -349,15 +335,44 @@ class Participants implements UserInterface
         return $this;
     }
 
-    public function getUrlPhoto(): ?string
+    /**
+     * @return Collection|Sorties[]
+     */
+    public function getSortiesPrevues(): Collection
     {
-        return $this->urlPhoto;
+        return $this->sortiesPrevues;
     }
 
-    public function setUrlPhoto(?string $urlPhoto): self
+    public function addSortiesPrevue(Sorties $sortiesPrevue): self
     {
-        $this->urlPhoto = $urlPhoto;
+        if (!$this->sortiesPrevues->contains($sortiesPrevue)) {
+            $this->sortiesPrevues[] = $sortiesPrevue;
+            $sortiesPrevue->addParticipant($this);
+        }
 
         return $this;
     }
+
+    public function removeSortiesPrevue(Sorties $sortiesPrevue): self
+    {
+        if ($this->sortiesPrevues->contains($sortiesPrevue)) {
+            $this->sortiesPrevues->removeElement($sortiesPrevue);
+            $sortiesPrevue->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function getSite(): ?Sites
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Sites $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
 }

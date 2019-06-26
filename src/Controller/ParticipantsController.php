@@ -17,7 +17,7 @@ class ParticipantsController extends Controller
 
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUserName = $authenticationUtils->getLastUsername();
-        return $this->render('participants/login.html.twig', [
+        return $this->render('sorties/afficherSorties.html.twig', [
             'error' => $error,
             'lastUserName' => $lastUserName
         ]);

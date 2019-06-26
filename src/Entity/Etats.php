@@ -15,7 +15,7 @@ class Etats
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $no_etat;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=30)
@@ -23,9 +23,9 @@ class Etats
     private $libelle;
 
 
-    public function getNoEtat(): ?int
+    public function getId(): ?int
     {
-        return $this->no_etat;
+        return $this->id;
     }
 
     public function getLibelle(): ?string
