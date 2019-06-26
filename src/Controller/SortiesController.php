@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortiesController extends Controller
 {
     /**
-     * @Route("/sorties", name="sorties")
+     * @Route("/home", name="sorties_home")
      */
     public function index()
     {
