@@ -12,11 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfilController extends Controller
 {
     /**
-     * @Route("/gererProfil/{id}", name="profil_gerer", requirements={"id"="\d+"})
+     * @Route("/gererProfil/{no_participant}", name="profil_gerer", requirements={"id"="\d+"})
      */
-    public function gererProfil($id,EntityManagerInterface $em, Request $request)
+    public function gererProfil($no_participant,EntityManagerInterface $em, Request $request)
     {
-        $participant = $em->getRepository(Participants::class)->find($id);
+        $participant = $em->getRepository(Participants::class)->find($no_participant);
 
         if ($participant ==null) {
 
@@ -46,7 +46,7 @@ class ProfilController extends Controller
             $em-> flush();
 
             $this->addFlash("success", "Votre profil a bien été modifié");
-            return $this->redirectToRoute("profil_afficher", ['id' => $participant->getId()]);
+            return $this->redirectToRoute("profil_afficher", ['id' => $participant->getNoParticipant()]);
 
         }
 

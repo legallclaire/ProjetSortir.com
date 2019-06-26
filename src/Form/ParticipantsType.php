@@ -22,7 +22,7 @@ class ParticipantsType extends AbstractType
             ->add('telephone', TextType::class, ['label'=>'Téléphone','attr'=>['class'=>'tel-class'], 'required'=> false])
             ->add('mail', TextType::class, ['label'=>'Email','attr'=>['class'=>'mail-class']])
             ->add('mot_de_passe', RepeatedType::class,['type'=>PasswordType::class, 'invalid_message'=>'Vous n\'avez pas saisi le même mot de passe','first_options'=>
-                ['label'=> 'Mot de passe'], 'second_options'=>['label' => 'Confirmation du mot de passe']])
+                ['label'=> 'Mot de passe', 'attr'=>['placeholder'=>'Saisir votre mot de passe']], 'second_options'=>['label' => 'Confirmation du mot de passe','attr'=>['placeholder'=>'Saisir votre mot de passe']]])
             ->add('sites_no_site', EntityType::class, ['label' => 'Ville de rattachement', 'class'=>'App\Entity\Sites','choice_label'=>'no_site','placeholder'=>'Choisir une ville'])
             ->add('urlPhoto', TextType::class, ['label'=>'Ma Photo','attr'=>['class'=>'photo-class'],'required'=> false])
 
