@@ -16,14 +16,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Participants implements UserInterface
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $no_participant;
@@ -105,21 +101,9 @@ class Participants implements UserInterface
         $this->sortiesOrganisees = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getNoParticipant(): ?int
     {
         return $this->no_participant;
-    }
-
-    public function setNoParticipant(int $no_participant): self
-    {
-        $this->no_participant = $no_participant;
-
-        return $this;
     }
 
     public function getPseudo(): ?string
