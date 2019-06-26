@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+</head>
+<body>
+
+{% block main %}
+    <div>
+        {{ form_start(participantsForm) }}
+        {{ form_widget(participantsForm) }}
+        <button type="submit" class="btn btn-primary">Se connecter</button>
+        {{ form_end(participantsForm) }}
+    </div>
+{% endblock %}
+
+</body>
+</html>
