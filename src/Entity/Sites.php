@@ -24,7 +24,7 @@ class Sites
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $mon_site;
+    private $nom_site;
 
     public function getId(): ?int
     {
@@ -43,14 +43,14 @@ class Sites
         return $this;
     }
 
-    public function getMonSite(): ?string
+    public function getNomSite(): ?string
     {
-        return $this->mon_site;
+        return $this->nom_site;
     }
 
-    public function setMonSite(string $mon_site): self
+    public function setNomSite(string $nom_site): self
     {
-        $this->mon_site = $mon_site;
+        $this->nom_site = $nom_site;
 
         return $this;
     }
