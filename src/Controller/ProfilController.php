@@ -28,7 +28,8 @@ class ProfilController extends Controller
         $participant->setPrenom($participant->getPrenom());
 
         if ($participant->getTelephone() !==null) {
-            $participant->setTelephone($participant->getTelephone());}
+            $participant->setTelephone($participant->getTelephone());
+        }
 
 
         $participant->setMail($participant->getMail());
@@ -45,7 +46,7 @@ class ProfilController extends Controller
             $em-> flush();
 
             $this->addFlash("success", "Votre profil a bien été modifié");
-            return $this->redirectToRoute("profil/afficherProfil.html.twig", ['id' => $participant->getId()]);
+            return $this->redirectToRoute("profil_afficher", ['id' => $participant->getId()]);
 
         }
 
