@@ -7,6 +7,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,7 +23,7 @@ class ParticipantsType extends AbstractType
             ->add('mail', TextType::class, ['label'=>'Email','attr'=>['class'=>'mail-class']])
             ->add('mot_de_passe', RepeatedType::class,['type'=>PasswordType::class, 'invalid_message'=>'Vous n\'avez pas saisi le même mot de passe','first_options'=>
                 ['label'=> 'Mot de passe'], 'second_options'=>['label' => 'Confirmation du mot de passe']])
-            ->add('sites_no_site', EntityType::class, ['class'=>'App\Entity\Sites','choice_label'=>'nom_site','placeholder'=>'Choisir une ville'])
+            ->add('sites_no_site', EntityType::class, ['label' => 'Ville de rattachement', 'class'=>'App\Entity\Sites','choice_label'=>'no_site','placeholder'=>'Choisir une ville'])
             ->add('urlPhoto', TextType::class, ['label'=>'Ma Photo','attr'=>['class'=>'photo-class'],'required'=> false])
 
         ;

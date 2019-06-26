@@ -33,7 +33,7 @@ class ProfilController extends Controller
 
 
         $participant->setMail($participant->getMail());
-        $participant->setSitesNoSite($participant->getMail());
+        $participant->setSitesNoSite($participant->getSitesNoSite());
 
 
         $participantForm = $this->createForm(ParticipantsType::class,$participant);
