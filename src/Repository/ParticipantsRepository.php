@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Participants;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Participants|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Participants[]    findAll()
  * @method Participants[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ParticipantsRepository extends ServiceEntityRepository
+class ParticipantsRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
     public function __construct(RegistryInterface $registry)
     {
@@ -47,4 +49,22 @@ class ParticipantsRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * Loads the user for the given username.
+     *
+     * This method must return null if the user is not found.
+     *
+     * @param string $username The username
+     *
+     * @return UserInterface|null
+     */
+    public function loadUserByUsername($username)
+    {
+       $qb=$this->createQueryBuilder('p');
+       $qb->where('p.pseudo=:pseudo OR p.mail=:mail');
+       $qb->setParameter('pseudo',$username);
+       $qb->setParameter('mail',$username);
+       return $qb->getQuery()->getOneOrNullResult();
+
+    }
 }

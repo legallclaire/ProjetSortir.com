@@ -1,15 +1,9 @@
 security:
-    encoders:
-        App\Entity\Participants:
-                algorithm: bcrypt
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        #in_memory: { memory: ~ }
-        app_user_provider:
-            entity:
-                class: App\Entity\Participants
-                property: username
+        in_memory: { memory: ~ }
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -23,7 +17,6 @@ security:
             logout:
                 path: participants_logout
                 target: participants_login
-            provider: app_user_provider
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800 #equivaut à une semaine en secondes
