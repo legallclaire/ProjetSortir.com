@@ -6,6 +6,7 @@ use App\Entity\Sorties;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,11 +21,14 @@ class SortieType extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Nom de la sortie'
             ])
-            ->add('datedebut', DateType::class, [
-                'label' => 'Date et heure de la sortie'
+            ->add('datedebut', DateTimeType::class, [
+                'label' => 'Date et heure de la sortie',
+                'years' => range(2019, 2029),
             ])
             ->add('dateclosure', DateType::class, [
-                'label' => 'Date limite d\'inscription'
+                'label' => 'Date limite d\'inscription',
+                'years' => range(2019, 2029),
+
             ])
             ->add('nbinscriptionsmax', TextType::class, [
                 'label' => 'Nombre de places'
@@ -32,8 +36,9 @@ class SortieType extends AbstractType
             ->add('descriptioninfos', TextareaType::class, [
                 'label' => 'Description et infos'
             ])
-            ->add('datefin', DateType::class, [
-                'label' => 'Date de fin de la sortie'
+            ->add('datefin', DateTimeType::class, [
+                'label' => 'Date de fin de la sortie',
+                'years' => range(2019, 2029),
             ])
             ->add('lieu', EntityType::class, [
                 'class' => 'App\Entity\Lieux',

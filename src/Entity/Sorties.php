@@ -5,20 +5,17 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SortiesRepository")
  */
 class Sorties
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $no_sortie;
@@ -92,21 +89,9 @@ class Sorties
 
 
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getNoSortie(): ?int
     {
         return $this->no_sortie;
-    }
-
-    public function setNoSortie(int $no_sortie): self
-    {
-        $this->no_sortie = $no_sortie;
-
-        return $this;
     }
 
     public function getNom(): ?string

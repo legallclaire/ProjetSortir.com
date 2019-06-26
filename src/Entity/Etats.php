@@ -9,14 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Etats
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $no_etat;
@@ -26,21 +22,10 @@ class Etats
      */
     private $libelle;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getNoEtat(): ?int
     {
         return $this->no_etat;
-    }
-
-    public function setNoEtat(int $no_etat): self
-    {
-        $this->no_etat = $no_etat;
-
-        return $this;
     }
 
     public function getLibelle(): ?string

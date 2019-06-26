@@ -56,4 +56,18 @@ class SortiesController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/ajouter", name="sorties_ajoutter")
+     */
+    public function ajouterSorties(EntityManagerInterface $em, Request $request){
+        $sortie = new Sorties();
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
+            $em->persist($sortie);
+            $em->flush();
+            return $this->redirectToRoute("sorties_ajoutter");
+        }
+    }
+
 }

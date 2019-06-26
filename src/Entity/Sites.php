@@ -9,14 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Sites
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $no_site;
@@ -26,21 +22,10 @@ class Sites
      */
     private $nom_site;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getNoSite(): ?int
     {
         return $this->no_site;
-    }
-
-    public function setNoSite(int $no_site): self
-    {
-        $this->no_site = $no_site;
-
-        return $this;
     }
 
     public function getNomSite(): ?string
