@@ -27,6 +27,6 @@ class ParticipantsController extends Controller
      * @Route("/logout", name="participants_logout")
      */
     public function logout() {
-        // rien
+        return $this->render('participants/login.html.twig');
     }
 }
