@@ -1,0 +1,42 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+
+    margin-bottom: 60px; /* Margin bottom by footer height */
+
+}
+
+
+.container {
+    width: auto;
+
+    padding: 0px;
+    background-color: #D3D3D3;
+
+}
+
+main{
+    height:100%;
+    padding: 25px;
+}
+
+.footer{
+    color: white;
+    text-align: center;
+    background-color: #222222;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+
+.navbar-brand{
+    margin-left:10px;
+}
+
+
+p{
+    text-align: justify;
+}
+h1{text-align: center;
+    margin: 10px 0px 25px 0px;}
