@@ -1,8 +1,14 @@
 security:
+    encoders:
+        App\Entity\Participants:
+            algorithm: bcrypt
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        #in_memory: { memory: ~ }
+        app_user_provider:
+            entity:
+                class: App\Entity\Participants
 
     firewalls:
         dev:
@@ -17,10 +23,12 @@ security:
             logout:
                 path: participants_logout
                 target: participants_login
+            provider: app_user_provider
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800 #equivaut à une semaine en secondes
                 path: /
+                token_provider: 'Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider'
 
 
 
@@ -34,5 +42,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/, roles: IS_AUTHENTICATED_FULLY }

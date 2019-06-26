@@ -12,7 +12,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return $this->render('event/index.html.twig', [
+        return $this->render('event/login.html.twig', [
             'controller_name' => 'EventController',
         ]);
     }
