@@ -19,15 +19,15 @@
         {% for ville in villes %}
             <tr>
 
-                <td>{{ ville.getNomVille }}</td>
-                <td>{{ ville.getCodePostal() }}</td>
-                <td>Modifier - Supprimer</td>
+                <td><input type="text" id="nomVille" value="{{ ville.getNomVille() }}" disabled></td>
+                <td><input type="number" id="codePostal" value="{{ ville.getCodePostal() }}" disabled></td>
+                <td><span id="modificationVille">Modifier</span> - <input type="submit" value="Supprimer"></td>
             </tr>
         {%  endfor %}
         <tr>
             <td><input type="text" name="nomVille" id="nomVille" placeholder="ville" size="10"><td>
             <td><input type="number" name="codePostal" id="codePostal" min="10000" max="99999" step="1" placeholder="code postal" size="5"></td>
-            <td>Ajouter</td>
+            <td><input type="submit" value="Ajouter"></td>
         </tr>
 
     </table>

@@ -42,14 +42,11 @@ class SortieType extends AbstractType
             ])
             ->add('lieu', EntityType::class, [
                 'class' => 'App\Entity\Lieux',
-                'choice_label' => 'Lieu',
+                'choice_label' => 'nom_lieu',
                 'placeholder' => '-- Choisissez un lieu',
                 'required' => true,
                 'expanded' => false,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l')
-                        ->where("l.nom_lieu like '%o%'");
-                }
+
             ])
 //            ->add('etat')
 //            ->add('site')
