@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Participants;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -17,7 +16,7 @@ class ParticipantsController extends Controller
 
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUserName = $authenticationUtils->getLastUsername();
-        return $this->render('sorties/afficherSorties.html.twig', [
+        return $this->render('participants/login.html.twig', [
             'error' => $error,
             'lastUserName' => $lastUserName
         ]);
