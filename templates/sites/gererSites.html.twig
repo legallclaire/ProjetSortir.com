@@ -6,7 +6,13 @@
 
 {% block main %}
     <h1>Gérer les sites</h1>
+    <p>Liste des sites :</p>
+    {% for site in sites %}
 
+        <p>{{ site.getNomSite() }}</p>
+
+
+    {%  endfor %}
 
 
 {% endblock %}

@@ -6,10 +6,10 @@
 
 {% block main %}
     <h1>Gérer les villes</h1>
+    <p>Liste des villes :</p>
 {% for ville in villes %}
 
-{#    <p>Ville : {{ ville.nom_ville }}</p>#}
-{#    <p>Code Postal : {{ ville.code_postal }}</p>#}
+    <p>{{ ville.getNomVille }} - Code Postal : {{ ville.getCodePostal() }}</p>
 
     {%  endfor %}
 
