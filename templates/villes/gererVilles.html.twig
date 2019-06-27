@@ -6,12 +6,30 @@
 
 {% block main %}
     <h1>Gérer les villes</h1>
-    <p>Liste des villes :</p>
-{% for ville in villes %}
+    <h4>Filtrer les villes :</h4>
+    <label for="searchVilles">Le nom contient :</label>
+    <input type="search" name="searchVilles" id="searchVilles">
+    <input type="submit" value="rechercher">
+    <table>
+        <tr>
+            <th>Ville</th>
+            <th>Code Postal</th>
+            <th>Actions</th>
+        </tr>
+        {% for ville in villes %}
+            <tr>
 
-    <p>{{ ville.getNomVille }} - Code Postal : {{ ville.getCodePostal() }}</p>
+                <td>{{ ville.getNomVille }}</td>
+                <td>{{ ville.getCodePostal() }}</td>
+                <td>Modifier - Supprimer</td>
+            </tr>
+        {%  endfor %}
+        <tr>
+            <td><input type="text" name="nomVille" id="nomVille" placeholder="ville" size="10"><td>
+            <td><input type="number" name="codePostal" id="codePostal" min="10000" max="99999" step="1" placeholder="code postal" size="5"></td>
+            <td>Ajouter</td>
+        </tr>
 
-    {%  endfor %}
-
+    </table>
 
 {% endblock %}
