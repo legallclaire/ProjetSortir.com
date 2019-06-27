@@ -208,6 +208,7 @@ class Participants implements UserInterface
     }
 
 
+
     /**
      * Returns the roles granted to the user.
      *
