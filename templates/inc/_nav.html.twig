@@ -9,20 +9,23 @@
         <ul class="nav navbar-nav ml-auto">
 
             {% if is_granted("ROLE_ADMIN") %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path("admin_villes_gerer") }}">Villes <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path("admin_sites_gerer") }}">Sites <span class="sr-only">(current)</span></a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("admin_villes_gerer") }}">Villes<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("admin_sites_gerer") }}">Sites<span class="sr-only">(current)</span></a>
+                </li>
             {% endif %}
             {% if is_granted ("ROLE_USER") %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path("profil_gerer", {'id' : app.user.id })}}">Mon profil</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path("participants_logout") }}">Se déconnecter</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("sorties_home") }}">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("profil_gerer", {'id' : app.user.id })}}">Mon profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("participants_logout") }}">Se déconnecter</a>
+                </li>
             {% endif %}
         </ul>
     </div>
