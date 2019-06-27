@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Sorties;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -28,33 +27,27 @@ class SortieType extends AbstractType
             ->add('dateclosure', DateType::class, [
                 'label' => 'Date limite d\'inscription',
                 'years' => range(2019, 2029),
-
             ])
             ->add('nbinscriptionsmax', TextType::class, [
                 'label' => 'Nombre de places'
-            ])
-            ->add('descriptioninfos', TextareaType::class, [
-                'label' => 'Description et infos'
             ])
             ->add('datefin', DateTimeType::class, [
                 'label' => 'Date de fin de la sortie',
                 'years' => range(2019, 2029),
             ])
+            ->add('descriptioninfos', TextareaType::class, [
+                'label' => 'Description et infos'
+            ])
+//            ->add('ville', EntityType::class, [
+//                'class' => 'App\Entity\Lieux',
+//                'choice_label' => 'ville',
+//                'placeholder' => '-- Choisissez une ville'
+//            ])
             ->add('lieu', EntityType::class, [
                 'class' => 'App\Entity\Lieux',
-                'choice_label' => 'Lieu',
-                'placeholder' => '-- Choisissez un lieu',
-                'required' => true,
-                'expanded' => false,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l')
-                        ->where("l.nom_lieu like '%o%'");
-                }
+                'choice_label' => 'nom_lieu',
+                'placeholder' => '-- Choisissez un lieu'
             ])
-//            ->add('etat')
-//            ->add('site')
-//            ->add('participantsInscrit')
-//            ->add('organisateur')
         ;
     }
 
