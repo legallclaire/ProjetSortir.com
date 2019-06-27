@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Villes[]    findAll()
  * @method Villes[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+
 class VillesRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
