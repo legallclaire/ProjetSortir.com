@@ -13,9 +13,9 @@ class SortiesController extends Controller
 {
 
     /**
-     * @Route("/afficherSorties", name="sorties_afficher")
+     * @Route("/", name="sorties_home")
      */
-    public function afficherSorties()
+    public function home()
     {
         return $this->render('sorties/afficherSorties.html.twig', [
             'controller_name' => 'SortiesController',
