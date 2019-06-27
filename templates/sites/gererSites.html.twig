@@ -18,14 +18,14 @@
     {% for site in sites %}
         <tr>
 
-            <td>{{ site.getNomSite() }}</td>
-            <td><span class="modification">Modifier</span> - <span class="suppression">Supprimer</span></td>
+            <td><input type="text" id="nomSite" value="{{ site.getNomSite() }}" disabled></td>
+            <td><span id="modificationSite">Modifier</span> - <span id="suppressionSite">Supprimer</span></td>
         </tr>
     {%  endfor %}
         <tr>
 
             <td><input type="text" name="nomSite" id="nomSite" placeholder="ville" size="10"></td>
-            <td>Ajouter</td>
+            <td><span id="ajoutSite">Ajouter</span></td>
         </tr>
 
 
