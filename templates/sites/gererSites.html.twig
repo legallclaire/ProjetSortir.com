@@ -6,7 +6,29 @@
 
 {% block main %}
     <h1>Gérer les sites</h1>
+    <h4>Filtrer les sites :</h4>
+    <label for="searchSites">Le nom contient :</label>
+    <input type="search" name="searchSites" id="searchSites">
+    <input type="submit" value="rechercher">
+    <table>
+        <tr>
+            <th>Ville</th>
+            <th>Actions</th>
+        </tr>
+    {% for site in sites %}
+        <tr>
+
+            <td>{{ site.getNomSite() }}</td>
+            <td>Modifier - Supprimer</td>
+        </tr>
+    {%  endfor %}
+        <tr>
+
+            <td><input type="text" name="nomSite" id="nomSite" placeholder="ville" size="10"></td>
+            <td>Ajouter</td>
+        </tr>
 
 
 
+    </table>
 {% endblock %}
