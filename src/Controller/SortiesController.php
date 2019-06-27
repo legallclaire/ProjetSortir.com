@@ -11,16 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SortiesController extends Controller
 {
-    /**
-     * @Route("/home", name="sorties_home")
-     */
-    public function home()
-    {
-        return $this->render('sorties/home.html.twig', [
-            'controller_name' => 'SortiesController',
-        ]);
-    }
-
 
     /**
      * @Route("/afficherSorties", name="sorties_afficher")
