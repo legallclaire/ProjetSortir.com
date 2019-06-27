@@ -15,7 +15,7 @@ elementModificationSite.onclick = function modificationSite (){
 
     }
 
-// script de modification et suppression des sites :
+// script de modification et suppression des villes :
 
 var elementModificationVille = document.getElementById('modificationVille');
 var elementInputNomVille = document.getElementById('nomVille');
@@ -26,7 +26,7 @@ elementModificationVille.onclick = function modificationVille () {
     elementInputNomVille.disabled = false;
     elementInputCodePostalVille.disabled = false;
 
-}
+
     function afficherBouttonEnregistrer () {
 
         elementModificationVille.innerHTML="<input type='submit' value='Enregistrer'>";
@@ -37,3 +37,4 @@ elementModificationVille.onclick = function modificationVille () {
 
     elementInputCodePostalVille.onclick = afficherBouttonEnregistrer();
 
+}
