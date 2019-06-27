@@ -5,12 +5,21 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Afficher le profil</h1>
+
 
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        <h4 class="idUser">{{ app.user.pseudo }}</h4>
+        <h2 class="idUser">{{ app.user.pseudo }}</h2>
 
     {% endif %}
+    <div class="container">
+        <div><label for="prenom">Prénom : </label> {{ app.user.prenom }}</div>
+        <div> <label for="nom">Nom : </label> {{ app.user.nom }}</div>
+        <div><label for="tel">Téléphone : </label> {{ app.user.telephone }}</div>
+        <div><label for="mail">Email : </label> {{ app.user.mail }}</div>
+        <div><label for="site">Ville de ratachement : </label> {{ app.user.site.getNomSite() }} </div>
+        <a href="{{ path("sorties_home") }}" class="btn btn-primary">Retour</a>
+
+    </div>
 
 
 
