@@ -1,55 +1,100 @@
 //script de modification et de suppression des sites :
 
-var elementLigneSite = document.getElementsByClassName('ligneSite');
+    function modificationSite(elementModificationSite) {
 
+        var elementInputNomSite = elementModificationSite.parentNode.parentNode.querySelector('.inputNomSite');
 
-for (var i=0; i<elementLigneSite.length; i++) {
+        elementInputNomSite.disabled = false;
 
-        //var elementModificationSite = elementLigneSite[i].getElementsByClassName('modificationSite')[0];
-       // var elementInputNomSite = elementLigneSite[i].getElementsByClassName("inputNomSite")[0];
+            elementInputNomSite.addEventListener('focus', function() {
 
-    var elementInputNomSite = elementLigneSite[i].querySelector('.inputNomSite');
-    var elementModificationSite = elementLigneSite[i].querySelector('.modificationSite');
+                elementModificationSite.innerHTML = "<input type='submit' class='enregistrerSite' value='Enregistrer' onclick='enregistrerModifSite'>"
 
-        elementModificationSite.onclick = function modificationSite() {
+        });
 
+        elementInputNomSite.addEventListener('blur', function() {
 
-            elementInputNomSite.disabled = false;
+            elementInputNomSite.disabled = true;
+            elementModificationSite.innerHTML = "Modifier"
 
-            elementInputNomSite.onclick = function () {
-
-                elementModificationSite.innerHTML = "<input type='submit' value='Enregistrer'>";
-
-            }
-
-        }
-}
-// script de modification et suppression des villes :
-
-var elementLigneVille = document.getElementsByClassName('ligneVille');
-
-for (var j=0; j<elementLigneVille.length; j++) {
-
-    var elementModificationVille =elementLigneVille[j].querySelector('.modificationVille');
-    var elementInputNomVille = elementLigneVille[j].querySelector('.inputNomVille');
-    var elementInputCodePostalVille = elementLigneVille[j].querySelector('.inputCodePostalVille');
-
-
-    elementModificationVille.onclick = function modificationVille() {
-
-        elementInputNomVille.disabled = false;
-        elementInputCodePostalVille.disabled = false;
-
-
-        function afficherBouttonEnregistrer() {
-
-            elementModificationVille.innerHTML = "<input type='submit' value='Enregistrer'>";
-
-        }
-
-        elementInputNomVille.onclick = afficherBouttonEnregistrer();
-
-        elementInputCodePostalVille.onclick = afficherBouttonEnregistrer();
+        });
 
     }
+
+function enregistrerModifSite (){
+
+    //à compléter
 }
+
+function ajouterSite () {
+
+    var inputAjout = document.getElementById('nomSite');
+
+    var siteAAjouter = inputAjout.value;
+
+    var enfant = inputAjout.parentNode.parentNode.parentNode.querySelector('ligneVille');
+
+    var derniereLigneSite = inputAjout.parentNode.parentNode.parentNode.querySelector('ligneVille').cloneNode(true);
+
+
+function insertAfter(derniereLigneSite, enfant) {
+
+    //a compléter
+
+}
+
+
+
+}
+
+
+
+
+// script de modification et suppression des villes :
+
+function modificationVille(elementModificationVille) {
+
+    var elementInputNomVille = elementModificationVille.parentNode.parentNode.querySelector('.inputNomVille');
+    var elementInputCodePostalVille = elementModificationVille.parentNode.parentNode.querySelector('.inputCodePostalVille');
+
+
+    elementInputNomVille.disabled = false;
+    elementInputCodePostalVille.disabled = false;
+
+
+    elementInputNomVille.addEventListener('focus', function () {
+
+        elementModificationVille.innerHTML = "<input type='submit' class= 'enregistrerVille' value='Enregistrer' onclick='enregistrerModifVille'>"
+
+    });
+
+    elementInputNomVille.addEventListener('blur', function () {
+
+        elementInputNomVille.disabled = true;
+        elementInputCodePostalVille.disabled = true;
+        elementModificationVille.innerHTML = "Modifier"
+
+    });
+
+    elementInputCodePostalVille.addEventListener('focus', function () {
+
+        elementModificationVille.innerHTML = "<input type='submit' class='enregistrerVille' value='Enregistrer' onclick='enregistrerModifVille'>"
+
+    });
+
+    elementInputCodePostalVille.addEventListener('blur', function () {
+
+        elementInputNomVille.disabled = true;
+        elementInputCodePostalVille.disabled = true;
+        elementModificationVille.innerHTML = "Modifier"
+
+    });
+
+}
+
+function enregistrerModifVille (){
+
+    //à compléter
+}
+
+

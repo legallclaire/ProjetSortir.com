@@ -19,9 +19,9 @@
         {% for ville in villes %}
             <tr class="ligneVille">
 
-                <td><input type="text" class="inputNomVille" id="nomVille" value="{{ ville.getNomVille() }}" disabled></td>
-                <td><input type="number" class="inputCodePostalVille" id="codePostal" value="{{ ville.getCodePostal() }}" disabled></td>
-                <td><span class="modificationVille">Modifier</span> - <input type="submit" value="Supprimer"></td>
+                <td><input type="text" class="inputNomVille" value="{{ ville.getNomVille() }}" disabled></td>
+                <td><input type="number" class="inputCodePostalVille" value="{{ ville.getCodePostal() }}" disabled></td>
+                <td><span class="modificationVille" onclick="modificationVille(this)">Modifier</span> - <input type="submit" value="Supprimer"></td>
             </tr>
         {%  endfor %}
         <tr>
