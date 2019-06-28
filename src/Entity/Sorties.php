@@ -81,15 +81,11 @@ class Sorties
     private $participants;
 
 
-
-
     public function __construct()
     {
         $this->participantsInscrit = new ArrayCollection();
         $this->participants = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {
@@ -242,8 +238,5 @@ class Sorties
 
         return $this;
     }
-
-
-
 
 }

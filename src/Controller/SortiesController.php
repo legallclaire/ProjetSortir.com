@@ -32,6 +32,8 @@ class SortiesController extends Controller
         $sortie = new Sorties();
 //        $participant = $this->getUser();
 //        $sortie->setNom($participant->getUser());
+        $villesRepo = $this->getDoctrine()->getRepository(Villes::class);
+        $listeVilles = $villesRepo->findAll();
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
@@ -39,31 +41,15 @@ class SortiesController extends Controller
             $em->persist($sortie);
             $em->flush();
             $this->addFlash("success", "Sortie créée !");
-            return $this->redirectToRoute("sorties_afficher", ["id" => $sortie->getId()]);
+            return $this->redirectToRoute("sorties_afficher", [
+                "id" => $sortie->getId(),
+                "listeVilles => $listeVilles"]);
         }
 
         return $this->render('sorties/gererSorties.html.twig', [
-            'sortieForm' => $sortieForm->createView()
+            'sortieForm' => $sortieForm->createView(),
+            'listeVilles' => $listeVilles
         ]);
-    }
-
-    /**
-     * @Route("/ajouter", name="sorties_ajouter")
-     */
-    public function ajouterSorties(EntityManagerInterface $em, Request $request){
-
-        $sortie = new Sorties();
-        $villesRepo = $this->getDoctrine()->getRepository(Villes::class);
-        $listeVilles = $villesRepo->findAllSorties();
-        $sortieForm = $this->createForm(SortieType::class, $sortie);
-        $sortieForm->handleRequest($request);
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
-            $em->persist($sortie);
-            $em->flush();
-            return $this->redirectToRoute("sorties_ajouter", ["listeVilles" => $listeVilles]);
-        }
-
-        return $this->render("ajouter", ["listeVilles" => $listeVilles]);
     }
 
 }
