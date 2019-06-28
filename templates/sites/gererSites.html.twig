@@ -18,7 +18,7 @@
     {% for site in sites %}
         <tr class="ligneSite">
             <td><input type="text" class="inputNomSite" value="{{ site.getNomSite() }}" disabled></td>
-            <td><span class="modificationSite">Modifier</span> - <input type="submit" value="Supprimer"></td>
+            <td><span class="modificationSite" onclick="modificationSite(this)">Modifier</span> - <input type="submit" value="Supprimer"></td>
         </tr>
     {%  endfor %}
         <tr>
