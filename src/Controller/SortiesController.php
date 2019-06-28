@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sorties;
+use App\Entity\Villes;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -50,14 +51,19 @@ class SortiesController extends Controller
      * @Route("/ajouter", name="sorties_ajouter")
      */
     public function ajouterSorties(EntityManagerInterface $em, Request $request){
+
         $sortie = new Sorties();
+        $villesRepo = $this->getDoctrine()->getRepository(Villes::class);
+        $listeVilles = $villesRepo->findAllSorties();
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
             $em->persist($sortie);
             $em->flush();
-            return $this->redirectToRoute("sorties_ajouter");
+            return $this->redirectToRoute("sorties_ajouter", ["listeVilles" => $listeVilles]);
         }
+
+        return $this->render("ajouter", ["listeVilles" => $listeVilles]);
     }
 
 }

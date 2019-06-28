@@ -40,6 +40,7 @@ class SortieType extends AbstractType
                 'label' => 'Date de fin de la sortie',
                 'years' => range(2019, 2029),
             ])
+
             ->add('lieu', EntityType::class, [
                 'class' => 'App\Entity\Lieux',
                 'choice_label' => 'nom_lieu',
