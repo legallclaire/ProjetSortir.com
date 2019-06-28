@@ -1,25 +1,33 @@
 //script de modification et de suppression des sites :
 
-var elementModificationSite = document.getElementById('modificationSite');
-var elementInputNomSite = document.getElementById('nomSite');
+var elementLigneSite = document.getElementsByClassName('ligneSite');
 
-elementModificationSite.onclick = function modificationSite (){
 
-    elementInputNomSite.disabled = false;
+for (var i=0; i<elementLigneSite.length; i++) {
 
-    elementInputNomSite.onclick = function () {
+        //var elementModificationSite = elementLigneSite[i].getElementsByClassName('modificationSite')[0];
+       // var elementInputNomSite = elementLigneSite[i].getElementsByClassName("inputNomSite")[0];
 
-        elementModificationSite.innerHTML="<input type='submit' value='Enregistrer'>";
+    var elementModificationSite = elementLigneSite[i].querySelector('td input');
 
-    }
+        elementModificationSite.onclick = function modificationSite() {
 
-    }
 
+            elementInputNomSite.disabled = false;
+
+            elementInputNomSite.onclick = function () {
+
+                elementModificationSite.innerHTML = "<input type='submit' value='Enregistrer'>";
+
+            }
+
+        }
+}
 // script de modification et suppression des villes :
 
 var elementModificationVille = document.getElementById('modificationVille');
-var elementInputNomVille = document.getElementById('nomVille');
-var elementInputCodePostalVille = document.getElementById("codePostal")
+var elementInputNomVille = document.getElementById('caseNomVille').firstElementChild;
+var elementInputCodePostalVille = document.getElementById('caseCodePostalVille').firstElementChild;
 
 elementModificationVille.onclick = function modificationVille () {
 

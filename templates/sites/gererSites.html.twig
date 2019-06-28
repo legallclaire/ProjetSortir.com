@@ -16,10 +16,10 @@
             <th>Actions</th>
         </tr>
     {% for site in sites %}
-        <tr>
+        <tr class="ligneSite">
 
-            <td><input type="text" id="nomSite" value="{{ site.getNomSite() }}" disabled></td>
-            <td><span id="modificationSite">Modifier</span> - <input type="submit" value="Supprimer"></td>
+            <td><input type="text" class="inputNomSite" value="{{ site.getNomSite() }}" disabled></td>
+            <td><span class="modificationSite">Modifier</span> - <input type="submit" value="Supprimer"></td>
         </tr>
     {%  endfor %}
         <tr>

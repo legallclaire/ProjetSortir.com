@@ -19,8 +19,8 @@
         {% for ville in villes %}
             <tr>
 
-                <td><input type="text" id="nomVille" value="{{ ville.getNomVille() }}" disabled></td>
-                <td><input type="number" id="codePostal" value="{{ ville.getCodePostal() }}" disabled></td>
+                <td id="caseNomVille"><input type="text" id="nomVille" value="{{ ville.getNomVille() }}" disabled></td>
+                <td id="caseCodePostalVille"><input type="number" id="codePostal" value="{{ ville.getCodePostal() }}" disabled></td>
                 <td><span id="modificationVille">Modifier</span> - <input type="submit" value="Supprimer"></td>
             </tr>
         {%  endfor %}
