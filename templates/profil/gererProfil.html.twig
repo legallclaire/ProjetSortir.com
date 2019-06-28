@@ -7,7 +7,8 @@
 
     {{ form_start(participantForm) }}
     {{ form_widget(participantForm) }}
-    <button type="submit">Enregistrer</button>
+    <a href="{{ path("profil_afficher") }}" class="btn btn-primary">Enregistrer</a>
+    <a href="{{ path("sorties_home") }}" class="btn btn-primary">Annuler</a>
     {{ form_end(participantForm) }}
 
 

@@ -62,7 +62,6 @@ class ProfilController extends Controller
     public function afficherProfil()
     {
 
-
         return $this->render('profil/afficherProfil.html.twig');
     }
 }

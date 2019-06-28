@@ -33,6 +33,7 @@
             <p class="card-text">Téléphone : {{ app.user.telephone }}</p>
             <p class="card-text">Ville de ratachement : {{ app.user.site.getNomSite() }}</p>
 
+                <a href="{{ path("profil_gerer", {"id": app.user.id}) }}" class="btn btn-primary">Modifier</a>
             <a href="{{ path("sorties_home") }}" class="btn btn-primary">Retour</a>
 
 

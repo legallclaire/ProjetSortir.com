@@ -18,7 +18,7 @@
             {% endif %}
             {% if is_granted ("ROLE_USER") %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ path("profil_gerer", {'id' : app.user.id })}}">Mon profil</a>
+                <a class="nav-link" href="{{ path("profil_afficher", {'id' : app.user.id })}}">Mon profil</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path("participants_logout") }}">Se déconnecter</a>
