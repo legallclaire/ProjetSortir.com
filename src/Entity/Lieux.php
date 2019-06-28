@@ -43,6 +43,11 @@ class Lieux
      */
     private $ville;
 
+//    /**
+//     * @ORM\ManyToOne(targetEntity="App\Entity\Villes", inversedBy="lieux")
+//     */
+//    private $villes;
+
 
     public function getId(): ?int
     {
@@ -108,6 +113,18 @@ class Lieux
 
         return $this;
     }
+
+//    public function getVilles(): ?Villes
+//    {
+//        return $this->villes;
+//    }
+//
+//    public function setVilles(?Villes $villes): self
+//    {
+//        $this->villes = $villes;
+//
+//        return $this;
+//    }
 
 
 }

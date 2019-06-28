@@ -35,18 +35,14 @@ class SortieType extends AbstractType
                 'label' => 'Date de fin de la sortie',
                 'years' => range(2019, 2029),
             ])
-            ->add('descriptioninfos', TextareaType::class, [
-                'label' => 'Description et infos'
-            ])
-//            ->add('ville', EntityType::class, [
-//                'class' => 'App\Entity\Lieux',
-//                'choice_label' => 'ville',
-//                'placeholder' => '-- Choisissez une ville'
-//            ])
+
             ->add('lieu', EntityType::class, [
                 'class' => 'App\Entity\Lieux',
                 'choice_label' => 'nom_lieu',
-                'placeholder' => '-- Choisissez un lieu'
+                'placeholder' => '-- Choisissez un lieu',
+                'required' => true,
+                'expanded' => false,
+
             ])
         ;
     }

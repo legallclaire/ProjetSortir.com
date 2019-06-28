@@ -9,6 +9,14 @@
 
     {{ form_start(sortieForm) }}
     {{ form_widget(sortieForm) }}
+
+    <label>Ville : </label>
+    <select>
+{#        {% for ville in listeVilles %}#}
+{#        <option>{{ ville.getNomVille() }}</option>#}
+{#        {% endfor %}#}
+    </select>
+
     <button type="submit" class="btn btn-primary">Créér</button>
     {{ form_end(sortieForm) }}
 
