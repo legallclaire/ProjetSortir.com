@@ -49,16 +49,4 @@ class VillesRepository extends ServiceEntityRepository
     }
     */
 
-    public function findAllVilles(){
-        $em = $this->getEntityManager();
-
-        // Création de la requête DQL
-        $dql = "SELECT v FROM App\Entity\Villes v";
-
-        // Création de l'objet Query
-        $query = $em->createQuery($dql);
-
-        // Retour du résultat
-        return $query->getResult();
-    }
 }

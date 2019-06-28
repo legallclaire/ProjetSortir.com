@@ -11,22 +11,22 @@
             <link href="https://fonts.googleapis.com/css?family=Crimson+Text&display=swap" rel="stylesheet">
         {% endblock %}
 
-    </head>
+</head>
 
 
-    <body>
-    {% block body %}
-        <div class="container">
-            <header>
-                {% include("inc/_nav.html.twig") %}
-            </header>
+<body>
+{% block body %}
+    <div class="container-fluid bg-light">
+        <header>
+            {% include("inc/_nav.html.twig") %}
+        </header>
 
-            <main>
-                {% block main %}{% endblock %}
+        <main>
+            {% block main %}{% endblock %}
 
-            </main>
+        </main>
 
-            <footer>
+        <footer>
 
             </footer>
         </div>
