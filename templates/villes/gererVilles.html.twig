@@ -17,11 +17,11 @@
             <th>Actions</th>
         </tr>
         {% for ville in villes %}
-            <tr>
+            <tr class="ligneVille">
 
-                <td id="caseNomVille"><input type="text" id="nomVille" value="{{ ville.getNomVille() }}" disabled></td>
-                <td id="caseCodePostalVille"><input type="number" id="codePostal" value="{{ ville.getCodePostal() }}" disabled></td>
-                <td><span id="modificationVille">Modifier</span> - <input type="submit" value="Supprimer"></td>
+                <td><input type="text" class="inputNomVille" id="nomVille" value="{{ ville.getNomVille() }}" disabled></td>
+                <td><input type="number" class="inputCodePostalVille" id="codePostal" value="{{ ville.getCodePostal() }}" disabled></td>
+                <td><span class="modificationVille">Modifier</span> - <input type="submit" value="Supprimer"></td>
             </tr>
         {%  endfor %}
         <tr>

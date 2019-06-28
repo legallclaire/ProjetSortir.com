@@ -8,7 +8,8 @@ for (var i=0; i<elementLigneSite.length; i++) {
         //var elementModificationSite = elementLigneSite[i].getElementsByClassName('modificationSite')[0];
        // var elementInputNomSite = elementLigneSite[i].getElementsByClassName("inputNomSite")[0];
 
-    var elementModificationSite = elementLigneSite[i].querySelector('td input');
+    var elementInputNomSite = elementLigneSite[i].querySelector('.inputNomSite');
+    var elementModificationSite = elementLigneSite[i].querySelector('.modificationSite');
 
         elementModificationSite.onclick = function modificationSite() {
 
@@ -25,24 +26,30 @@ for (var i=0; i<elementLigneSite.length; i++) {
 }
 // script de modification et suppression des villes :
 
-var elementModificationVille = document.getElementById('modificationVille');
-var elementInputNomVille = document.getElementById('caseNomVille').firstElementChild;
-var elementInputCodePostalVille = document.getElementById('caseCodePostalVille').firstElementChild;
+var elementLigneVille = document.getElementsByClassName('ligneVille');
 
-elementModificationVille.onclick = function modificationVille () {
+for (var j=0; j<elementLigneVille.length; j++) {
 
-    elementInputNomVille.disabled = false;
-    elementInputCodePostalVille.disabled = false;
+    var elementModificationVille =elementLigneVille[j].querySelector('.modificationVille');
+    var elementInputNomVille = elementLigneVille[j].querySelector('.inputNomVille');
+    var elementInputCodePostalVille = elementLigneVille[j].querySelector('.inputCodePostalVille');
 
 
-    function afficherBouttonEnregistrer () {
+    elementModificationVille.onclick = function modificationVille() {
 
-        elementModificationVille.innerHTML="<input type='submit' value='Enregistrer'>";
+        elementInputNomVille.disabled = false;
+        elementInputCodePostalVille.disabled = false;
+
+
+        function afficherBouttonEnregistrer() {
+
+            elementModificationVille.innerHTML = "<input type='submit' value='Enregistrer'>";
+
+        }
+
+        elementInputNomVille.onclick = afficherBouttonEnregistrer();
+
+        elementInputCodePostalVille.onclick = afficherBouttonEnregistrer();
 
     }
-
-    elementInputNomVille.onclick = afficherBouttonEnregistrer();
-
-    elementInputCodePostalVille.onclick = afficherBouttonEnregistrer();
-
 }
