@@ -8,7 +8,7 @@
 
             elementInputNomSite.addEventListener('focus', function() {
 
-                elementModificationSite.innerHTML = "<input type='submit' value='Enregistrer'>"
+                elementModificationSite.innerHTML = "<input type='submit' class='enregistrerSite' value='Enregistrer' onclick='enregistrerModifSite'>"
 
         });
 
@@ -20,6 +20,35 @@
         });
 
     }
+
+function enregistrerModifSite (){
+
+    //à compléter
+}
+
+function ajouterSite () {
+
+    var inputAjout = document.getElementById('nomSite');
+
+    var siteAAjouter = inputAjout.value;
+
+    var enfant = inputAjout.parentNode.parentNode.parentNode.querySelector('ligneVille');
+
+    var derniereLigneSite = inputAjout.parentNode.parentNode.parentNode.querySelector('ligneVille').cloneNode(true);
+
+
+function insertAfter(derniereLigneSite, enfant) {
+
+    //a compléter
+
+}
+
+
+
+}
+
+
+
 
 // script de modification et suppression des villes :
 
@@ -35,7 +64,7 @@ function modificationVille(elementModificationVille) {
 
     elementInputNomVille.addEventListener('focus', function () {
 
-        elementModificationVille.innerHTML = "<input type='submit' value='Enregistrer'>"
+        elementModificationVille.innerHTML = "<input type='submit' class= 'enregistrerVille' value='Enregistrer' onclick='enregistrerModifVille'>"
 
     });
 
@@ -49,7 +78,7 @@ function modificationVille(elementModificationVille) {
 
     elementInputCodePostalVille.addEventListener('focus', function () {
 
-        elementModificationVille.innerHTML = "<input type='submit' value='Enregistrer'>"
+        elementModificationVille.innerHTML = "<input type='submit' class='enregistrerVille' value='Enregistrer' onclick='enregistrerModifVille'>"
 
     });
 
@@ -61,6 +90,11 @@ function modificationVille(elementModificationVille) {
 
     });
 
+}
+
+function enregistrerModifVille (){
+
+    //à compléter
 }
 
 
