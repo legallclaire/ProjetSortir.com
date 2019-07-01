@@ -20,7 +20,7 @@ class SortieType extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Nom de la sortie'
             ])
-            ->add('datedebut', DateTimeType::class, [
+            ->add('datedebut', DateType::class, [
                 'label' => 'Date et heure de la sortie',
                 'years' => range(2019, 2029),
             ])
@@ -31,7 +31,7 @@ class SortieType extends AbstractType
             ->add('nbinscriptionsmax', TextType::class, [
                 'label' => 'Nombre de places'
             ])
-            ->add('datefin', DateTimeType::class, [
+            ->add('datefin', DateType::class, [
                 'label' => 'Date de fin de la sortie',
                 'years' => range(2019, 2029),
             ])
