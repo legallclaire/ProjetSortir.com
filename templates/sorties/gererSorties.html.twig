@@ -1,4 +1,4 @@
-{%  extends "base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}
     Detail | {{ parent() }}
@@ -6,15 +6,21 @@
 
 {% block main %}
     <h1>Créer une sortie</h1>
-
-    {{ form_start(sortieForm) }}
-    {{ form_widget(sortieForm) }}
-    <select>
-        {% for ville in listeVilles%}
-            <option>{{ ville.getNomVille() }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit" class="btn btn-primary">Créér</button>
-    {{ form_end(sortieForm) }}
+    <div class="col-3">
+        {{ form_start(sortieForm) }}
+        {{ form_widget(sortieForm) }}
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="villes">Ville</label>
+            </div>
+            <select class="custom-select" id="villes">
+                {% for ville in listeVilles %}
+                    <option>{{ ville.getNomVille() }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-info">Créér</button>
+        {{ form_end(sortieForm) }}
+    </div>
 
 {% endblock %}
