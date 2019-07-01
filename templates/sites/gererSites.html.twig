@@ -21,10 +21,10 @@
             <td><span class="modificationSite" onclick="modificationSite(this)">Modifier</span> - <input type="submit" value="Supprimer"></td>
         </tr>
     {%  endfor %}
-        <tr>
+        <tr id="derniereLigne">
 
-            <td><input type="text" name="nomSite" id="nomSite" placeholder="ville" size="10"></td>
-            <td><input type="submit" value="Ajouter" onclick="ajouterSite"></td>
+            <td><input type="text" name="nomSite" id="nomSite" placeholder="ville" size="10" value=""></td>
+            <td><input type="submit" value="Ajouter" onclick="ajouterSite()"></td>
         </tr>
 
 

@@ -32,18 +32,17 @@ function ajouterSite () {
 
     var siteAAjouter = inputAjout.value;
 
-    var enfant = inputAjout.parentNode.parentNode.parentNode.querySelector('ligneVille');
+    var derniereLigneSite = document.querySelector('.ligneSite').cloneNode(true);
 
-    var derniereLigneSite = inputAjout.parentNode.parentNode.parentNode.querySelector('ligneVille').cloneNode(true);
+    var tableau = document.getElementsByTagName('table');
 
+   if (siteAAjouter!=="") {
 
-function insertAfter(derniereLigneSite, enfant) {
+       derniereLigneSite.value = siteAAjouter;
 
-    //a compléter
+       tableau.insertBefore(derniereLigneSite, document.getElementById('derniereLigne'));
 
-}
-
-
+   }
 
 }
 
