@@ -48,5 +48,21 @@ class SortiesRepository extends ServiceEntityRepository
     }
     */
 
+    public function findAllParticipants(){
+        $qb = $this->createQueryBuilder('s');
+        $qb->addSelect('p');
+        $qb->join('s.participants', 'c');
+        $qb->where('p.id = :participants_id');
+    }
+
+    public function findSortieRecherche($mot)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->where('s.nom LIKE :mot');
+        $qb->setParameter('mot', '%'.$mot.'%');
+        $query=$qb->getQuery();
+        return $query->getResult();
+    }
+
 
 }
