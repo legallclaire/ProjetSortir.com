@@ -3,11 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Sorties;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,7 +20,7 @@ class SortieType extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Nom de la sortie'
             ])
-            ->add('datedebut', DateTimeType::class, [
+            ->add('datedebut', DateType::class, [
                 'label' => 'Date et heure de la sortie',
                 'years' => range(2019, 2029),
             ])
@@ -31,12 +31,20 @@ class SortieType extends AbstractType
             ->add('nbinscriptionsmax', TextType::class, [
                 'label' => 'Nombre de places'
             ])
-            ->add('datefin', DateTimeType::class, [
+            ->add('datefin', DateType::class, [
                 'label' => 'Date de fin de la sortie',
                 'years' => range(2019, 2029),
             ])
+            ->add('descriptioninfos', TextareaType::class, [
+                'label' => 'Description et infos'
+            ])
             ->add('lieu', EntityType::class, [
+                'label' => 'Lieu',
                 'class' => 'App\Entity\Lieux',
+                'attr' => [
+                        'class' => 'custom-select',
+                        'id' => 'lieux'
+                    ],
                 'choice_label' => 'nom_lieu',
                 'placeholder' => '-- Choisissez un lieu',
                 'required' => true,
