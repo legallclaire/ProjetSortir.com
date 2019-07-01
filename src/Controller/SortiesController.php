@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Sites;
 use App\Entity\Sorties;
 use App\Entity\Villes;
 use App\Form\SortieType;
@@ -18,8 +19,16 @@ class SortiesController extends Controller
      */
     public function home()
     {
+
+        $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
+        $listeSites = $siteRepo->findAll();
+        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $listeSorties = $sortieRepo->findAll();
+
         return $this->render('sorties/afficherSorties.html.twig', [
             'controller_name' => 'SortiesController',
+            'listeSites' => $listeSites,
+            'listeSorties' => $listeSorties,
         ]);
     }
 
@@ -53,3 +62,5 @@ class SortiesController extends Controller
     }
 
 }
+
+
