@@ -18,12 +18,12 @@ class SortiesController extends Controller
     /**
      * @Route("/", name="sorties_home")
      */
-    public function home(EntityManagerInterface $em, $ville=0)
+    public function home(EntityManagerInterface $em)
     {
 
-        $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
+        $siteRepo = $em->getRepository(Sites::class);
         $listeSites = $siteRepo->findAll();
-        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $sortieRepo = $em->getRepository(Sorties::class);
         $listeSorties = $sortieRepo->findAll();
 
         return $this->render('sorties/afficherSorties.html.twig', [
@@ -84,5 +84,3 @@ class SortiesController extends Controller
     }
 
 }
-
-
