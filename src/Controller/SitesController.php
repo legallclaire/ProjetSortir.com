@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Sites;
-use App\Form\SitesType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -18,7 +19,7 @@ class SitesController extends Controller
     /**
      * @Route("/gererSites", name="sites_gerer")
      */
-    public function gererSites(Request $request)
+    public function gererSites(Request $request, EntityManagerInterface $em)
     {
         if (!$this->isGranted("ROLE_ADMIN")){
             throw new AccessDeniedException("Accès interdit !");
@@ -31,11 +32,31 @@ class SitesController extends Controller
             throw $this->createNotFoundException("Aucun site");
         }
 
+       return $this->render('sites/gererSites.html.twig', [
+            'sites' => $sites]);
 
 
-        return $this->render('sites/gererSites.html.twig', [
-            'sites' => $sites
+    }
+
+    /**
+     * @Route("/gererSites/recherche", name="sites_rechercher")
+     */
+    public function rechercherSite(Request $request, EntityManagerInterface $em)
+    {
+
+        $searchTerm = $request->query->get('search');
+
+        $search = $em->getRepository('App:Sites')->findOneBy(['nom_site' => $searchTerm]);
+
+        $content = $this->renderView('sites/gererSites.html.twig', [
+            'results' => $search
         ]);
+
+
+        $response= new JsonResponse();
+        $response->setData(array('resultats'=>$content));
+        return $response;
+
     }
 
 }
