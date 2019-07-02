@@ -39,7 +39,8 @@
                     </div>
 
                     <label>Le nom de la sortie contient : </label>
-                    <input type="text" id="mot" name="mot"><a href="{{ path('sorties_rechercher') }}"><input type="submit" id="search" value="Rechercher"></a>
+                    <input type="text" id="mot" name="mot"><a href="{{ path('sorties_rechercher') }}"><input
+                                type="submit" id="search" value="Rechercher"></a>
 
                 </form>
             </div>
@@ -106,7 +107,9 @@
                     <td>nbInscrits/{{ recherche.nbinscriptionsmax }}</td>
                     <td>{{ recherche.etat.libelle }}</td>
                     <td></td>
-                    <td><a href="{{ path("profil_afficher", {'id' : recherche.organisateur.getId() }) }}">{{ recherche.organisateur.prenom }}</a></td>
+                    <td>
+                        <a href="{{ path("profil_afficher", {'id' : recherche.organisateur.getId() }) }}">{{ recherche.organisateur.prenom }}</a>
+                    </td>
                     <td>
                         <input type="button" value="afficher" class="btn btn-primary">
                         <input type="button" value="s'inscrire" class="btn btn-secondary">
@@ -124,11 +127,12 @@
                     <td>{{ sortie.dateclosure.format("d-M-Y") }}</td>
                     <td>nbInscrits/{{ sortie.nbinscriptionsmax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
+                    <td></td>
                     <td>
                         <a href="{{ path("profil_afficher", {'id' : sortie.organisateur.getId() }) }}">{{ sortie.organisateur.prenom }}</a>
                     </td>
                     <td>
-                        <input type="button" value="afficher" class="btn btn-primary">
+                        <input type="button" value="afficher" class="btn btn-info">
                         <input type="button" value="s'inscrire" class="btn btn-secondary">
                         <input type="button" value="se désister" class="btn btn-danger">
                     </td>
@@ -139,7 +143,7 @@
     </table>
 
     <a href="{{ path('sorties_gerer') }}">
-        <button type="button" class="btn btn-dark mt-5">Créer une sortie</button>
+        <button type="button" class="btn btn-info mt-5">Créer une sortie</button>
     </a>
 
 {% endblock %}
