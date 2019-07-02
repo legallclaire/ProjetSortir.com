@@ -157,21 +157,45 @@ class SortiesController extends Controller
     /**
      * @Route("/ajouterLieu", name="sorties_ajouterLieu")
      */
-    public function ajouterLieu(Request $request)
+    public function ajouterLieu(Request $request, EntityManagerInterface $em)
     {
 
-        if($request->request->get("nomLieu")) {
+        if($request->request->get("idVille")) {
 
+            $idVille = $request->request->get("idVille");
             $nomLieu = $request->request->get("nomLieu");
+            $rueLieu =$request->request->get("rueLieu");
+            $latitudeLieu =$request->request->get("latitudeLieu");
+            $longitudeLieu =$request->request->get("longitudeLieu");
 
-            //ajout du lieu en BDD
+            $villeRepo= $this->getDoctrine()->getRepository(Villes::class);
+            $ville = $villeRepo->find($idVille);
 
+            //ajout du lieu en BDD :
 
+            $lieu = new Lieux();
+
+            $lieu->setNomLieu($nomLieu);
+            $lieu->setVille($ville);
+            $lieu->setRue($rueLieu);
+
+            if ($latitudeLieu !=null){
+            $lieu->setLatitude($latitudeLieu);}
+
+            if ($longitudeLieu !=null){
+            $lieu->setLongitude($longitudeLieu);}
+
+            $em->persist($lieu);
+            $em->flush();
+
+            $json_data = $lieu;
+
+            return new JsonResponse($json_data);
 
         }
 
 
-        return $this->render('sorties/afficherSorties.html.twig');
+        return $this->render('sorties/gererSorties.html.twig');
     }
 
 }

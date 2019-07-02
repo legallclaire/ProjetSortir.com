@@ -199,24 +199,38 @@ $(document).ready(function() {
     $('#iconeAjoutLieu').on('click',(function() {
 
 
-        $('.d-flex justify-content-around').hide();
+        $('#select-lieux').hide();
+        $('#labelLieux').hide();
 
-        $('h1').append("<h4> Ajouter un lieu :</h4>");
+        $('#iconeAjoutLieu').append("<h4> Ajouter un lieu :</h4>");
         $('h4').append("<label for='ajouterNomLieu' id='labelAjouterNomLieu'>Nom du Lieu</label>");
-        $('#labelAjouterNomLieu').append("<input type='text' id='ajouterNomLieu' name='ajouterNomLieu'>");
+        $('#labelAjouterNomLieu').append("<input type='text' id='ajouterNomLieu' name='ajouterNomLieu' required>");
 
+        $('#ajouterNomLieu').append("<label for='ajouterRue' id='labelAjouterRue'>Rue :</label>");
+        $('#labelAjouterRue').append("<input type='text' id='ajouterRue' name='ajouterRue' required>");
+
+        $('#ajouterRue').append("<label for='ajouterLatitude' id='labelAjouterLatitude'>latitude :</label>");
+        $('#labelAjouterLatitude').append("<input type='text' id='ajouterLatitude' name='ajouterLatitude'>");
+
+        $('#ajouterLatitude').append("<label for='ajouterLongitude' id='labelAjouterLongitude'>latitude :</label>");
+        $('#labelAjouterLongitude').append("<input type='text' id='ajouterLongitude' name='ajouterLongitude'>");
+
+
+        var idVille =  $('#select-villes option:selected').attr('id');
         var nomLieu = $('#ajouterNomLieu').value();
+        var rueLieu = $('#ajouterRue').value();
+        var latitudeLieu = $('#ajouterLatitude').value();
+        var longitudeLieu = $('#ajouterLongitude').value();
 
 
         $.ajax({
             type: "POST",
             url: "/sortir/public/ajouterLieu",
             dataType: "json",
-            data: {nom_lieu: nomLieu},
+            data: {idVille: idVille, nomLieu: nomLieu, rueLieu: rueLieu, latitudeLieu: latitudeLieu, longitudeLieu: longitudeLieu},
             cache: false,
             success: function (data) {
 
-                    $nomLieu = data;
 
                     $('h4').append("<p>Votre lieu a été ajouté</p>");
 
