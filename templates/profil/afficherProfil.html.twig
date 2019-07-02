@@ -22,8 +22,10 @@
             <p class="card-text">E-Mail : {{ user.mail }}</p>
             <p class="card-text">Téléphone : {{ user.telephone }}</p>
             <p class="card-text">Ville de rattachement : {{ user.site.getNomSite() }}</p>
-            <a href="{{ path("profil_gerer", {"id": user.id}) }}" class="btn btn-primary">Modifier</a>
-            <a href="{{ path("sorties_home") }}" class="btn btn-primary">Retour</a>
+            {% if (app.user.id) == (user.id) %}
+                <a href="{{ path("profil_gerer", {"id": user.id}) }}" class="btn btn-info">Modifier</a>
+            {% endif %}
+            <a href="{{ path("sorties_home") }}" class="btn btn-info">Retour</a>
         </div>
     </div>
 

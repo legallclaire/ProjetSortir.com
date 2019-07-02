@@ -52,6 +52,7 @@ class ProfilController extends Controller
 
         return $this->render('profil/gererProfil.html.twig', [
             "participantForm" => $participantForm->createView(),
+            "participant" => $participant
         ]);
     }
 
