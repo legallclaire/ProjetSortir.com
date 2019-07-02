@@ -108,7 +108,7 @@
                     <td>nbInscrits/{{ recherche.nbinscriptionsmax }}</td>
                     <td>{{ recherche.etat.libelle }}</td>
                     <td></td>
-                    <td>{{ recherche.organisateur.prenom }}</td>
+                    <td><a href="{{ path("profil_afficher", {'id' : recherche.organisateur.getId() }) }}">{{ recherche.organisateur.prenom }}</a></td>
                     <td>
                         <input type="button" value="afficher" class="btn btn-primary">
                         <input type="button" value="s'inscrire" class="btn btn-secondary">
@@ -126,7 +126,6 @@
                     <td>{{ sortie.dateclosure.format("d-M-Y") }}</td>
                     <td>nbInscrits/{{ sortie.nbinscriptionsmax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
-                    <td></td>
                     <td>
                         <a href="{{ path("profil_afficher", {'id' : sortie.organisateur.getId() }) }}">{{ sortie.organisateur.prenom }}</a>
                     </td>

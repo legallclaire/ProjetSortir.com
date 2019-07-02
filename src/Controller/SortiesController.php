@@ -67,7 +67,7 @@ class SortiesController extends Controller
     }
 
     /**
-     * @Route("/", name="sorties_rechercher")
+     * @Route("/rechercherSorties", name="sorties_rechercher")
      */
     public function rechercherSorties(Request $request)
     {
@@ -76,7 +76,7 @@ class SortiesController extends Controller
         $mot = $request->request->get('mot');
         $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
         $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
-        return $this->redirectToRoute('sorties/afficherSorties.html.twig', [
+        return $this->render('sorties/afficherSorties.html.twig', [
             'listeRecherche' => $sortiesRecherchees,
             'listeSites' => $listeSites,
         ]);
