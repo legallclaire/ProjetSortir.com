@@ -1,99 +1,86 @@
-{%  extends "base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}
     {{ parent() }}
 {% endblock %}
-{%  block stylesheets %}
+{% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="css/app.css">
 {% endblock %}
 
 {% block main %}
 
-
     <div class="container-fluid">
         <div class="row">
-        <div class="col-md-2 offset-10">
-    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <p class="text-right font-weight-bold">Date du jour : {{"now"|date("d/m/Y") }}</p>
-            <p class="text-right font-weight-bold">Participant : {{ app.user.pseudo }}</p>
-    {% endif %}
-        </div></div>
+            <div class="col-md-2 offset-10">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <p class="text-right font-weight-bold">Date du jour : {{ "now"|date("d/m/Y") }}</p>
+                    <p class="text-right font-weight-bold">Participant : {{ app.user.pseudo }}</p>
+                {% endif %}
+            </div>
+        </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4">Filtrer les sorties</h2>
+        </div>
+        <div class="col-md-4">
+            <label>Site : </label>
+            <select id="selectSites">
+                {% for site in listeSites %}
+                    <option>{{ site.nomSite }}</option>
+                {% endfor %}
+            </select>
 
+            <div class="mt-3">
+                <form action="{{ path('sorties_rechercher') }}" method="post">
+                    <label>Le nom de la sortie contient : </label>
+                    <input type="text" id="mot" name="mot"><a href="{{ path('sorties_rechercher') }}"><input
+                                type="submit" value="Rechercher"></a>
+                </form>
+            </div>
 
-
-<div class="row">
-
-    <div class="col-md-12">
-    <h2 class="mb-4">Filtrer les sorties</h2>
-    </div>
-    <div class="col-md-4">
-    <label>Site : </label>
-    <select id="selectSites">
-        {% for site in listeSites %}
-            <option>{{ site.nomSite }}</option>
-        {% endfor %}
-    </select>
-
-        <div class="mt-3">
-            <form action="{{ path('sorties_rechercher') }}" method="post">
-                <label>Le nom de la sortie contient : </label>
-                <input type="text" id="mot" name="mot"><a href="{{ path('sorties_rechercher') }}"><input type="submit" value="Rechercher"></a>
-            </form>
+            <div class="mt-3">
+                Entre le <input type="date"> et le <input type="date">
+            </div>
         </div>
 
-    <div class="mt-3">
-        Entre le <input type="date"> et le  <input type="date">
-    </div>
-</div>
+        <div class="col-md-6">
+            <div>
+                <input type="checkbox" id="SortiesOrganisateur" onclick="myFunction()">
+                <label for="scales">Sorties dont je suis l'organisateur/trice</label>
+            </div>
 
-<div class="col-md-6">
-    <div>
-        <input type="checkbox" id="SortiesOrganisateur" onclick="myFunction()">
-        <label for="scales">Sorties dont je suis l'organisateur/trice</label>
-    </div>
+            <div>
+                <input type="checkbox" id="SortiesInscrit" onclick="myFunction()">
+                <label for="horns">Sorties auxquelles je suis inscrit/e</label>
+            </div>
+            <div>
+                <input type="checkbox" id="SortiesPasInscrit" onclick="myFunction()">
+                <label for="horns">Sorties auxquelles je ne suis pas inscrit/e</label>
+            </div>
+            <div>
+                <input type="checkbox" id="SortiesPassees" onclick="myFunction()">
+                <label for="horns">Sorties passées</label>
+            </div>
+        </div>
 
-    <div>
-        <input type="checkbox" id="SortiesInscrit" onclick="myFunction()">
-        <label for="horns">Sorties auxquelles je suis inscrit/e</label>
-    </div>
-    <div>
-        <input type="checkbox" id="SortiesPasInscrit" onclick="myFunction()">
-        <label for="horns">Sorties auxquelles je ne suis pas inscrit/e</label>
-    </div>
-    <div>
-        <input type="checkbox" id="SortiesPassees" onclick="myFunction()">
-        <label for="horns">Sorties passées</label>
-    </div>
-</div>
-
-
-
-
-
-    <script>
-        function myFunction() {
-            var checkBox = document.getElementById("SortiesOrganisateur");
-            var text = document.getElementById("text");
-            if (checkBox.checked == true){
-                text.style.display = "none";
+        <script>
+            function myFunction() {
+                var checkBox = document.getElementById("SortiesOrganisateur");
+                var text = document.getElementById("text");
+                if (checkBox.checked == true) {
+                    text.style.display = "none";
+                }
             }
+        </script>
 
-        }
-    </script>
-
-
-
-
-
-
-
-    <div class="col-md-2">
-    <input type="button" value="Rechercher" class="btn btn-primary btn-lg btn-block" onclick="rechercherSorties() ">
+        <div class="col-md-2">
+            <input type="button" value="Rechercher" class="btn btn-primary btn-lg btn-block"
+                   onclick="rechercherSorties() ">
+        </div>
     </div>
-</div>
 
     <table class="table table-striped mt-5">
         <thead class="thead-light">
@@ -126,7 +113,6 @@
                         <input type="button" value="afficher" class="btn btn-primary">
                         <input type="button" value="s'inscrire" class="btn btn-secondary">
                         <input type="button" value="se désister" class="btn btn-danger">
-
                     </td>
                 </tr>
 
@@ -141,9 +127,9 @@
                     <td>nbInscrits/{{ sortie.nbinscriptionsmax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
                     <td></td>
-                    <td><a href="{{ path("profil_afficher", {'id' : sortie.organisateur.getId() })}}">{{ sortie.organisateur.prenom }}</td></a>
-
-
+                    <td>
+                        <a href="{{ path("profil_afficher", {'id' : sortie.organisateur.getId() }) }}">{{ sortie.organisateur.prenom }}</a>
+                    </td>
                     <td>
                         <input type="button" value="afficher" class="btn btn-primary">
                         <input type="button" value="s'inscrire" class="btn btn-secondary">
@@ -151,16 +137,13 @@
                     </td>
                 </tr>
             {% endfor %}
-
         {% endif %}
-
         </tbody>
     </table>
 
-
-    <a href="{{ path('sorties_gerer') }}"><button type="button" class="btn btn-dark mt-5" >Créer une sortie</button></a>
-
-
+    <a href="{{ path('sorties_gerer') }}">
+        <button type="button" class="btn btn-dark mt-5">Créer une sortie</button>
+    </a>
 
 {% endblock %}
 

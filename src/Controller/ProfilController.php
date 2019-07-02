@@ -14,11 +14,11 @@ class ProfilController extends Controller
     /**
      * @Route("/gererProfil/{id}", name="profil_gerer", requirements={"id"="\d+"})
      */
-    public function gererProfil($id,EntityManagerInterface $em, Request $request)
+    public function gererProfil($id, EntityManagerInterface $em, Request $request)
     {
         $participant = $em->getRepository(Participants::class)->find($id);
 
-        if ($participant ==null) {
+        if ($participant == null) {
 
             throw $this->createNotFoundException("Participant inconnu");
         }
@@ -27,7 +27,7 @@ class ProfilController extends Controller
         $participant->setNom($participant->getNom());
         $participant->setPrenom($participant->getPrenom());
 
-        if ($participant->getTelephone() !==null) {
+        if ($participant->getTelephone() !== null) {
             $participant->setTelephone($participant->getTelephone());
         }
 
@@ -36,20 +36,19 @@ class ProfilController extends Controller
         $participant->setSite($participant->getSite());
 
 
-        $participantForm = $this->createForm(ParticipantsType::class,$participant);
+        $participantForm = $this->createForm(ParticipantsType::class, $participant);
 
         $participantForm->handleRequest($request);
         if ($participantForm->isSubmitted() && $participantForm->isValid()) {
 
 
             $em->persist($participant);
-            $em-> flush();
+            $em->flush();
 
             $this->addFlash("success", "Votre profil a bien été modifié");
             return $this->redirectToRoute("profil_afficher", ['id' => $participant->getId()]);
 
         }
-
 
         return $this->render('profil/gererProfil.html.twig', [
             "participantForm" => $participantForm->createView(),
@@ -57,11 +56,18 @@ class ProfilController extends Controller
     }
 
     /**
-     * @Route("/afficherProfil", name="profil_afficher")
+     * @Route("/afficherProfil/{id}", name="profil_afficher", requirements={"id"="\d+"})
      */
-    public function afficherProfil()
+    public function afficherProfil($id, EntityManagerInterface $em)
     {
+        $user = $em->getRepository(Participants::class)->find($id);
 
-        return $this->render('profil/afficherProfil.html.twig');
+        if ($user == null) {
+            throw $this->createNotFoundException("Utilisateur inconnu");
+        }
+
+        return $this->render('profil/afficherProfil.html.twig', [
+            'user' => $user
+        ]);
     }
 }
