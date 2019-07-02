@@ -67,15 +67,30 @@ class SortiesController extends Controller
     }
 
     /**
-     * @Route("/rechercherSorties", name="sorties_rechercher")
+     * @Route("rechercherSorties", name="sorties_rechercher")
      */
     public function rechercherSorties(Request $request)
     {
         $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
         $listeSites = $siteRepo->findAll();
-        $mot = $request->request->get('mot');
-        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
-        $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
+
+        // Récupération du site sélectionné
+        $site = $request->request->get('selectSites');
+        var_dump($site);
+        if ($site){
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortiesRecherchees = $sortieRepo->findSortieBySites($site);
+            var_dump($sortiesRecherchees);
+        }
+
+        // Récupération du mot écrit dans la barre de recherche
+                $mot = $request->request->get('mot');
+                var_dump($mot);
+                if ($mot){
+                    $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+                    $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
+                }
+
         return $this->render('sorties/afficherSorties.html.twig', [
             'listeRecherche' => $sortiesRecherchees,
             'listeSites' => $listeSites,

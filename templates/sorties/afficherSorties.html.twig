@@ -26,18 +26,21 @@
             <h2 class="mb-4">Filtrer les sorties</h2>
         </div>
         <div class="col-md-4">
-            <label>Site : </label>
-            <select id="selectSites">
-                {% for site in listeSites %}
-                    <option>{{ site.nomSite }}</option>
-                {% endfor %}
-            </select>
-
             <div class="mt-3">
                 <form action="{{ path('sorties_rechercher') }}" method="post">
+
+                    <div class="mb-3">
+                        <label>Site : </label>
+                        <select name="selectSites">
+                            {% for site in listeSites %}
+                                <option>{{ site.nomSite }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
                     <label>Le nom de la sortie contient : </label>
-                    <input type="text" id="mot" name="mot"><a href="{{ path('sorties_rechercher') }}"><input
-                                type="submit" value="Rechercher"></a>
+                    <input type="text" id="mot" name="mot"><a href="{{ path('sorties_rechercher') }}"><input type="submit" id="search" value="Rechercher"></a>
+
                 </form>
             </div>
 
@@ -75,11 +78,6 @@
                 }
             }
         </script>
-
-        <div class="col-md-2">
-            <input type="button" value="Rechercher" class="btn btn-primary btn-lg btn-block"
-                   onclick="rechercherSorties() ">
-        </div>
     </div>
 
     <table class="table table-striped mt-5">

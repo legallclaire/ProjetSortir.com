@@ -64,5 +64,15 @@ class SortiesRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findSortieBySites($site){
+        $qb = $this->createQueryBuilder('s');
+        $qb->addSelect('si');
+        $qb->leftJoin('s.site', 'si');
+        $qb->where('si.nom_site = :site');
+        $qb->setParameter('site', $site);
+        $query=$qb->getQuery();
+        return $query->getResult();
+    }
+
 
 }
