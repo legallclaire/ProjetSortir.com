@@ -26,35 +26,34 @@
                 <select class="custom-select" id="select-villes">
                     <option value="0">-- Choisir une ville --</option>
                     {% for ville in listeVilles %}
-                        <option value="{{ ville.id }}">{{ ville.getNomVille() }}</option>
+                        <option id="{{ ville.id }}">{{ ville.getNomVille() }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group mb-3">
-                <label for="lieux">Lieu</label>
+                <label for="lieux" id="labelLieux">Lieu</label>
+                <div id="iconeAjoutLieu">
+                    <a href="{{  path('sorties_ajouterLieu')}}"><img src="{{ asset('image/add.png') }}" alt="iconeLieu" height="40px" width="40px">
+                    </a>
+                </div>
                 <select id="select-lieux" class="custom-select" data-route="{{ path("sorties_home") }}">
-                    <option value="0">-- Choisir une ville --</option>
-                    {% for lieu in lieuxDispo %}
-{#                        <option value="{{ lieu.getId() }}"{% if lieu.id == lieuSelected %} selected{% endif %}>#}
-                        <option value="{{ lieu.getId() }}">{{ lieu.getNomLieu() }}</option>
-                    {%  endfor %}
+                    <option value="0">-- Choisir un lieu --</option>
                 </select>
             </div>
-{#            {{ form_row(sortieForm.lieu) }}#}
             <div class="form-group">
-                <label for="rue" class="col-form-label">Rue</label>
+                <label for="rue" id="labelRue" class="col-form-label">Rue</label>
                 <input type="text" class="form-control" id="rue">
             </div>
             <div class="form-group">
-                <label for="codePostal" class="col-form-label">Code postal</label>
+                <label for="codePostal" id="labelCodePostal" class="col-form-label">Code postal</label>
                 <input type="text" class="form-control" id="codePostal">
             </div>
             <div class="form-group">
-                <label for="lattitude" class="col-form-label">Lattitude</label>
-                <input type="text" class="form-control" id="lattitude">
+                <label for="latitude" id="labelLatitude" class="col-form-label">Lattitude</label>
+                <input type="text" class="form-control" id="latitude">
             </div>
             <div class="form-group">
-                <label for="longitude" class="col-form-label">Longitude</label>
+                <label for="longitude" id="labelLongitude" class="col-form-label">Longitude</label>
                 <input type="text" class="form-control" id="longitude">
             </div>
         </div>
