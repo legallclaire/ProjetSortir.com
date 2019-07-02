@@ -96,4 +96,13 @@ function enregistrerModifVille (){
     //à compléter
 }
 
-
+/*
+Modif Aimeric ---------------------------------------------------------------------
+ */
+// $(document).ready(function () {
+    $("#select-villes").change(function () {
+        $.get("LieuxRepository.php", function () {
+            findByVille(villes.valueOf())
+        })
+    });
+// });

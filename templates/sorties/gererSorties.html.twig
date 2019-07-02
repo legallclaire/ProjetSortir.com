@@ -19,17 +19,28 @@
         <div class="col-3">
             <div class="form-group">
                 <label for="villeOrga" class="col-form-label">Ville organisatrice</label>
-                <input type="email" class="form-control" id="villeOrga">
+                <input type="text" class="form-control" id="villeOrga" value="Mettre la valeur du site du participant">
             </div>
             <div class="form-group mb-3">
                 <label for="villes">Ville</label>
-                <select class="custom-select" id="villes">
+                <select class="custom-select" id="select-villes">
+                    <option value="0">-- Choisir une ville --</option>
                     {% for ville in listeVilles %}
-                        <option>{{ ville.getNomVille() }}</option>
+                        <option value="{{ ville.id }}">{{ ville.getNomVille() }}</option>
                     {% endfor %}
                 </select>
             </div>
-            {{ form_row(sortieForm.lieu) }}
+            <div class="form-group mb-3">
+                <label for="lieux">Lieu</label>
+                <select id="select-lieux" class="custom-select" data-route="{{ path("sorties_home") }}">
+                    <option value="0">-- Choisir une ville --</option>
+                    {% for lieu in lieuxDispo %}
+{#                        <option value="{{ lieu.getId() }}"{% if lieu.id == lieuSelected %} selected{% endif %}>#}
+                        <option value="{{ lieu.getId() }}">{{ lieu.getNomLieu() }}</option>
+                    {%  endfor %}
+                </select>
+            </div>
+{#            {{ form_row(sortieForm.lieu) }}#}
             <div class="form-group">
                 <label for="rue" class="col-form-label">Rue</label>
                 <input type="text" class="form-control" id="rue">

@@ -69,34 +69,34 @@ class Villes
         return $this;
     }
 
-    /**
-     * @return Collection|Lieux[]
-     */
-    public function getLieux(): Collection
-    {
-        return $this->lieux;
-    }
-
-    public function addLieux(Lieux $lieux): self
-    {
-        if (!$this->lieux->contains($lieux)) {
-            $this->lieux[] = $lieux;
-            $lieux->setVilles($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLieux(Lieux $lieux): self
-    {
-        if ($this->lieux->contains($lieux)) {
-            $this->lieux->removeElement($lieux);
-            // set the owning side to null (unless already changed)
-            if ($lieux->getVilles() === $this) {
-                $lieux->setVilles(null);
-            }
-        }
-
-        return $this;
-    }
+//    /**
+//     * @return Collection|Lieux[]
+//     */
+//    public function getLieux(): Collection
+//    {
+//        return $this->lieux;
+//    }
+//
+//    public function addLieux(Lieux $lieux): self
+//    {
+//        if (!$this->lieux->contains($lieux)) {
+//            $this->lieux[] = $lieux;
+//            $lieux->setVilles($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeLieux(Lieux $lieux): self
+//    {
+//        if ($this->lieux->contains($lieux)) {
+//            $this->lieux->removeElement($lieux);
+//            // set the owning side to null (unless already changed)
+//            if ($lieux->getVilles() === $this) {
+//                $lieux->setVilles(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 }
