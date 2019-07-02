@@ -7,9 +7,11 @@
 {% block main %}
     <h1>Gérer les sites</h1>
     <h4>Filtrer les sites :</h4>
+    <form role="search" method="post" action="{{ path("admin_sites_rechercher") }}">
     <label for="searchSites">Le nom contient :</label>
-    <input type="search" name="searchSites" id="searchSites">
-    <input type="submit" value="rechercher">
+<input type="text" name="search" id="searchSites" placeholder="rechercher">
+        <button type="submit">Rechercher</button>
+    </form>
     <table>
         <tr>
             <th>Ville</th>
@@ -17,7 +19,7 @@
         </tr>
     {% for site in sites %}
         <tr class="ligneSite">
-            <td><input type="text" class="inputNomSite" value="{{ site.getNomSite() }}" disabled></td>
+            <td class="sites"><input type="text" class="inputNomSite" value="{{ site.getNomSite() }}" disabled></td>
             <td><span class="modificationSite" onclick="modificationSite(this)">Modifier</span> - <input type="submit" value="Supprimer"></td>
         </tr>
     {%  endfor %}
@@ -27,5 +29,28 @@
             <td><input type="submit" value="Ajouter" onclick="ajouterSite()"></td>
         </tr>
     </table>
-    
+
+
+    <script>
+
+        $.ajax({
+            type: "GET",
+            url: "{{ path('admin_sites_rechercher') }}",
+            dataType: "json",
+            data: {search: input},
+            cache: false,
+            success: function (response) {
+                $('.sites').html(response.classifiedList);
+                $('.inputNomSite').hide();
+                console.log(response);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+
+
+    </script>
+
+
 {% endblock %}
