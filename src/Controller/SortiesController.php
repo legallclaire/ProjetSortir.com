@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieux;
+use App\Entity\Sites;
 use App\Entity\Sorties;
 use App\Entity\Villes;
 use App\Form\SortieType;
@@ -16,17 +18,25 @@ class SortiesController extends Controller
     /**
      * @Route("/", name="sorties_home")
      */
-    public function home()
+    public function home(EntityManagerInterface $em, $ville=0)
     {
+
+        $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
+        $listeSites = $siteRepo->findAll();
+        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $listeSorties = $sortieRepo->findAll();
+
         return $this->render('sorties/afficherSorties.html.twig', [
             'controller_name' => 'SortiesController',
+            'listeSites' => $listeSites,
+            'listeSorties' => $listeSorties
         ]);
     }
 
     /**
      * @Route("/gererSorties", name="sorties_gerer")
      */
-    public function gererSorties(EntityManagerInterface $em, Request $request)
+    public function gererSorties(EntityManagerInterface $em, Request $request, $ville=0)
     {
 
         $sortie = new Sorties();
@@ -34,6 +44,8 @@ class SortiesController extends Controller
 //        $sortie->setNom($participant->getUser());
         $villesRepo = $this->getDoctrine()->getRepository(Villes::class);
         $listeVilles = $villesRepo->findAll();
+        $lieuxRepo = $this->getDoctrine()->getRepository(Lieux::class);
+        $listeLieux = $lieuxRepo->findByVille($ville);
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
@@ -48,8 +60,29 @@ class SortiesController extends Controller
 
         return $this->render('sorties/gererSorties.html.twig', [
             'sortieForm' => $sortieForm->createView(),
-            'listeVilles' => $listeVilles
+            'listeVilles' => $listeVilles,
+            'villeSelected' => $ville,
+            'lieuxDispo' => $listeLieux
         ]);
     }
 
+    /**
+     * @Route("rechercherSorties", name="sorties_rechercher")
+     */
+    public function rechercherSorties(Request $request)
+    {
+        $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
+        $listeSites = $siteRepo->findAll();
+        $mot = $request->request->get('mot');
+        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
+        return $this->render('sorties/afficherSorties.html.twig', [
+            'listeRecherche' => $sortiesRecherchees,
+            'listeSites' => $listeSites,
+        ]);
+
+    }
+
 }
+
+
