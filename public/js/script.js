@@ -26,27 +26,25 @@ function enregistrerModifSite (){
     //à compléter
 }
 
-function ajouterSite () {
-
-    var inputAjout = document.getElementById('nomSite');
-
-    var siteAAjouter = inputAjout.value;
-
-    var derniereLigneSite = document.querySelector('.ligneSite').cloneNode(true);
-
-    var tableau = document.getElementsByTagName('table');
-
-   if (siteAAjouter!=="") {
-
-       derniereLigneSite.value = siteAAjouter;
-
-       tableau.insertBefore(derniereLigneSite, document.getElementById('derniereLigne'));
-
-   }
-
-}
-
-
+// function ajouterSite () {
+//
+//     var inputAjout = document.getElementById('nomSite');
+//
+//     var siteAAjouter = inputAjout.value;
+//
+//     var derniereLigneSite = document.querySelector('.ligneSite').cloneNode(true);
+//
+//     var tableau = document.getElementsByTagName('table');
+//
+//    if (siteAAjouter!=="") {
+//
+//        derniereLigneSite.value = siteAAjouter;
+//
+//        tableau.insertBefore(derniereLigneSite, document.getElementById('derniereLigne'));
+//
+//    }
+//
+// }
 
 
 // script de modification et suppression des villes :
@@ -270,7 +268,7 @@ $(document).ready(function() {
     $('#boutonAjouter').on('click',(function() {
 
 
-        var site = $('#nomSite').val().trim();
+        var site = $('#nomSite').val();
 
         if (site="") {
 
@@ -319,6 +317,17 @@ function checkboxFiltre() {
                 } else {
                     tr[i].style.display = "none";
                 }
+            }
+
+        }
+    }
+
+    if (checkBoxUser.checked === false) {
+        for (i=0; i<tr.length; i++){
+            td = tr[i].getElementsByTagName("td")[6];
+            if (td){
+                tr[i].style.display = "";
+
             }
 
         }

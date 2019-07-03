@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-            <link rel="stylesheet" href= {{ asset('css/bootstrap.min.css')}}>
-            <link rel="stylesheet" href= {{ asset('css/bootstrap-grid.min.css')}}>
-            <link rel="stylesheet" href= {{ asset('css/bootstrap-reboot.min.css')}}>
-            <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-            <link href="https://fonts.googleapis.com/css?family=Crimson+Text&display=swap" rel="stylesheet">
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href= {{ asset('css/bootstrap.min.css') }}>
+        <link rel="stylesheet" href= {{ asset('css/bootstrap-grid.min.css') }}>
+        <link rel="stylesheet" href= {{ asset('css/bootstrap-reboot.min.css') }}>
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link href="https://fonts.googleapis.com/css?family=Archivo+Black&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow&display=swap" rel="stylesheet">
+    {% endblock %}
 
 </head>
 
@@ -17,7 +18,7 @@
 <body>
 {% block body %}
 
-    <div class="container-fluid bg-light">
+    <div class="container-fluid bg-light p-0">
         <header>
             {% include("inc/_nav.html.twig") %}
         </header>
@@ -26,28 +27,30 @@
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
                     <div class="alert-{{ label }}">
-                        {{message}}
+                        {{ message }}
                     </div>
                 {% endfor %}
             {% endfor %}
-            {% block main %}{% endblock %}
+
+            {% block main %}
+            {% endblock %}
 
         </main>
+    </div>
+    <footer>
+        {% include("inc/_footer.html.twig") %}
+    </footer>
 
-        <footer>
-            {% include("inc/_footer.html.twig") %}
-            </footer>
-        </div>
-    {% endblock %}
-    {% block javascripts %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            <script src={{ asset('js/bootstrap.bundle.min.js')}}></script>
-            <script src={{ asset('js/bootstrap.min.js')}}></script>
-            <script src={{ asset('js/notify.js') }}></script>
-            <script src={{ asset('js/script.js') }}></script>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src={{ asset('js/bootstrap.bundle.min.js') }}></script>
+    <script src={{ asset('js/bootstrap.min.js') }}></script>
+    <script src={{ asset('js/notify.js') }}></script>
+    <script src={{ asset('js/script.js') }}></script>
 
-        {% endblock %}
-    </body>
+{% endblock %}
+</body>
 </html>
 
 

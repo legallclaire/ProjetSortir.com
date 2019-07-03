@@ -10,6 +10,7 @@ use App\Entity\Villes;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,59 +58,80 @@ class SortiesController extends Controller
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
-            $nomLieu = $request->get("select-lieux");
-            $lieuxRepo= $this->getDoctrine()->getRepository(Lieux::class);
-            $lieu=$lieuxRepo->findOneBy(["nom_lieu"=>$nomLieu]);
+            //si l'utilisateur clique sur le boutton "enregistrer" :
+            if('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
+                $nomLieu = $request->get("select-lieux");
+                $lieuxRepo = $this->getDoctrine()->getRepository(Lieux::class);
+                $lieu = $lieuxRepo->findOneBy(["nom_lieu" => $nomLieu]);
 
 
-            $sortie->setLieu($lieu);
+                $sortie->setLieu($lieu);
 
-            //début de gestion des états :
+                //début de gestion des états :
 
-            $etatRepo= $this->getDoctrine()->getRepository(Etats::class);
-            $etatCree = $etatRepo->find(1);
-            $etatOuvert = $etatRepo->find(2);
-            $etatCloture = $etatRepo->find(3);
-            $etatActiviteEnCours = $etatRepo->find(4);
-            $etatPasse = $etatRepo->find(5);
-            $etatAnnule = $etatRepo->find(6);
+                $etatRepo = $this->getDoctrine()->getRepository(Etats::class);
+                $etatCree = $etatRepo->find(1);
+                $etatOuvert = $etatRepo->find(2);
+                $etatCloture = $etatRepo->find(3);
+                $etatActiviteEnCours = $etatRepo->find(4);
+                $etatPasse = $etatRepo->find(5);
+                $etatAnnule = $etatRepo->find(6);
 
 
-            $sortie->setEtat($etatCree);
+                $sortie->setEtat($etatCree);
 
-            $dateDuJour = new \DateTime('now');
-            $dateDebutSortie = $sortie->getDatedebut();
-            $dateCloture = $sortie->getDateclosure();
-            $dateFinSortie = $sortie->getDatefin();
+                $dateDuJour = new \DateTime('now');
+                $dateDebutSortie = $sortie->getDatedebut();
+                $dateCloture = $sortie->getDateclosure();
+                $dateFinSortie = $sortie->getDatefin();
 
-            if ($dateCloture>$dateDuJour) {
+                if ($dateCloture > $dateDuJour) {
 
-                $sortie->setEtat($etatOuvert);
+                    $sortie->setEtat($etatOuvert);
 
-            } else {
+                } else {
 
-                $sortie->setEtat($etatCloture);
+                    $sortie->setEtat($etatCloture);
+
+                }
+
+                if ($dateDebutSortie = $dateDuJour AND $dateFinSortie >= $dateDuJour) {
+
+                    $sortie->setEtat($etatActiviteEnCours);
+                }
+
+                if ($dateFinSortie < $dateDuJour) {
+
+                    $sortie->setEtat($etatPasse);
+                }
+
+                //fin de gestion des états
+
+                $em->persist($sortie);
+                $em->flush();
+                $this->addFlash("success", "Sortie créée !");
+                return $this->redirectToRoute("sorties_home", [
+                    "id" => $sortie->getId(),
+                    "listeVilles" => $listeVilles]);
 
             }
+            //si l'utilisateur clique sur le boutton "supprimer" :
+            if('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
+                $em->remove($sortie);
+                $em->flush();
 
-            if ($dateDebutSortie=$dateDuJour AND $dateFinSortie>=$dateDuJour){
+                $this->addFlash("success", "Suppression effectuée");
+                return $this->redirectToRoute("sorties_home");
+            }
+            //si l'utilisateur clique sur le boutton "annuler" :
+            if('Annuler' === $sortieForm->getClickedButton()->getName()) {
 
-                $sortie->setEtat($etatActiviteEnCours);
+                $em->remove($sortie);
+                $em->flush();
+
+                return $this->redirectToRoute("sorties_home");
             }
 
-            if($dateFinSortie<$dateDuJour){
-
-                $sortie->setEtat($etatPasse);
-            }
-
-            //fin de gestion des états
-
-            $em->persist($sortie);
-            $em->flush();
-            $this->addFlash("success", "Sortie créée !");
-            return $this->redirectToRoute("sorties_home", [
-                "id" => $sortie->getId(),
-                "listeVilles" => $listeVilles]);
         }
 
         return $this->render('sorties/gererSorties.html.twig', [
@@ -215,8 +237,6 @@ class SortiesController extends Controller
         }
 
 
-
-
         return $this->render('sorties/afficherSorties.html.twig', [
             'listeRecherche' => $sortiesRecherchees,
             'listeSites' => $listeSites,
@@ -279,6 +299,114 @@ class SortiesController extends Controller
 
         return $this->render('sorties/gererSorties.html.twig');
     }
+
+
+    /**
+     * @Route("/modifierSortie/{id}", name="sorties_modifier", requirements={"id"="\d+"})
+     */
+    public function modifierSortie(Request $request, EntityManagerInterface $em, $id)
+    {
+
+        $user=$this->getUser();
+        $sortie = $em->getRepository(Sorties::class)->find($id);
+        $organisateur= $sortie->getOrganisateur();
+
+        //on vérifie que l'utilisateur est bien l'organisateur de la sortie sinon il ne peut pas la modifier :
+
+        if ($user!== $organisateur) {
+            throw new AccessDeniedException("Accès interdit !");
+        }
+
+
+        if ($sortie == null) {
+
+            throw $this->createNotFoundException("Participant inconnu");
+        }
+
+        //on récupère la liste des villes :
+
+        $villesRepo = $this->getDoctrine()->getRepository(Villes::class);
+        $listeVilles = $villesRepo->findAll();
+
+        //on récupère la liste des lieux :
+
+        $lieuRepo = $this->getDoctrine()->getRepository(Lieux::class);
+        $listeLieux = $lieuRepo->findAll();
+
+        $sortie->setNom($sortie->getNom());
+        $sortie->setDatedebut($sortie->getDatedebut());
+        $sortie->setDateclosure($sortie->getDateclosure());
+        $sortie->setNbinscriptionsmax($sortie->getNbinscriptionsmax());
+
+        if ($sortie->getDescriptioninfos() !== null) {
+            $sortie->setDescriptioninfos($sortie->getDescriptioninfos());
+        }
+
+        if ($sortie->getDatefin() !== null) {
+            $sortie->setDatefin($sortie->getDatefin());
+        }
+        $sortie->setLieu($sortie->getLieu());
+
+
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            //si l'utilisateur clique sur le boutton "enregistrer" :
+            if('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
+                $em->persist($sortie);
+                $em->flush();
+
+                $this->addFlash("success", "Modification enregistrée");
+                return $this->redirectToRoute("sortie_visualiser", ['id' => $sortie->getId()]);
+            }
+            //si l'utilisateur clique sur le boutton "supprimer" :
+            if('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
+                $em->remove($sortie);
+                $em->flush();
+
+                $this->addFlash("success", "Suppression effectuée");
+                return $this->redirectToRoute("sorties_home");
+            }
+            //si l'utilisateur clique sur "annuler" :
+            if('Annuler' === $sortieForm->getClickedButton()->getName()) {
+
+                return $this->redirectToRoute("sorties_home");
+            }
+
+        }
+
+        return $this->render('sorties/modifierSortie.html.twig', [
+            "sortieForm" => $sortieForm->createView(),
+            "sortie" => $sortie,
+            "listeVilles" => $listeVilles,
+            "listeLieux" => $listeLieux,
+            "user" => $user
+        ]);
+
+    }
+        /**
+         * @Route("/visualiserSortie/{id}", name="sortie_visualiser", requirements={"id"="\d+"})
+         */
+        public function afficherSortie (Request $request, EntityManagerInterface $em, $id)
+        {
+
+            $sortie = $em->getRepository(Sorties::class)->find($id);
+
+            if ($sortie == null) {
+
+                throw $this->createNotFoundException("Participant inconnu");
+            }
+
+            return $this->render('sorties/visualiserSortie.html.twig', [
+                "sortie" => $sortie
+
+        ]);
+        }
+
+
+
+
 
 
 }

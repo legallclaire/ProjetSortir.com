@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="card shadow-sm p-3 mb-5 bg-white rounded" style="width:400px">
+                <div class="card-header">
+                        <h4 class="card-title ">Afficher une sortie</h4>
+                </div>
+                <div class="card-body">
+                    {% if sortie is defined %}
+                    <p class="card-text">Nom de la sortie : {{ sortie.getNom() }}</p>
+                    <p class="card-text">Date et heure de la sortie : {{ sortie.getDatedebut() | date }}</p>
+                    <p class="card-text">Date limite d'inscription : {{ sortie.getDateclosure() | date }}</p>
+                    <p class="card-text">Nombre de places : {{ sortie.getNbinscriptionsmax() }}</p>
+                    {% if sortie.getDescriptioninfos() is same as (0) %}
+                    <p class="card-text">Description et infos : {{ sortie.getDescriptioninfos() }}</p>
+                        {% endif %}
+                    <p class="card-text">Ville Organisatrice : {{ sortie.getSite().getNomSite() }}</p>
+                        <p class="card-text">Rue  : {{ sortie.getLieu().getRue() }}</p>
+                        <p class="card-text">Code Postal  : {{ sortie.getLieu().getVille().getCodePostal() }}</p>
+                        <p class="card-text">Ville  : {{ sortie.getLieu().getVille().getNomVille() }}</p>
+                    {% if sortie.getLieu().getLatitude() is same as (0) %}
+                        <p class="card-text">Latitude  : {{ sortie.getLieu().getLatitude() }}</p>
+                        {% endif %}
+                    {% if sortie.getLieu().getLongitude() is same as (0) %}
+                        <p class="card-text">Longitude  : {{ sortie.getLieu().getLongitude() }}</p>
+                    {% endif %}
+
+                    {% endif %}
+                    <div class="text-center">
+                        <a href="{{ path("sorties_home") }}" class="btn btn-info">Retour</a>
+                    </div></div>
+            </div>
+        </div></div>
+
+{% endblock %}
+

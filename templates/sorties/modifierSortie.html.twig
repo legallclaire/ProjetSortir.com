@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Detail | {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    <h1>Modifier la sortie : </h1>
+
+    <div class="d-flex justify-content-around">
+        <div class="col-3">
+            {% if sortieForm is defined %}
+                {{ form_start(sortieForm) }}
+                {{ form_row(sortieForm.nom) }}
+                {{ form_row(sortieForm.datedebut) }}
+                {{ form_row(sortieForm.dateclosure) }}
+                {{ form_row(sortieForm.nbinscriptionsmax) }}
+                {{ form_row(sortieForm.datefin) }}
+                {{ form_row(sortieForm.descriptioninfos) }}
+            {% endif %}
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label for="villeOrga" class="col-form-label">Ville organisatrice</label>
+                {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                    <input type="text" class="form-control" id="villeOrga" name="villeOrga" value="{{ user.site.getNomSite() }}" disabled>
+                {% endif %}
+            </div>
+
+{#            affichage par défaut de la ville de la sortie dans le select: #}
+            <div class="form-group mb-3">
+                <label for="villes">Ville</label>
+                <select class="custom-select" id="select-villes" required>
+                    {% if listeVilles is defined %}
+                        {% for ville in listeVilles %}
+                            {% set selected = '' %}
+                            {% if (ville.id ==  sortie.getLieu().getVille().getId()) %}
+                                {% set selected = 'selected' %}
+                            {% endif %}
+                            <option id="{{ ville.id }}" {{ selected }}>{{ ville.getNomVille() }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="lieux" id="labelLieux2">Lieu</label>
+                <div id="iconeAjoutLieu2">
+                    <a href="{{  path('sorties_ajouterLieu')}}"><img src="{{ asset('image/add.png') }}" alt="iconeLieu" height="40px" width="40px" id="iconeLieu">
+                    </a>
+                </div>
+                {#            affichage par défaut du lieu de la sortie dans le select: #}
+                <select id="select-lieux2" name="select-lieux2" class="custom-select" data-route="{{ path("sorties_home") }}" required>
+                    <option id="{{  sortie.getLieu().getId() }}" selected="selected">{{ sortie.getLieu().getNomLieu() }}</option>
+                    {% if listeLieux is defined %}
+                        {% for lieu in listeLieux %}
+                            {% set selected = '' %}
+                            {% if (lieu.id ==  sortie.getLieu().getId()) %}
+                                {% set selected = 'selected' %}
+                            {% endif %}
+                            <option id="{{ lieu.id }}" {{ selected }}>{{ lieu.getNomLieu() }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+            <div class="form-group">
+                {% if sortie is defined %}
+                <label for="rue2" id="labelRue2" class="col-form-label">Rue</label>
+                <input type="text" class="form-control" id="rue2" value="{{ sortie.getLieu().getRue() }}">
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {% if sortie is defined %}
+                <label for="codePostal2" id="labelCodePostal2" class="col-form-label">Code postal</label>
+                <input type="text" class="form-control" id="codePostal2" value="{{ sortie.getLieu().getVille().getCodePostal() }}">
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {% if sortie is defined %}
+                <label for="latitude2" id="labelLatitude2" class="col-form-label">Lattitude</label>
+                <input type="text" class="form-control" id="latitude2" value="{{ sortie.getLieu().getLatitude() }}">
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {% if sortie is defined %}
+                <label for="longitude2" id="labelLongitude2" class="col-form-label">Longitude</label>
+                <input type="text" class="form-control" id="longitude2" value="{{ sortie.getLieu().getLongitude() }}">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="buttons mt-3 justify-content-center d-flex">
+        {% if sortieForm is defined %}
+        {{ form_row(sortieForm.Enregistrer) }}
+            {{ form_row(sortieForm.PublierLaSortie) }}
+            {{ form_row(sortieForm.SupprimerLaSortie) }}
+            {{ form_row(sortieForm.Annuler) }}
+        {% endif %}
+
+    </div>
+    {% if sortieForm is defined %}
+        {{ form_end(sortieForm) }}
+    {% endif %}
+{% endblock %}
+

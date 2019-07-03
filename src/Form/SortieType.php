@@ -5,6 +5,7 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -51,11 +52,18 @@ class SortieType extends AbstractType
                 'years' => range(2019, 2029),
                 'input' => 'datetime',
                 'format' => 'dd/MM/yyyy HH:mm',
-                'data' => new \DateTime()
+                'data' => new \DateTime(),
+                'required' => false
             ])
             ->add('descriptioninfos', TextareaType::class, [
-                'label' => 'Description et infos'
-            ]);
+                'label' => 'Description et infos',
+                'required' => false
+            ])
+
+        ->add('Enregistrer', SubmitType::class, ['label' => 'Enregistrer','attr'=> ["class" => 'btn btn-lg btn-info mr-3']])
+        ->add('PublierLaSortie', SubmitType::class, ['label' => 'Publier la sortie','attr'=> ["class" => 'btn btn-lg btn-info mr-3']])
+        ->add('SupprimerLaSortie', SubmitType::class, ['label' => 'Supprimer la sortie','attr'=> ["class" => 'btn btn-lg btn-info mr-3']])
+        ->add('Annuler', SubmitType::class, ['label' => 'Annuler','attr'=> ["class" => 'btn btn-lg btn-info mr-3']]);
 
     }
 

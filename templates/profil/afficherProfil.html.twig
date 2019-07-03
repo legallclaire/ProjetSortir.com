@@ -12,7 +12,12 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
     <div class="card shadow-sm p-3 mb-5 bg-white rounded" style="width:400px">
-        <img class="card-img-top" src="../../public/image/avatar.png" alt="Card image">
+        {% if (user.id) == (1) %}
+            <img class="card-img-top" src="../../public/image/avatar2.png" alt="Card image">
+        {% endif %}
+        {% if (user.id) == (2) %}
+            <img class="card-img-top" src="../../public/image/avatar-3.png" alt="Card image">
+        {% endif %}
         <div class="card-header">
             {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                 <h1 class="card-title ">{{ user.pseudo }}</h1>
@@ -28,7 +33,7 @@
 
 
 
-                <div class="text-center">
+                <div class="text-center mt-5">
                     {% if (app.user.id) == (user.id) %}
                 <a href="{{ path("profil_gerer", {"id": user.id}) }}" class="btn btn-warning ">Modifier</a>
             {% endif %}
