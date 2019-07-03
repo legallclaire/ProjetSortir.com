@@ -28,7 +28,7 @@
             </div>
             <div class="form-group mb-3">
                 <label for="villes">Ville</label>
-                <select class="custom-select" id="select-villes">
+                <select class="custom-select" id="select-villes" required>
                     <option id="{{  sortie.getLieu().getVille().getId() }}" selected="selected">{{ sortie.getLieu().getVille().getNomVille() }}</option>
                     {% if listeVilles is defined %}
                         {% for ville in listeVilles %}
@@ -43,7 +43,7 @@
                     <a href="{{  path('sorties_ajouterLieu')}}"><img src="{{ asset('image/add.png') }}" alt="iconeLieu" height="40px" width="40px" id="iconeLieu">
                     </a>
                 </div>
-                <select id="select-lieux2" name="select-lieux2" class="custom-select" data-route="{{ path("sorties_home") }}">
+                <select id="select-lieux2" name="select-lieux2" class="custom-select" data-route="{{ path("sorties_home") }}" required>
                     <option id="{{  sortie.getLieu().getId() }}" selected="selected">{{ sortie.getLieu().getNomLieu() }}</option>
                     {% if listeLieux is defined %}
                         {% for lieu in listeLieux %}
@@ -79,10 +79,16 @@
         </div>
     </div>
     <div class="buttons mt-3 justify-content-center d-flex">
-        <button type="submit" class="btn btn-lg btn-info mr-3">Enregistrer</button>
-        <button type="submit" class="btn btn-lg btn-info mr-3">Publier la sortie</button>
-        <button type="submit" class="btn btn-lg btn-info mr-3">Supprimer la sortie</button>
-        <button type="submit" class="btn btn-lg btn-info mr-3">Annuler</button>
+        {% if sortieForm is defined %}
+        {{ form_row(sortieForm.Enregistrer) }}
+            {{ form_row(sortieForm.PublierLaSortie) }}
+            {{ form_row(sortieForm.SupprimerLaSortie) }}
+            {{ form_row(sortieForm.Annuler) }}
+        {% endif %}
+{#        <button type="submit" class="btn btn-lg btn-info mr-3">Enregistrer</button>#}
+{#        <button type="submit" class="btn btn-lg btn-info mr-3">Publier la sortie</button>#}
+{#        <button type="submit" class="btn btn-lg btn-info mr-3">Supprimer la sortie</button>#}
+{#        <button type="submit" class="btn btn-lg btn-info mr-3">Annuler</button>#}
     </div>
     {% if sortieForm is defined %}
         {{ form_end(sortieForm) }}

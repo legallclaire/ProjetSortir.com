@@ -58,60 +58,87 @@ class SortiesController extends Controller
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
-            $nomLieu = $request->get("select-lieux");
-            $lieuxRepo= $this->getDoctrine()->getRepository(Lieux::class);
-            $lieu=$lieuxRepo->findOneBy(["nom_lieu"=>$nomLieu]);
+
+            if('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
+                $nomLieu = $request->get("select-lieux");
+                $lieuxRepo = $this->getDoctrine()->getRepository(Lieux::class);
+                $lieu = $lieuxRepo->findOneBy(["nom_lieu" => $nomLieu]);
 
 
-            $sortie->setLieu($lieu);
+                $sortie->setLieu($lieu);
 
-            //début de gestion des états :
+                //début de gestion des états :
 
-            $etatRepo= $this->getDoctrine()->getRepository(Etats::class);
-            $etatCree = $etatRepo->find(1);
-            $etatOuvert = $etatRepo->find(2);
-            $etatCloture = $etatRepo->find(3);
-            $etatActiviteEnCours = $etatRepo->find(4);
-            $etatPasse = $etatRepo->find(5);
-            $etatAnnule = $etatRepo->find(6);
+                $etatRepo = $this->getDoctrine()->getRepository(Etats::class);
+                $etatCree = $etatRepo->find(1);
+                $etatOuvert = $etatRepo->find(2);
+                $etatCloture = $etatRepo->find(3);
+                $etatActiviteEnCours = $etatRepo->find(4);
+                $etatPasse = $etatRepo->find(5);
+                $etatAnnule = $etatRepo->find(6);
 
 
-            $sortie->setEtat($etatCree);
+                $sortie->setEtat($etatCree);
 
-            $dateDuJour = new \DateTime('now');
-            $dateDebutSortie = $sortie->getDatedebut();
-            $dateCloture = $sortie->getDateclosure();
-            $dateFinSortie = $sortie->getDatefin();
+                $dateDuJour = new \DateTime('now');
+                $dateDebutSortie = $sortie->getDatedebut();
+                $dateCloture = $sortie->getDateclosure();
+                $dateFinSortie = $sortie->getDatefin();
 
-            if ($dateCloture>$dateDuJour) {
+                if ($dateCloture > $dateDuJour) {
 
-                $sortie->setEtat($etatOuvert);
+                    $sortie->setEtat($etatOuvert);
 
-            } else {
+                } else {
 
-                $sortie->setEtat($etatCloture);
+                    $sortie->setEtat($etatCloture);
+
+                }
+
+                if ($dateDebutSortie = $dateDuJour AND $dateFinSortie >= $dateDuJour) {
+
+                    $sortie->setEtat($etatActiviteEnCours);
+                }
+
+                if ($dateFinSortie < $dateDuJour) {
+
+                    $sortie->setEtat($etatPasse);
+                }
+
+                //fin de gestion des états
+
+                $em->persist($sortie);
+                $em->flush();
+                $this->addFlash("success", "Sortie créée !");
+                return $this->redirectToRoute("sorties_home", [
+                    "id" => $sortie->getId(),
+                    "listeVilles" => $listeVilles]);
 
             }
 
-            if ($dateDebutSortie=$dateDuJour AND $dateFinSortie>=$dateDuJour){
+            if('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
+                $em->remove($sortie);
+                $em->flush();
 
-                $sortie->setEtat($etatActiviteEnCours);
+                $this->addFlash("success", "Suppression effectuée");
+                return $this->redirectToRoute("sorties_home");
             }
 
-            if($dateFinSortie<$dateDuJour){
+            if('Annuler' === $sortieForm->getClickedButton()->getName()) {
 
-                $sortie->setEtat($etatPasse);
+                $em->remove($sortie);
+                $em->flush();
+
+                return $this->redirectToRoute("sorties_home");
             }
 
-            //fin de gestion des états
 
-            $em->persist($sortie);
-            $em->flush();
-            $this->addFlash("success", "Sortie créée !");
-            return $this->redirectToRoute("sorties_home", [
-                "id" => $sortie->getId(),
-                "listeVilles" => $listeVilles]);
+
         }
+
+
+
+
 
         return $this->render('sorties/gererSorties.html.twig', [
             'sortieForm' => $sortieForm->createView(),
@@ -333,13 +360,26 @@ class SortiesController extends Controller
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
+            if('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
+                $em->persist($sortie);
+                $em->flush();
 
-            $em->persist($sortie);
-            $em->flush();
+                $this->addFlash("success", "Modification enregistrée");
+                return $this->redirectToRoute("sortie_visualiser", ['id' => $sortie->getId()]);
+            }
 
-            $this->addFlash("success", "Modification enregistrée");
-            return $this->redirectToRoute("sortie_visualiser", ['id' => $sortie->getId()]);
+            if('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
+                $em->remove($sortie);
+                $em->flush();
 
+                $this->addFlash("success", "Suppression effectuée");
+                return $this->redirectToRoute("sorties_home");
+            }
+
+            if('Annuler' === $sortieForm->getClickedButton()->getName()) {
+
+                return $this->redirectToRoute("sorties_home");
+            }
 
         }
 
