@@ -126,9 +126,7 @@
                         <a href="{{ path("profil_afficher", {'id' : sortie.organisateur.getId() }) }}">{{ sortie.organisateur.pseudo }}</a>
                     </td>
                     <td>
-                        <input type="button" value="afficher" class="btn btn-info">
-                        <input type="button" value="s'inscrire" class="btn btn-secondary">
-                        <input type="button" value="se désister" class="btn btn-danger">
+                        <a href="#">Afficher</a> - <a href="#">S'inscrire</a>
                     </td>
                 </tr>
             {% endfor %}
