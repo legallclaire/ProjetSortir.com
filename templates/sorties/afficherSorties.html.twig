@@ -105,9 +105,10 @@
                         <a href="{{ path("profil_afficher", {'id' : recherche.organisateur.getId() }) }}">{{ recherche.organisateur.prenom }}</a>
                     </td>
                     <td>
-                        <input type="button" value="afficher" class="btn btn-primary">
-                        <input type="button" value="s'inscrire" class="btn btn-secondary">
-                        <input type="button" value="se désister" class="btn btn-danger">
+                        <a href="#">Afficher</a> - <a href="#">S'inscrire</a>
+{#                        <input type="button" value="afficher" class="btn btn-primary">#}
+{#                        <input type="button" value="s'inscrire" class="btn btn-secondary">#}
+{#                        <input type="button" value="se désister" class="btn btn-danger">#}
                     </td>
                 </tr>
 
@@ -126,14 +127,11 @@
                         <a href="{{ path("profil_afficher", {'id' : sortie.organisateur.getId() }) }}">{{ sortie.organisateur.pseudo }}</a>
                     </td>
                     <td>
-<<<<<<< HEAD
                         <a href="#">Afficher</a> - <a href="#">S'inscrire</a>
-=======
-                        <input type="button" value="afficher" class="btn btn-primary">
-                        <input type="button" value="s'inscrire" class="btn btn-secondary">
-                        <input type="button" value="se désister" class="btn btn-danger">
-                        <input type="button" value="annuler" class="btn btn-warning">
->>>>>>> master
+{#                        <input type="button" value="afficher" class="btn btn-primary">#}
+{#                        <input type="button" value="s'inscrire" class="btn btn-secondary">#}
+{#                        <input type="button" value="se désister" class="btn btn-danger">#}
+{#                        <input type="button" value="annuler" class="btn btn-warning">#}
                     </td>
                 </tr>
             {% endfor %}
