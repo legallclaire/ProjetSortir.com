@@ -206,9 +206,26 @@ class SortiesController extends Controller
     {
         $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
         $listeSites = $siteRepo->findAll();
+
+        // Récupération de la liste des sortie selon le site et/ou le nom de sortie et/ou l'organisateur sélectionné(s)
+        $site = $request->request->get('selectSites');
         $mot = $request->request->get('mot');
-        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
-        $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
+
+
+        if ($site !== "0" && !empty($mot)){
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortiesRecherchees = $sortieRepo->findSortieFiltres($site, $mot);
+        }elseif($site !== "0"){
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortiesRecherchees = $sortieRepo->findSortieBySites($site);
+        }else {
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
+        }
+
+
+
+
         return $this->render('sorties/afficherSorties.html.twig', [
             'listeRecherche' => $sortiesRecherchees,
             'listeSites' => $listeSites,

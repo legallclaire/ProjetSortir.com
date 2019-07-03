@@ -298,3 +298,30 @@ $(document).ready(function() {
     }))
 
 })
+
+// Filtrer affichage sortie avec checkbox
+
+function checkboxFiltre() {
+    var checkBoxUser = document.getElementById("SortiesOrganisateur");
+    var table = document.getElementById("sortieTable");
+    var tr = table.getElementsByTagName("tr");
+    var nomUtilisateur = document.getElementById("nom_user");
+    var i;
+    var td;
+
+
+    if (checkBoxUser.checked === true){
+        for (i=0; i<tr.length; i++){
+            td = tr[i].getElementsByTagName("td")[6];
+            if (td){
+                if (td.innerText === nomUtilisateur.innerText){
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+
+        }
+    }
+
+}
