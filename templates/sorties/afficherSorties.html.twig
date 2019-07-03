@@ -128,10 +128,20 @@
                     </td>
                     <td>
 {#                        <a href="#">Afficher</a> - <a href="#">S'inscrire</a>#}
-                        <input type="button" value="afficher" class="btn btn-primary">
-                        <input type="button" value="s'inscrire" class="btn btn-secondary">
-                        <input type="button" value="se désister" class="btn btn-danger">
-                        <input type="button" value="annuler" class="btn btn-warning">
+                        <a href="{{ path('sortie_visualiser', {'id': sortie.id }) }}"><input type="button" value="afficher" class="btn btn-primary"></a>
+
+                        {% if app.user not in sortie.participants and app.user!=sortie.organisateur %}
+                        <input type="button" name='boutonInscription' value="s'inscrire" id="{{ sortie.id }}" class="btn btn-secondary">
+                        {% endif %}
+                        {% if app.user in sortie.participants %}
+                        <input type="button" name='boutonDesistement' value="se désister" id="{{ sortie.id }}" class="btn btn-danger">
+                        {% endif %}
+                        {% if sortie.organisateur is same as(app.user) %}
+                        <a href="{{ path('sorties_modifier', {'id': sortie.id }) }}">
+                            <input type="button" name='boutonModifier' value="modifier" id="{{ sortie.id }}" class="btn btn-warning">
+                        </a>
+                        <input type="button" name='boutonAnnuler' value="annuler" id="{{ sortie.id }}" class="btn btn-warning">
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

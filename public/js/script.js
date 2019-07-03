@@ -376,3 +376,93 @@ function checkboxFiltre() {
     }
 
 }
+
+
+// s'inscrire à une sortie (AJAX) :
+
+
+$(document).ready(function() {
+    $('input[name=boutonInscription]').click(function() {
+
+        var idSortie = $(this).attr('id');
+
+
+        $.ajax({
+            type: "POST",
+            url: "/sortir/public/inscription",
+            dataType: "json",
+            data: {id: idSortie},
+            cache: false,
+            success: function (data) {
+
+
+                $.notify("modification effectuée")
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+
+    })
+
+})
+
+// se désister (AJAX):
+
+$(document).ready(function() {
+    $('input[name=boutonDesistement]').click(function() {
+
+        var idSortie = $(this).attr('id');
+
+
+        $.ajax({
+            type: "POST",
+            url: "/sortir/public/desinscription",
+            dataType: "json",
+            data: {id: idSortie},
+            cache: false,
+            success: function (data) {
+
+
+                $.notify("modification effectué")
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+
+    })
+
+})
+
+// annuler une sortie (AJAX) :
+
+$(document).ready(function() {
+    $('input[name=boutonAnnuler]').click(function() {
+
+
+        var idSortie = $(this).attr('id');
+
+
+        $.ajax({
+            type: "POST",
+            url: "/sortir/public/annulation",
+            dataType: "json",
+            data: {id: idSortie},
+            cache: false,
+            success: function (data) {
+
+
+                $.notify("modification effectué")
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+
+    })
+
+})

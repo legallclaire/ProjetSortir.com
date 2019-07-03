@@ -45,7 +45,7 @@ class SortiesController extends Controller
     {
 
         $sortie = new Sorties();
-        $user=$this->getUser();
+        $user = $this->getUser();
         $sortie->setOrganisateur($user);
 
         $site = $user->getSite();
@@ -61,7 +61,7 @@ class SortiesController extends Controller
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
             //si l'utilisateur clique sur le boutton "enregistrer" :
-            if('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
+            if ('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
                 $nomLieu = $request->get("select-lieux");
                 $lieuxRepo = $this->getDoctrine()->getRepository(Lieux::class);
                 $lieu = $lieuxRepo->findOneBy(["nom_lieu" => $nomLieu]);
@@ -118,7 +118,7 @@ class SortiesController extends Controller
 
             }
             //si l'utilisateur clique sur le boutton "supprimer" :
-            if('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
+            if ('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
                 $em->remove($sortie);
                 $em->flush();
 
@@ -126,7 +126,7 @@ class SortiesController extends Controller
                 return $this->redirectToRoute("sorties_home");
             }
             //si l'utilisateur clique sur le boutton "annuler" :
-            if('Annuler' === $sortieForm->getClickedButton()->getName()) {
+            if ('Annuler' === $sortieForm->getClickedButton()->getName()) {
 
                 $em->remove($sortie);
                 $em->flush();
@@ -139,7 +139,7 @@ class SortiesController extends Controller
         return $this->render('sorties/gererSorties.html.twig', [
             'sortieForm' => $sortieForm->createView(),
             'listeVilles' => $listeVilles,
-            'user'=>$user,
+            'user' => $user,
         ]);
     }
 
@@ -227,13 +227,13 @@ class SortiesController extends Controller
         $mot = $request->request->get('mot');
 
 
-        if ($site !== "0" && !empty($mot)){
+        if ($site !== "0" && !empty($mot)) {
             $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
             $sortiesRecherchees = $sortieRepo->findSortieFiltres($site, $mot);
-        }elseif($site !== "0"){
+        } elseif ($site !== "0") {
             $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
             $sortiesRecherchees = $sortieRepo->findSortieBySites($site);
-        }else {
+        } else {
             $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
             $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
         }
@@ -309,13 +309,13 @@ class SortiesController extends Controller
     public function modifierSortie(Request $request, EntityManagerInterface $em, $id)
     {
 
-        $user=$this->getUser();
+        $user = $this->getUser();
         $sortie = $em->getRepository(Sorties::class)->find($id);
-        $organisateur= $sortie->getOrganisateur();
+        $organisateur = $sortie->getOrganisateur();
 
         //on vérifie que l'utilisateur est bien l'organisateur de la sortie sinon il ne peut pas la modifier :
 
-        if ($user!== $organisateur) {
+        if ($user !== $organisateur) {
             throw new AccessDeniedException("Accès interdit !");
         }
 
@@ -355,7 +355,7 @@ class SortiesController extends Controller
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
             //si l'utilisateur clique sur le boutton "enregistrer" :
-            if('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
+            if ('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
                 $em->persist($sortie);
                 $em->flush();
 
@@ -363,7 +363,7 @@ class SortiesController extends Controller
                 return $this->redirectToRoute("sortie_visualiser", ['id' => $sortie->getId()]);
             }
             //si l'utilisateur clique sur le boutton "supprimer" :
-            if('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
+            if ('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
                 $em->remove($sortie);
                 $em->flush();
 
@@ -371,7 +371,7 @@ class SortiesController extends Controller
                 return $this->redirectToRoute("sorties_home");
             }
             //si l'utilisateur clique sur "annuler" :
-            if('Annuler' === $sortieForm->getClickedButton()->getName()) {
+            if ('Annuler' === $sortieForm->getClickedButton()->getName()) {
 
                 return $this->redirectToRoute("sorties_home");
             }
@@ -387,27 +387,159 @@ class SortiesController extends Controller
         ]);
 
     }
-        /**
-         * @Route("/visualiserSortie/{id}", name="sortie_visualiser", requirements={"id"="\d+"})
-         */
-        public function afficherSortie (Request $request, EntityManagerInterface $em, $id)
-        {
 
-            $sortie = $em->getRepository(Sorties::class)->find($id);
+    /**
+     * @Route("/visualiserSortie/{id}", name="sortie_visualiser", requirements={"id"="\d+"})
+     */
+    public function afficherSortie(Request $request, EntityManagerInterface $em, $id)
+    {
 
-            if ($sortie == null) {
+        $sortie = $em->getRepository(Sorties::class)->find($id);
 
-                throw $this->createNotFoundException("Participant inconnu");
-            }
+        if ($sortie == null) {
 
-            return $this->render('sorties/visualiserSortie.html.twig', [
-                "sortie" => $sortie
+            throw $this->createNotFoundException("Participant inconnu");
+        }
+
+        return $this->render('sorties/visualiserSortie.html.twig', [
+            "sortie" => $sortie
 
         ]);
+    }
+
+
+    //inscription à une sortie :
+    /**
+     * @Route("/inscription", name="sortie_inscription")
+     */
+    public function inscriptionSortie(Request $request, EntityManagerInterface $em)
+    {
+
+        if ($request->request->get("id")){
+
+            $idSortie=$request->request->get("id");
+
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortie = $sortieRepo->find($idSortie);
+
+            $participant= $this->getUser();
+
+            $sortie->addParticipant($participant);
+
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash("success", "Inscription enregistrée");
+
+            return $this->redirectToRoute("sorties_home");
         }
 
 
+        $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
+        $listeSites = $siteRepo->findAll();
+        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $listeSorties = $sortieRepo->findAll();
+        $listeParticipants = $sortieRepo->findAllParticipants();
 
+        return $this->render('sorties/afficherSorties.html.twig', [
+            'controller_name' => 'SortiesController',
+            'listeSites' => $listeSites,
+            'listeSorties' => $listeSorties,
+            'participants' => $listeParticipants
+        ]);
+
+    }
+
+//désinscription à une sortie :
+
+    /**
+     * @Route("/desinscription", name="sortie_desinscription")
+     */
+    public function desinscriptionSortie(Request $request, EntityManagerInterface $em)
+    {
+
+        if ($request->request->get("id")){
+
+            $idSortie=$request->request->get("id");
+
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortie = $sortieRepo->find($idSortie);
+
+            $participant= $this->getUser();
+
+            $sortie->removeParticipant($participant);
+
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash("success", "Modification enregistrée");
+
+            return $this->redirectToRoute("sorties_home");
+        }
+
+
+        $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
+        $listeSites = $siteRepo->findAll();
+        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $listeSorties = $sortieRepo->findAll();
+        $listeParticipants = $sortieRepo->findAllParticipants();
+
+        return $this->render('sorties/afficherSorties.html.twig', [
+            'controller_name' => 'SortiesController',
+            'listeSites' => $listeSites,
+            'listeSorties' => $listeSorties,
+            'participants' => $listeParticipants
+        ]);
+
+    }
+
+
+
+    //annuler une sortie :
+
+    /**
+     * @Route("/annulation", name="sortie_annulation")
+     */
+    public function annulerSortie(Request $request, EntityManagerInterface $em)
+    {
+
+        if ($request->request->get("id")){
+
+            $idSortie=$request->request->get("id");
+
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortie = $sortieRepo->find($idSortie);
+
+            $organisateur= $sortie->getOrganisateur();
+            $participant= $this->getUser();
+
+
+            if($participant===$organisateur) {
+
+
+                $em->remove($sortie);
+                $em->flush();
+
+                $this->addFlash("success", "Modification enregistrée");
+            }
+            return $this->redirectToRoute("sorties_home");
+        }
+
+
+        $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
+        $listeSites = $siteRepo->findAll();
+        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $listeSorties = $sortieRepo->findAll();
+        $listeParticipants = $sortieRepo->findAllParticipants();
+
+        return $this->render('sorties/afficherSorties.html.twig', [
+            'controller_name' => 'SortiesController',
+            'listeSites' => $listeSites,
+            'listeSorties' => $listeSorties,
+            'participants' => $listeParticipants
+        ]);
+
+    }
 
 
 
