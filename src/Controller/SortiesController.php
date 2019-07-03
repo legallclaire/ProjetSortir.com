@@ -10,6 +10,7 @@ use App\Entity\Villes;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,10 +57,6 @@ class SortiesController extends Controller
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-//            $nomSite= $request->get("villeOrga");
-//            $sitesRepo = $this->getDoctrine()->getRepository(Sites::class);
-//            $site=$sitesRepo->findOneBy(["nom_site"=>$nomSite]);
-//            $sortie->setSite($site);
 
             $nomLieu = $request->get("select-lieux");
             $lieuxRepo= $this->getDoctrine()->getRepository(Lieux::class);
@@ -82,9 +79,9 @@ class SortiesController extends Controller
             $sortie->setEtat($etatCree);
 
             $dateDuJour = new \DateTime('now');
-            $dateDebutSortie = $sortie.getDatedebut();
-            $dateCloture = $sortie.getDateclosure();
-            $dateFinSortie = $sortie.getDatefin();
+            $dateDebutSortie = $sortie->getDatedebut();
+            $dateCloture = $sortie->getDateclosure();
+            $dateFinSortie = $sortie->getDatefin();
 
             if ($dateCloture>$dateDuJour) {
 
@@ -106,18 +103,14 @@ class SortiesController extends Controller
                 $sortie->setEtat($etatPasse);
             }
 
-
-
             //fin de gestion des états
-
-
 
             $em->persist($sortie);
             $em->flush();
             $this->addFlash("success", "Sortie créée !");
             return $this->redirectToRoute("sorties_home", [
                 "id" => $sortie->getId(),
-                "listeVilles => $listeVilles"]);
+                "listeVilles" => $listeVilles]);
         }
 
         return $this->render('sorties/gererSorties.html.twig', [
@@ -144,7 +137,6 @@ class SortiesController extends Controller
 
             $lieuxRepo = $this->getDoctrine()->getRepository(Lieux::class);
             $listeLieux = $lieuxRepo->findByVille($id);
-
 
             $json_data = array();
             $boucle = 0;
@@ -206,9 +198,26 @@ class SortiesController extends Controller
     {
         $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
         $listeSites = $siteRepo->findAll();
+
+        // Récupération de la liste des sortie selon le site et/ou le nom de sortie et/ou l'organisateur sélectionné(s)
+        $site = $request->request->get('selectSites');
         $mot = $request->request->get('mot');
-        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
-        $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
+
+
+        if ($site !== "0" && !empty($mot)){
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortiesRecherchees = $sortieRepo->findSortieFiltres($site, $mot);
+        }elseif($site !== "0"){
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortiesRecherchees = $sortieRepo->findSortieBySites($site);
+        }else {
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
+        }
+
+
+
+
         return $this->render('sorties/afficherSorties.html.twig', [
             'listeRecherche' => $sortiesRecherchees,
             'listeSites' => $listeSites,
@@ -271,6 +280,100 @@ class SortiesController extends Controller
 
         return $this->render('sorties/gererSorties.html.twig');
     }
+
+
+    /**
+     * @Route("/modifierSortie/{id}", name="sorties_modifier", requirements={"id"="\d+"})
+     */
+    public function modifierSortie(Request $request, EntityManagerInterface $em, $id)
+    {
+
+        $user=$this->getUser();
+        $sortie = $em->getRepository(Sorties::class)->find($id);
+        $organisateur= $sortie->getOrganisateur();
+
+        //on vérifie que l'utilisateur est bien l'organisateur de la sortie sinon il ne peut pas la modifier :
+
+        if ($user!== $organisateur) {
+            throw new AccessDeniedException("Accès interdit !");
+        }
+
+
+        if ($sortie == null) {
+
+            throw $this->createNotFoundException("Participant inconnu");
+        }
+
+        //on récupère la liste des villes :
+
+        $villesRepo = $this->getDoctrine()->getRepository(Villes::class);
+        $listeVilles = $villesRepo->findAll();
+
+        //on récupère la liste des lieux :
+
+        $lieuRepo = $this->getDoctrine()->getRepository(Lieux::class);
+        $listeLieux = $lieuRepo->findAll();
+
+        $sortie->setNom($sortie->getNom());
+        $sortie->setDatedebut($sortie->getDatedebut());
+        $sortie->setDateclosure($sortie->getDateclosure());
+        $sortie->setNbinscriptionsmax($sortie->getNbinscriptionsmax());
+
+        if ($sortie->getDescriptioninfos() !== null) {
+            $sortie->setDescriptioninfos($sortie->getDescriptioninfos());
+        }
+
+        if ($sortie->getDatefin() !== null) {
+            $sortie->setDatefin($sortie->getDatefin());
+        }
+        $sortie->setLieu($sortie->getLieu());
+
+
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash("success", "Modification enregistrée");
+            return $this->redirectToRoute("sortie_visualiser", ['id' => $sortie->getId()]);
+
+
+        }
+
+        return $this->render('sorties/modifierSortie.html.twig', [
+            "sortieForm" => $sortieForm->createView(),
+            "sortie" => $sortie,
+            "listeVilles" => $listeVilles,
+            "listeLieux" => $listeLieux,
+            "user" => $user
+        ]);
+
+    }
+        /**
+         * @Route("/visualiserSortie/{id}", name="sortie_visualiser", requirements={"id"="\d+"})
+         */
+        public function afficherSortie (Request $request, EntityManagerInterface $em, $id)
+        {
+
+            $sortie = $em->getRepository(Sorties::class)->find($id);
+
+            if ($sortie == null) {
+
+                throw $this->createNotFoundException("Participant inconnu");
+            }
+
+            return $this->render('sorties/visualiserSortie.html.twig', [
+                "sortie" => $sortie
+
+        ]);
+        }
+
+
+
+
 
 
 }
