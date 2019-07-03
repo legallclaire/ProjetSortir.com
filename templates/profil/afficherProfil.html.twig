@@ -6,15 +6,18 @@
 
 {% block main %}
 
-    <div class="container">
-    <div class="row justify-content-center">
-    <div class="card col-5 shadow-sm p-3 mb-5 bg-white rounded">
+
+
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+    <div class="card shadow-sm p-3 mb-5 bg-white rounded" style="width:400px">
+        <img class="card-img-top" src="../../public/image/avatar.png" alt="Card image">
         <div class="card-header">
             {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                 <h1 class="card-title ">{{ user.pseudo }}</h1>
             {% endif %}
         </div>
-        <img class="card-img-top-center" src="" alt="image profil">
         <div class="card-body">
             <p class="card-text">Prénom : {{ user.prenom }}</p>
             <p class="card-text">Nom : {{ user.nom }}</p>
@@ -22,11 +25,27 @@
             <p class="card-text">E-Mail : {{ user.mail }}</p>
             <p class="card-text">Téléphone : {{ user.telephone }}</p>
             <p class="card-text">Ville de rattachement : {{ user.site.getNomSite() }}</p>
-            {% if (app.user.id) == (user.id) %}
-                <a href="{{ path("profil_gerer", {"id": user.id}) }}" class="btn btn-info">Modifier</a>
+
+
+
+                <div class="text-center">
+                    {% if (app.user.id) == (user.id) %}
+                <a href="{{ path("profil_gerer", {"id": user.id}) }}" class="btn btn-warning ">Modifier</a>
             {% endif %}
             <a href="{{ path("sorties_home") }}" class="btn btn-info">Retour</a>
-        </div>
+                </div></div>
+
+
+
+
+
+
+
+
+
     </div>
+
+        </div></div>
+
 
 {% endblock %}

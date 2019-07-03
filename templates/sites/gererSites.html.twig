@@ -5,27 +5,57 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Gérer les sites</h1>
-    <h4>Filtrer les sites :</h4>
-    <label for="searchSites">Le nom contient :</label>
-<input type="text" name="search" id="searchSites" placeholder="rechercher">
-        <input type="button" id="boutonRecherche">Rechercher</input>
-    <table>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Gérer les sites</h1>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <h4>Filtrer les sites :</h4>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 mb-5">
+                <label for="searchSites">Le nom contient :</label>
+                <input type="text" name="search" id="searchSites" placeholder="rechercher">
+                <button type="button" id="boutonRecherche" class="btn btn-primary" >Rechercher</button>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 mb-5">
+    <table class="table table-striped">
+        <thead class="thead-dark">
         <tr>
             <th>Ville</th>
             <th>Actions</th>
         </tr>
+        </thead>
+        <tbody>
     {% for site in sites %}
         <tr class="ligneSite">
             <td class="sites"><input type="text" class="inputNomSite" value="{{ site.getNomSite() }}" disabled></td>
-            <td><span class="modificationSite" onclick="modificationSite(this)">Modifier</span> - <input type="submit" value="Supprimer"></td>
+            <td><span class="modificationSite" onclick="modificationSite(this)"><button type="submit" id="boutonRecherche" class="btn btn-warning" value="Supprimer">Modifier</button></span>
+                <button type="submit" id="boutonRecherche" class="btn btn-danger" value="Supprimer" >Supprimer</button></td>
+{#                <input type="submit" value="Supprimer"></td>#}
         </tr>
     {%  endfor %}
         <tr id="derniereLigne">
 
             <td><input type="text" name="nomSite" id="nomSite" placeholder="ville" size="10" value=""></td>
-            <td><input type="submit" value="Ajouter" onclick="ajouterSite()"></td>
-        </tr>
-    </table>
+            <td> <button type="submit" value="Ajouter" onclick="ajouterSite()" class="btn btn-success">Ajouter</td></button>
 
+        </tr>
+        </tbody>
+    </table>
+    </div> </div>
+    </div>
 {% endblock %}

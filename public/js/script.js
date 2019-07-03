@@ -8,14 +8,14 @@
 
             elementInputNomSite.addEventListener('focus', function() {
 
-                elementModificationSite.innerHTML = "<input type='submit' class='enregistrerSite' value='Enregistrer' onclick='enregistrerModifSite'>"
+                elementModificationSite.innerHTML = "<button type='submit' id='enregistrerSite' value='Enregistrer' onclick='enregistrerModifSite' class='btn btn-success'>Enregistrer</button>"
 
         });
 
         elementInputNomSite.addEventListener('blur', function() {
 
             elementInputNomSite.disabled = true;
-            elementModificationSite.innerHTML = "Modifier"
+            elementModificationSite.innerHTML = "<button type='submit' id='enregistrerSite' value='Modifier' onclick='enregistrerModifSite' class='btn btn-warning'>Modifier</button>"
 
         });
 
