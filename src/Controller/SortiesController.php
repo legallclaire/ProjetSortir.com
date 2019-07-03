@@ -58,7 +58,7 @@ class SortiesController extends Controller
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
-
+            //si l'utilisateur clique sur le boutton "enregistrer" :
             if('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
                 $nomLieu = $request->get("select-lieux");
                 $lieuxRepo = $this->getDoctrine()->getRepository(Lieux::class);
@@ -115,7 +115,7 @@ class SortiesController extends Controller
                     "listeVilles" => $listeVilles]);
 
             }
-
+            //si l'utilisateur clique sur le boutton "supprimer" :
             if('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
                 $em->remove($sortie);
                 $em->flush();
@@ -123,7 +123,7 @@ class SortiesController extends Controller
                 $this->addFlash("success", "Suppression effectuée");
                 return $this->redirectToRoute("sorties_home");
             }
-
+            //si l'utilisateur clique sur le boutton "annuler" :
             if('Annuler' === $sortieForm->getClickedButton()->getName()) {
 
                 $em->remove($sortie);
@@ -132,13 +132,7 @@ class SortiesController extends Controller
                 return $this->redirectToRoute("sorties_home");
             }
 
-
-
         }
-
-
-
-
 
         return $this->render('sorties/gererSorties.html.twig', [
             'sortieForm' => $sortieForm->createView(),
@@ -241,8 +235,6 @@ class SortiesController extends Controller
             $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
             $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
         }
-
-
 
 
         return $this->render('sorties/afficherSorties.html.twig', [
@@ -360,6 +352,7 @@ class SortiesController extends Controller
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
+            //si l'utilisateur clique sur le boutton "enregistrer" :
             if('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
                 $em->persist($sortie);
                 $em->flush();
@@ -367,7 +360,7 @@ class SortiesController extends Controller
                 $this->addFlash("success", "Modification enregistrée");
                 return $this->redirectToRoute("sortie_visualiser", ['id' => $sortie->getId()]);
             }
-
+            //si l'utilisateur clique sur le boutton "supprimer" :
             if('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
                 $em->remove($sortie);
                 $em->flush();
@@ -375,7 +368,7 @@ class SortiesController extends Controller
                 $this->addFlash("success", "Suppression effectuée");
                 return $this->redirectToRoute("sorties_home");
             }
-
+            //si l'utilisateur clique sur "annuler" :
             if('Annuler' === $sortieForm->getClickedButton()->getName()) {
 
                 return $this->redirectToRoute("sorties_home");
