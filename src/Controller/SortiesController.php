@@ -353,11 +353,22 @@ class SortiesController extends Controller
 
     }
         /**
-         * @Route("/afficherSortie/{id}", name="sortie_visualiser", requirements={"id"="\d+"})
+         * @Route("/visualiserSortie/{id}", name="sortie_visualiser", requirements={"id"="\d+"})
          */
         public function afficherSortie (Request $request, EntityManagerInterface $em, $id)
         {
-            return $this->render('sorties/visualiserSortie.html.twig');
+
+            $sortie = $em->getRepository(Sorties::class)->find($id);
+
+            if ($sortie == null) {
+
+                throw $this->createNotFoundException("Participant inconnu");
+            }
+
+            return $this->render('sorties/visualiserSortie.html.twig', [
+                "sortie" => $sortie
+
+        ]);
         }
 
 
