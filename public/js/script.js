@@ -264,16 +264,19 @@ Gestion de gererSites :
 
 //ajouter site :
 
+
 $(document).ready(function() {
     $('#boutonAjouter').on('click',(function() {
 
+        $('#nomSite').prop('required',true);
 
-        var site = $('#nomSite').val();
 
 
-        if (site="") {
+        var site = $('#nomSite').val().trim();
 
-            $("#nomSite").notify("Ce champ est obligatoire");
+        if (site==="") {
+
+            $.notify("Ce champ est obligatoire");
 
         }
 
@@ -285,8 +288,8 @@ $(document).ready(function() {
             cache: false,
             success: function (data) {
 
-                $.notify("Le site" +data+ "a bien été ajouté");
-                //TODO : ajouter le site au tableau
+
+                $.notify("Ajout effectué")
             },
             error: function (data) {
                 console.log(data);
@@ -297,6 +300,44 @@ $(document).ready(function() {
     }))
 
 })
+
+//modifier site :
+//
+// $(document).ready(function() {
+//     $('#boutonModifier').on('click',(function() {
+//
+// var site = $('#nomSite').val().trim();
+//
+//         if (site==="") {
+//
+//             $("#nomSite").notify("Ce champ est obligatoire");
+//
+//         }
+//
+//         $.ajax({
+//             type: "POST",
+//             url: "/sortir/public/admin/gererSites/ajoutSite",
+//             dataType: "json",
+//             data: {site: site},
+//             cache: false,
+//             success: function (data) {
+//
+//
+//                 $.notify("Ajout effectué")
+//             },
+//             error: function (data) {
+//                 console.log(data);
+//             }
+//         });
+//
+//
+//     }))
+//
+// })
+
+
+
+
 
 // Filtrer affichage sortie avec checkbox
 

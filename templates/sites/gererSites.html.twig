@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-
+<form>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -43,8 +43,8 @@
     {% for site in sites %}
         <tr class="ligneSite">
             <td class="sites"><input type="text" class="inputNomSite" value="{{ site.getNomSite() }}" disabled></td>
-            <td><span class="modificationSite" onclick="modificationSite(this)"><button type="submit" id="boutonRecherche" class="btn btn-warning" value="Supprimer">Modifier</button></span>
-                <button type="submit" id="boutonRecherche" class="btn btn-danger" value="Supprimer" >Supprimer</button></td>
+            <td><span class="modificationSite" onclick="modificationSite(this)"><button type="submit" id="boutonModifier" class="btn btn-warning" value="Supprimer">Modifier</button></span>
+                <button type="submit" id="boutonSupprimer" class="btn btn-danger" value="Supprimer" >Supprimer</button></td>
 {#                <input type="submit" value="Supprimer"></td>#}
         </tr>
     {%  endfor %}
@@ -58,4 +58,5 @@
     </table>
     </div> </div>
     </div>
+</form>
 {% endblock %}
