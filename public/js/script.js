@@ -270,6 +270,7 @@ $(document).ready(function() {
 
         var site = $('#nomSite').val();
 
+
         if (site="") {
 
             $("#nomSite").notify("Ce champ est obligatoire");
@@ -278,7 +279,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "sortir/public/admin/gererSites/ajoutSite",
+            url: "/sortir/public/admin/gererSites/ajoutSite",
             dataType: "json",
             data: {site: site},
             cache: false,
@@ -288,7 +289,7 @@ $(document).ready(function() {
                 //TODO : ajouter le site au tableau
             },
             error: function (data) {
-                console.log(response);
+                console.log(data);
             }
         });
 
