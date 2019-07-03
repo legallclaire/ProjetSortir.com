@@ -203,16 +203,16 @@ $(document).ready(function() {
         $('#labelLieux').hide();
 
         $('#iconeAjoutLieu').append("<h4> Ajouter un lieu :</h4>");
-        $('h4').append("<label for='ajouterNomLieu' id='labelAjouterNomLieu'>Nom du Lieu</label>");
+        $('h4').after("<label for='ajouterNomLieu' id='labelAjouterNomLieu'>Nom du Lieu :</label>");
         $('#labelAjouterNomLieu').append("<input type='text' id='ajouterNomLieu' name='ajouterNomLieu' required>");
 
-        $('#ajouterNomLieu').append("<label for='ajouterRue' id='labelAjouterRue'>Rue :</label>");
+        $('#ajouterNomLieu').after("<label for='ajouterRue' id='labelAjouterRue'>Rue :</label>");
         $('#labelAjouterRue').append("<input type='text' id='ajouterRue' name='ajouterRue' required>");
 
-        $('#ajouterRue').append("<label for='ajouterLatitude' id='labelAjouterLatitude'>latitude :</label>");
+        $('#ajouterRue').after("<label for='ajouterLatitude' id='labelAjouterLatitude'>latitude :</label>");
         $('#labelAjouterLatitude').append("<input type='text' id='ajouterLatitude' name='ajouterLatitude'>");
 
-        $('#ajouterLatitude').append("<label for='ajouterLongitude' id='labelAjouterLongitude'>latitude :</label>");
+        $('#ajouterLatitude').after("<label for='ajouterLongitude' id='labelAjouterLongitude'>longitude :</label>");
         $('#labelAjouterLongitude').append("<input type='text' id='ajouterLongitude' name='ajouterLongitude'>");
 
 
@@ -232,7 +232,7 @@ $(document).ready(function() {
             success: function (data) {
 
 
-                    $('h4').append("<p>Votre lieu a été ajouté</p>");
+                $.notify("Le lieu" +data['nom']+ "a bien été ajouté");
 
 
             },

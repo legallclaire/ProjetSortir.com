@@ -188,7 +188,17 @@ class SortiesController extends Controller
             $em->persist($lieu);
             $em->flush();
 
-            $json_data = $lieu;
+
+            $tableau = array(
+                'id' => $lieu->getId(),
+                'nom' => $lieu->getNomlieu(),
+                'rue'=> $lieu->getRue(),
+                'latitude' => $lieu->getLatitude(),
+                'longitude' => $lieu->getLongitude()
+
+            );
+
+            $json_data[] = $tableau;
 
             return new JsonResponse($json_data);
 
