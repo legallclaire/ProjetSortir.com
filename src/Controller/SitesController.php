@@ -46,16 +46,54 @@ class SitesController extends Controller
 
         $searchTerm = $request->query->get('search');
 
-        $search = $em->getRepository('App:Sites')->findOneBy(['nom_site' => $searchTerm]);
+        $search = $em->getRepository('App:Sites')->findBy(['nom_site' => $searchTerm]);
 
-        $content = $this->renderView('sites/gererSites.html.twig', [
-            'results' => $search
-        ]);
+//        $content = $this->renderView('sites/gererSites.html.twig', [
+//            'results' => $search
+//        ]);
 
 
         $response= new JsonResponse();
-        $response->setData(array('resultats'=>$content));
+        $response->setData(array('resultats'=>$search));
         return $response;
+
+    }
+
+    /**
+     * @Route("/gererSites/ajoutSite", name="sites_ajouterSite")
+     */
+    public function ajouterSite(EntityManagerInterface $em, Request $request)
+    {
+
+        if (!$this->isGranted("ROLE_ADMIN")) {
+            throw new AccessDeniedException("Accès interdit !");
+        }
+
+        if($request->request->get("site")){
+
+            $nomSite=$request->request->get("site");
+
+            $site = new Sites();
+            $site->setNomSite($nomSite);
+
+            $em->persist($site);
+            $em->flush();
+
+
+            $json_data = $nomSite;
+
+            return new JsonResponse($json_data);
+
+        }
+
+        $sitesRepo = $this->getDoctrine()->getRepository(Sites::class);
+        $sites=$sitesRepo->findAll();
+        if ($sites==null){
+            throw $this->createNotFoundException("Aucun site");
+        }
+        return $this->render('sites/gererSites.html.twig', [
+            'sites' => $sites]);
+
 
     }
 

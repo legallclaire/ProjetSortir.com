@@ -7,11 +7,9 @@
 {% block main %}
     <h1>Gérer les sites</h1>
     <h4>Filtrer les sites :</h4>
-    <form role="search" method="post" action="{{ path("admin_sites_rechercher") }}">
     <label for="searchSites">Le nom contient :</label>
 <input type="text" name="search" id="searchSites" placeholder="rechercher">
-        <button type="submit">Rechercher</button>
-    </form>
+        <input type="button" id="boutonRecherche">Rechercher</input>
     <table>
         <tr>
             <th>Ville</th>
@@ -29,28 +27,5 @@
             <td><input type="submit" value="Ajouter" onclick="ajouterSite()"></td>
         </tr>
     </table>
-
-
-    <script>
-
-        $.ajax({
-            type: "GET",
-            url: "{{ path('admin_sites_rechercher') }}",
-            dataType: "json",
-            data: {search: input},
-            cache: false,
-            success: function (response) {
-                $('.sites').html(response.classifiedList);
-                $('.inputNomSite').hide();
-                console.log(response);
-            },
-            error: function (response) {
-                console.log(response);
-            }
-        });
-
-
-    </script>
-
 
 {% endblock %}

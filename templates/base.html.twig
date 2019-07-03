@@ -16,12 +16,20 @@
 
 <body>
 {% block body %}
+
     <div class="container-fluid bg-light">
         <header>
             {% include("inc/_nav.html.twig") %}
         </header>
 
         <main>
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert-{{ label }}">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endfor %}
             {% block main %}{% endblock %}
 
         </main>
@@ -32,9 +40,12 @@
         </div>
     {% endblock %}
     {% block javascripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             <script src={{ asset('js/bootstrap.bundle.min.js')}}></script>
             <script src={{ asset('js/bootstrap.min.js')}}></script>
+            <script src={{ asset('js/notify.js') }}></script>
             <script src={{ asset('js/script.js') }}></script>
+
         {% endblock %}
     </body>
 </html>

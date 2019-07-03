@@ -51,17 +51,18 @@ class LieuxRepository extends ServiceEntityRepository
     // /**
     //  * @return Lieux[] Returns an array of Lieux objects
     //  */
-    public function findByVille($ville)
+    public function findByVille($id)
     {
-        return $this->createQueryBuilder('l')
-            ->addSelect('v')
-            ->leftJoin('l.ville', 'v')
-            ->setParameter('val', $ville)
-            ->andWhere('l.ville = :val')
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+
+        $qb=$this->createQueryBuilder('l')
+                    ->addSelect('v')
+                    ->leftJoin('l.ville', 'v')
+                    ->where('v.id =:id')
+                    ->setParameter('id', $id);
+            $query=$qb->getQuery();
+            $result=$query->getResult();
+
+            return $result;
+
     }
 }
