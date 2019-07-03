@@ -63,7 +63,7 @@ function modificationVille(elementModificationVille) {
 
     elementInputNomVille.addEventListener('focus', function () {
 
-        elementModificationVille.innerHTML = "<input type='submit' class= 'enregistrerVille' value='Enregistrer' onclick='enregistrerModifVille'>"
+        elementModificationVille.innerHTML = "<input type='submit' class= 'enregistrerVille btn btn-info' value='Enregistrer' onclick='enregistrerModifVille'>"
 
     });
 
@@ -77,7 +77,7 @@ function modificationVille(elementModificationVille) {
 
     elementInputCodePostalVille.addEventListener('focus', function () {
 
-        elementModificationVille.innerHTML = "<input type='submit' class='enregistrerVille' value='Enregistrer' onclick='enregistrerModifVille'>"
+        elementModificationVille.innerHTML = "<input type='submit' class='enregistrerVille btn btn-info' value='Enregistrer' onclick='enregistrerModifVille'>"
 
     });
 

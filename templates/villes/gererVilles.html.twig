@@ -10,26 +10,28 @@
     <label for="searchVilles">Le nom contient :</label>
     <input type="search" name="searchVilles" id="searchVilles">
     <input type="submit" value="rechercher">
-    <table>
-        <tr>
-            <th>Ville</th>
-            <th>Code Postal</th>
-            <th>Actions</th>
-        </tr>
-        {% for ville in villes %}
-            <tr class="ligneVille">
-
-                <td><input type="text" class="inputNomVille" value="{{ ville.getNomVille() }}" disabled></td>
-                <td><input type="number" class="inputCodePostalVille" value="{{ ville.getCodePostal() }}" disabled></td>
-                <td><span class="modificationVille" onclick="modificationVille(this)">Modifier</span> - <input type="submit" value="Supprimer"></td>
+    <table id="" class="table  mt-5">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Ville</th>
+                <th scope="col">Code Postal</th>
+                <th scope="col">Actions</th>
             </tr>
-        {%  endfor %}
-        <tr>
-            <td><input type="text" name="nomVille" id="nomVille" placeholder="ville" size="10"><td>
-            <td><input type="number" name="codePostal" id="codePostal" min="10000" max="99999" step="1" placeholder="code postal" size="5"></td>
-            <td><input type="submit" value="Ajouter"></td>
-        </tr>
-
+        </thead>
+        <tbody>
+            {% for ville in villes %}
+                <tr class="ligneVille" scope="row">
+                    <td><input type="text" class="inputNomVille form-control col-8" value="{{ ville.getNomVille() }}" disabled /></td>
+                    <td><input type="text" class="inputCodePostalVille form-control col-8" value="{{ ville.getCodePostal() }}" disabled></td>
+                    <td><span class="modificationVille btn btn-info" onclick="modificationVille(this)">Modifier</span> - <input class="btn btn-danger" type="submit" value="Supprimer"></td>
+                </tr>
+            {%  endfor %}
+            <tr scope="row">
+                <td><input class="form-control col-8" type="text" name="nomVille" id="nomVille" placeholder="ville" size="10"><td>
+                <td scope="col"><input class="form-control col-8" type="text" name="codePostal" id="codePostalVille" min="10000" max="99999" step="1" placeholder="code postal" size="5"></td>
+                <td scope="col"><input class="btn btn-info" type="submit" value="Ajouter"></td>
+            </tr>
+        </tbody>
     </table>
 
 {% endblock %}
