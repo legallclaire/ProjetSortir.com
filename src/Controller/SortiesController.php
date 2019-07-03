@@ -56,10 +56,6 @@ class SortiesController extends Controller
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-//            $nomSite= $request->get("villeOrga");
-//            $sitesRepo = $this->getDoctrine()->getRepository(Sites::class);
-//            $site=$sitesRepo->findOneBy(["nom_site"=>$nomSite]);
-//            $sortie->setSite($site);
 
             $nomLieu = $request->get("select-lieux");
             $lieuxRepo= $this->getDoctrine()->getRepository(Lieux::class);
