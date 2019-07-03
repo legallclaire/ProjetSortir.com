@@ -203,25 +203,39 @@ $(document).ready(function() {
         $('#labelLieux').hide();
 
         $('#iconeAjoutLieu').append("<h4> Ajouter un lieu :</h4>");
-        $('h4').after("<label for='ajouterNomLieu' id='labelAjouterNomLieu'>Nom du Lieu :</label>");
-        $('#labelAjouterNomLieu').append("<input type='text' id='ajouterNomLieu' name='ajouterNomLieu' required>");
+        $('h4').after("<label for='ajouterNomLieu' id='labelAjouterNomLieu' class='col-form-label'>Nom du Lieu :</label>");
+        $('#labelAjouterNomLieu').append("<input type='text' id='ajouterNomLieu' name='ajouterNomLieu' class='form-control' required>");
 
-        $('#ajouterNomLieu').after("<label for='ajouterRue' id='labelAjouterRue'>Rue :</label>");
-        $('#labelAjouterRue').append("<input type='text' id='ajouterRue' name='ajouterRue' required>");
+        $('#ajouterNomLieu').after("<label for='ajouterRue' id='labelAjouterRue' class='col-form-label'>Rue :</label>");
+        $('#labelAjouterRue').append("<input type='text' id='ajouterRue' name='ajouterRue' class='form-control' required>");
 
-        $('#ajouterRue').after("<label for='ajouterLatitude' id='labelAjouterLatitude'>latitude :</label>");
-        $('#labelAjouterLatitude').append("<input type='text' id='ajouterLatitude' name='ajouterLatitude'>");
+        $('#ajouterRue').after("<label for='ajouterLatitude' id='labelAjouterLatitude' class='col-form-label'>latitude :</label>");
+        $('#labelAjouterLatitude').append("<input type='text' id='ajouterLatitude' name='ajouterLatitude' class='form-control'>");
 
-        $('#ajouterLatitude').after("<label for='ajouterLongitude' id='labelAjouterLongitude'>longitude :</label>");
-        $('#labelAjouterLongitude').append("<input type='text' id='ajouterLongitude' name='ajouterLongitude'>");
+        $('#ajouterLatitude').after("<label for='ajouterLongitude' id='labelAjouterLongitude' class='col-form-label'>longitude :</label>");
+        $('#labelAjouterLongitude').append("<input type='text' id='ajouterLongitude' name='ajouterLongitude' class='form-control'>");
 
 
         var idVille =  $('#select-villes option:selected').attr('id');
-        var nomLieu = $('#ajouterNomLieu').value();
-        var rueLieu = $('#ajouterRue').value();
-        var latitudeLieu = $('#ajouterLatitude').value();
-        var longitudeLieu = $('#ajouterLongitude').value();
+        var nomLieu = $('#ajouterNomLieu').val();
+        var rueLieu = $('#ajouterRue').val();
+        var latitudeLieu = $('#ajouterLatitude').val();
+        var longitudeLieu = $('#ajouterLongitude').val();
 
+        // $('#iconeAjoutLieu').on('click',(function() {
+        //
+        //     $('#iconeAjoutLieu').hide();
+        //     $('h4').hide();
+        //     $('#labelAjouterNomLieu').hide();
+        //     $('#ajouterNomLieu').hide();
+        //     $('#labelAjouterRue').hide();
+        //     $('#ajouterRue').hide();
+        //     $('#labeljouterLatitude').hide();
+        //     $('#ajouterLatitude').hide();
+        //     $('#labeljouterLongitude').hide();
+        //     $('#ajouterLongitude').hide();
+        //
+        // }))
 
         $.ajax({
             type: "POST",
@@ -236,8 +250,8 @@ $(document).ready(function() {
 
 
             },
-            error: function (response) {
-            console.log(response);
+            error: function (data) {
+                $.notify("Echec de l'ajout");
         }
     });
 }))

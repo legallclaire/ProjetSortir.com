@@ -2,18 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\Villes;
+
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormEvents;
+
 use Doctrine\ORM\EntityManagerInterface;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -32,20 +29,29 @@ class SortieType extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Nom de la sortie'
             ])
-            ->add('datedebut', DateType::class, [
+            ->add('datedebut', DateTimeType::class, [
                 'label' => 'Date et heure de la sortie',
                 'years' => range(2019, 2029),
+                'input' => 'datetime',
+                'format' => 'dd/MM/yyyy HH:mm',
+                'data'=> new \DateTime()
             ])
-            ->add('dateclosure', DateType::class, [
+            ->add('dateclosure', DateTimeType::class, [
                 'label' => 'Date limite d\'inscription',
                 'years' => range(2019, 2029),
+                'input' => 'datetime',
+                'format' => 'dd/MM/yyyy HH:mm',
+                'data' => new \DateTime()
             ])
             ->add('nbinscriptionsmax', TextType::class, [
                 'label' => 'Nombre de places'
             ])
-            ->add('datefin', DateType::class, [
+            ->add('datefin', DateTimeType::class, [
                 'label' => 'Date de fin de la sortie',
                 'years' => range(2019, 2029),
+                'input' => 'datetime',
+                'format' => 'dd/MM/yyyy HH:mm',
+                'data' => new \DateTime()
             ])
             ->add('descriptioninfos', TextareaType::class, [
                 'label' => 'Description et infos'

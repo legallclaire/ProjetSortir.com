@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +33,7 @@ class Sorties
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Expression("value<=this.getDatedebut()")
      */
     private $dateclosure;
 
@@ -48,6 +50,7 @@ class Sorties
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\Expression("value>=this.getDatedebut()")
      */
     private $datefin;
 
