@@ -1,23 +1,12 @@
-html {
-    position: relative;
-    min-height: 100%;
-}
-body {
 
-    margin-bottom: 60px; /* Margin bottom by footer height */
 
+body,html {
+    height: 100%;
 }
 
 main{
-    height:100%;
+    /*height:100%;*/
     padding: 25px;
-}
-
-.footer{
-    color: white;
-    text-align: center;
-    background-color: #222222;
-    line-height: 60px; /* Vertically center the text there */
 }
 
 
@@ -43,27 +32,27 @@ h1{text-align: center;
 }
 
 
-html {
-    position: relative;
-    min-height: 100%;
-}
-body {
-    margin-bottom: 60px; /* Margin bottom by footer height */
-}
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100px; /* Set the fixed height of the footer here */
-    line-height: 100px; /* Vertically center the text there */
-    background-color: #343a40;
-}
-
-
 .container {
     width: auto;
-    max-width: 680px;
+
     padding: 0 15px;
 }
 
 
+.navbar-brand{font-family: 'Archivo Black', sans-serif;}
+
+
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    color: #FFFFFF;
+    text-align: center;
+}
+.container-fluid {
+    height: 100%;
+    min-height: 100%;
+}
