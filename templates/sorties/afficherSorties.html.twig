@@ -98,7 +98,7 @@
                     <td>{{ recherche.nom }}</td>
                     <td>{{ recherche.datedebut.format("d-M-Y") }}</td>
                     <td>{{ recherche.dateclosure.format("d-M-Y") }}</td>
-                    <td>nbInscrits/{{ recherche.nbinscriptionsmax }}</td>
+                    <td>{{ recherche.listeParticipants }}/{{ recherche.nbinscriptionsmax }}</td>
                     <td>{{ recherche.etat.libelle }}</td>
                     <td></td>
                     <td>
@@ -120,7 +120,7 @@
                     <td>{{ sortie.nom }}</td>
                     <td>{{ sortie.datedebut.format("d-M-Y") }}</td>
                     <td>{{ sortie.dateclosure.format("d-M-Y") }}</td>
-                    <td>nbInscrits/{{ sortie.nbinscriptionsmax }}</td>
+                    <td>{{ sortie.participants|length }}/{{ sortie.nbinscriptionsmax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
                     <td></td>
                     <td>
