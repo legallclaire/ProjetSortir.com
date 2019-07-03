@@ -59,4 +59,42 @@ class SitesController extends Controller
 
     }
 
+    /**
+     * @Route("/gererSites/ajoutSite", name="sites_ajouterSite")
+     */
+    public function ajouterSite(EntityManagerInterface $em, Request $request)
+    {
+
+        if (!$this->isGranted("ROLE_ADMIN")) {
+            throw new AccessDeniedException("Accès interdit !");
+        }
+
+        if($request->request->get("site")){
+
+            $nomSite=$request->request->get("site");
+
+            $site = new Sites();
+            $site->setNomSite($nomSite);
+
+            $em->persist($site);
+            $em->flush();
+
+
+            $json_data = $nomSite;
+
+            return new JsonResponse($json_data);
+
+        }
+
+        $sitesRepo = $this->getDoctrine()->getRepository(Sites::class);
+        $sites=$sitesRepo->findAll();
+        if ($sites==null){
+            throw $this->createNotFoundException("Aucun site");
+        }
+        return $this->render('sites/gererSites.html.twig', [
+            'sites' => $sites]);
+
+
+    }
+
 }

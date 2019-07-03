@@ -245,31 +245,42 @@ $(document).ready(function() {
 })
 
 
-
 /*
 Gestion de gererSites :
  */
 
-//requête de recherche de sites :
-// $(document).ready(function(){
-//     $('#boutonRecherche').on('click', rechercherSites());
-// }
-//
-//     function rechercherSites() {
-//         $.ajax({
-//             type: "GET",
-//             url: "/admin/gererSites/recherche",
-//             dataType: "json",
-//             data: {search: $("#searchSites").val()},
-//             cache: false,
-//             success: function (response) {
-//                 // $('.sites').html(response.classifiedList);
-//                 // $('.inputNomSite').hide();
-//                 console.log(response);
-//             },
-//             error: function (response) {
-//                 console.log(response);
-//             }
-//         });
-//
-//     }
+
+//ajouter site :
+
+$(document).ready(function() {
+    $('#boutonAjouter').on('click',(function() {
+
+
+        var site = $('#nomSite').val().trim();
+
+        if (site="") {
+
+            $("#nomSite").notify("Ce champ est obligatoire");
+
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "sortir/public/admin/gererSites/ajoutSite",
+            dataType: "json",
+            data: {site: site},
+            cache: false,
+            success: function (data) {
+
+                $.notify("Le site" +data+ "a bien été ajouté");
+                //TODO : ajouter le site au tableau
+            },
+            error: function (data) {
+                console.log(response);
+            }
+        });
+
+
+    }))
+
+})

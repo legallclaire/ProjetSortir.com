@@ -8,6 +8,7 @@
     <h1>Créer une sortie</h1>
     <div class="d-flex justify-content-around">
         <div class="col-3">
+             {% if sortieForm is defined %}
             {{ form_start(sortieForm) }}
             {{ form_row(sortieForm.nom) }}
             {{ form_row(sortieForm.datedebut) }}
@@ -15,6 +16,7 @@
             {{ form_row(sortieForm.nbinscriptionsmax) }}
             {{ form_row(sortieForm.datefin) }}
             {{ form_row(sortieForm.descriptioninfos) }}
+             {% endif %}
         </div>
         <div class="col-3">
             <div class="form-group">
@@ -25,9 +27,11 @@
                 <label for="villes">Ville</label>
                 <select class="custom-select" id="select-villes">
                     <option value="0">-- Choisir une ville --</option>
+                    {% if listeVilles is defined %}
                     {% for ville in listeVilles %}
                         <option id="{{ ville.id }}">{{ ville.getNomVille() }}</option>
                     {% endfor %}
+                    {% endif %}
                 </select>
             </div>
             <div class="form-group mb-3">
@@ -63,6 +67,8 @@
         <button type="submit" class="btn btn-lg btn-info mr-3">Publier la sortie</button>
         <button type="submit" class="btn btn-lg btn-info mr-3">Annuler</button>
     </div>
+    {% if sortieForm is defined %}
         {{ form_end(sortieForm) }}
+    {% endif %}
 
 {% endblock %}

@@ -198,6 +198,7 @@ class SortiesController extends Controller
         return $this->render('sorties/gererSorties.html.twig');
     }
 
+
 }
 
 
