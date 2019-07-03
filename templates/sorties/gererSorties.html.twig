@@ -21,7 +21,9 @@
         <div class="col-3">
             <div class="form-group">
                 <label for="villeOrga" class="col-form-label">Ville organisatrice</label>
-                <input type="text" class="form-control" id="villeOrga" value="Mettre la valeur du site du participant">
+                {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                <input type="text" class="form-control" id="villeOrga" name="villeOrga" value="{{ user.site.getNomSite() }}" disabled>
+                {% endif %}
             </div>
             <div class="form-group mb-3">
                 <label for="villes">Ville</label>
@@ -40,7 +42,7 @@
                     <a href="{{  path('sorties_ajouterLieu')}}"><img src="{{ asset('image/add.png') }}" alt="iconeLieu" height="40px" width="40px" id="iconeLieu">
                     </a>
                 </div>
-                <select id="select-lieux" class="custom-select" data-route="{{ path("sorties_home") }}">
+                <select id="select-lieux" name="select-lieux" class="custom-select" data-route="{{ path("sorties_home") }}">
                     <option value="0">-- Choisir un lieu --</option>
                 </select>
             </div>

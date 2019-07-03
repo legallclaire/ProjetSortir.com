@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etats;
 use App\Entity\Lieux;
 use App\Entity\Sites;
 use App\Entity\Sorties;
@@ -41,8 +42,13 @@ class SortiesController extends Controller
     {
 
         $sortie = new Sorties();
-//        $participant = $this->getUser();
-//        $sortie->setNom($participant->getUser());
+        $user=$this->getUser();
+        $sortie->setOrganisateur($user);
+
+        $site = $user->getSite();
+        $sortie->setSite($site);
+
+
         $villesRepo = $this->getDoctrine()->getRepository(Villes::class);
         $listeVilles = $villesRepo->findAll();
 
@@ -50,18 +56,66 @@ class SortiesController extends Controller
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            $sortie->setDatedebut(new \DateTime());
+
+            $nomLieu = $request->get("select-lieux");
+            $lieuxRepo= $this->getDoctrine()->getRepository(Lieux::class);
+            $lieu=$lieuxRepo->findOneBy(["nom_lieu"=>$nomLieu]);
+
+
+            $sortie->setLieu($lieu);
+
+            //début de gestion des états :
+
+            $etatRepo= $this->getDoctrine()->getRepository(Etats::class);
+            $etatCree = $etatRepo->find(1);
+            $etatOuvert = $etatRepo->find(2);
+            $etatCloture = $etatRepo->find(3);
+            $etatActiviteEnCours = $etatRepo->find(4);
+            $etatPasse = $etatRepo->find(5);
+            $etatAnnule = $etatRepo->find(6);
+
+
+            $sortie->setEtat($etatCree);
+
+            $dateDuJour = new \DateTime('now');
+            $dateDebutSortie = $sortie->getDatedebut();
+            $dateCloture = $sortie->getDateclosure();
+            $dateFinSortie = $sortie->getDatefin();
+
+            if ($dateCloture>$dateDuJour) {
+
+                $sortie->setEtat($etatOuvert);
+
+            } else {
+
+                $sortie->setEtat($etatCloture);
+
+            }
+
+            if ($dateDebutSortie=$dateDuJour AND $dateFinSortie>=$dateDuJour){
+
+                $sortie->setEtat($etatActiviteEnCours);
+            }
+
+            if($dateFinSortie<$dateDuJour){
+
+                $sortie->setEtat($etatPasse);
+            }
+
+            //fin de gestion des états
+
             $em->persist($sortie);
             $em->flush();
             $this->addFlash("success", "Sortie créée !");
             return $this->redirectToRoute("sorties_home", [
                 "id" => $sortie->getId(),
-                "listeVilles => $listeVilles"]);
+                "listeVilles" => $listeVilles]);
         }
 
         return $this->render('sorties/gererSorties.html.twig', [
             'sortieForm' => $sortieForm->createView(),
             'listeVilles' => $listeVilles,
+            'user'=>$user,
         ]);
     }
 
@@ -73,16 +127,15 @@ class SortiesController extends Controller
 
     public function gererSortiesVilles(EntityManagerInterface $em, Request $request)
     {
-        if($request->request->get("id_ville")) {
+        if ($request->request->get("id_ville")) {
 
             $id = $request->request->get("id_ville");
 
-            $villeRepo= $this->getDoctrine()->getRepository(Villes::class);
+            $villeRepo = $this->getDoctrine()->getRepository(Villes::class);
             $ville = $villeRepo->find($id);
 
             $lieuxRepo = $this->getDoctrine()->getRepository(Lieux::class);
             $listeLieux = $lieuxRepo->findByVille($id);
-
 
             $json_data = array();
             $boucle = 0;
@@ -91,7 +144,7 @@ class SortiesController extends Controller
                 $tableau = array(
                     'id' => $lieu->getId(),
                     'nom' => $lieu->getNomlieu(),
-                    'rue'=> $lieu->getRue(),
+                    'rue' => $lieu->getRue(),
                     'latitude' => $lieu->getLatitude(),
                     'longitude' => $lieu->getLongitude(),
                     'codePostal' => $ville->getCodePostal()
@@ -113,7 +166,7 @@ class SortiesController extends Controller
 
     public function gererSortiesLieux(EntityManagerInterface $em, Request $request)
     {
-        if($request->request->get("id_lieu")) {
+        if ($request->request->get("id_lieu")) {
 
             $id = $request->request->get("id_lieu");
 
@@ -123,7 +176,7 @@ class SortiesController extends Controller
             $tableau = array(
                 'id' => $lieu->getId(),
                 'nom' => $lieu->getNomlieu(),
-                'rue'=> $lieu->getRue(),
+                'rue' => $lieu->getRue(),
                 'latitude' => $lieu->getLatitude(),
                 'longitude' => $lieu->getLongitude()
 
@@ -144,9 +197,26 @@ class SortiesController extends Controller
     {
         $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
         $listeSites = $siteRepo->findAll();
+
+        // Récupération de la liste des sortie selon le site et/ou le nom de sortie et/ou l'organisateur sélectionné(s)
+        $site = $request->request->get('selectSites');
         $mot = $request->request->get('mot');
-        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
-        $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
+
+
+        if ($site !== "0" && !empty($mot)){
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortiesRecherchees = $sortieRepo->findSortieFiltres($site, $mot);
+        }elseif($site !== "0"){
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortiesRecherchees = $sortieRepo->findSortieBySites($site);
+        }else {
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortiesRecherchees = $sortieRepo->findSortieRecherche($mot);
+        }
+
+
+
+
         return $this->render('sorties/afficherSorties.html.twig', [
             'listeRecherche' => $sortiesRecherchees,
             'listeSites' => $listeSites,
@@ -160,15 +230,15 @@ class SortiesController extends Controller
     public function ajouterLieu(Request $request, EntityManagerInterface $em)
     {
 
-        if($request->request->get("idVille")) {
+        if ($request->request->get("idVille")) {
 
             $idVille = $request->request->get("idVille");
             $nomLieu = $request->request->get("nomLieu");
-            $rueLieu =$request->request->get("rueLieu");
-            $latitudeLieu =$request->request->get("latitudeLieu");
-            $longitudeLieu =$request->request->get("longitudeLieu");
+            $rueLieu = $request->request->get("rueLieu");
+            $latitudeLieu = $request->request->get("latitudeLieu");
+            $longitudeLieu = $request->request->get("longitudeLieu");
 
-            $villeRepo= $this->getDoctrine()->getRepository(Villes::class);
+            $villeRepo = $this->getDoctrine()->getRepository(Villes::class);
             $ville = $villeRepo->find($idVille);
 
             //ajout du lieu en BDD :
@@ -179,11 +249,13 @@ class SortiesController extends Controller
             $lieu->setVille($ville);
             $lieu->setRue($rueLieu);
 
-            if ($latitudeLieu !=null){
-            $lieu->setLatitude($latitudeLieu);}
+            if ($latitudeLieu != null) {
+                $lieu->setLatitude($latitudeLieu);
+            }
 
-            if ($longitudeLieu !=null){
-            $lieu->setLongitude($longitudeLieu);}
+            if ($longitudeLieu != null) {
+                $lieu->setLongitude($longitudeLieu);
+            }
 
             $em->persist($lieu);
             $em->flush();
@@ -192,7 +264,7 @@ class SortiesController extends Controller
             $tableau = array(
                 'id' => $lieu->getId(),
                 'nom' => $lieu->getNomlieu(),
-                'rue'=> $lieu->getRue(),
+                'rue' => $lieu->getRue(),
                 'latitude' => $lieu->getLatitude(),
                 'longitude' => $lieu->getLongitude()
 
@@ -210,5 +282,3 @@ class SortiesController extends Controller
 
 
 }
-
-
