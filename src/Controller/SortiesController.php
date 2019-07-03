@@ -10,6 +10,7 @@ use App\Entity\Villes;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -279,6 +280,89 @@ class SortiesController extends Controller
 
         return $this->render('sorties/gererSorties.html.twig');
     }
+
+
+    /**
+     * @Route("/modifierSortie/{id}", name="sorties_modifier", requirements={"id"="\d+"})
+     */
+    public function modifierSortie(Request $request, EntityManagerInterface $em, $id)
+    {
+
+        $user=$this->getUser();
+        $sortie = $em->getRepository(Sorties::class)->find($id);
+        $organisateur= $sortie->getOrganisateur();
+
+        //on vérifie que l'utilisateur est bien l'organisateur de la sortie sinon il ne peut pas la modifier :
+
+        if ($user!== $organisateur) {
+            throw new AccessDeniedException("Accès interdit !");
+        }
+
+
+        if ($sortie == null) {
+
+            throw $this->createNotFoundException("Participant inconnu");
+        }
+
+        //on récupère la liste des villes :
+
+        $villesRepo = $this->getDoctrine()->getRepository(Villes::class);
+        $listeVilles = $villesRepo->findAll();
+
+        //on récupère la liste des lieux :
+
+        $lieuRepo = $this->getDoctrine()->getRepository(Lieux::class);
+        $listeLieux = $lieuRepo->findAll();
+
+        $sortie->setNom($sortie->getNom());
+        $sortie->setDatedebut($sortie->getDatedebut());
+        $sortie->setDateclosure($sortie->getDateclosure());
+        $sortie->setNbinscriptionsmax($sortie->getNbinscriptionsmax());
+
+        if ($sortie->getDescriptioninfos() !== null) {
+            $sortie->setDescriptioninfos($sortie->getDescriptioninfos());
+        }
+
+        if ($sortie->getDatefin() !== null) {
+            $sortie->setDatefin($sortie->getDatefin());
+        }
+        $sortie->setLieu($sortie->getLieu());
+
+
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash("success", "Modification enregistrée");
+            return $this->redirectToRoute("sortie_visualiser", ['id' => $sortie->getId()]);
+
+
+        }
+
+        return $this->render('sorties/modifierSortie.html.twig', [
+            "sortieForm" => $sortieForm->createView(),
+            "sortie" => $sortie,
+            "listeVilles" => $listeVilles,
+            "listeLieux" => $listeLieux,
+            "user" => $user
+        ]);
+
+    }
+        /**
+         * @Route("/afficherSortie/{id}", name="sortie_visualiser", requirements={"id"="\d+"})
+         */
+        public function afficherSortie (Request $request, EntityManagerInterface $em, $id)
+        {
+            return $this->render('sorties/visualiserSortie.html.twig');
+        }
+
+
+
+
 
 
 }
