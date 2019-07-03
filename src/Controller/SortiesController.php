@@ -56,10 +56,6 @@ class SortiesController extends Controller
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-//            $nomSite= $request->get("villeOrga");
-//            $sitesRepo = $this->getDoctrine()->getRepository(Sites::class);
-//            $site=$sitesRepo->findOneBy(["nom_site"=>$nomSite]);
-//            $sortie->setSite($site);
 
             $nomLieu = $request->get("select-lieux");
             $lieuxRepo= $this->getDoctrine()->getRepository(Lieux::class);
@@ -82,9 +78,9 @@ class SortiesController extends Controller
             $sortie->setEtat($etatCree);
 
             $dateDuJour = new \DateTime('now');
-            $dateDebutSortie = $sortie.getDatedebut();
-            $dateCloture = $sortie.getDateclosure();
-            $dateFinSortie = $sortie.getDatefin();
+            $dateDebutSortie = $sortie->getDatedebut();
+            $dateCloture = $sortie->getDateclosure();
+            $dateFinSortie = $sortie->getDatefin();
 
             if ($dateCloture>$dateDuJour) {
 
@@ -106,18 +102,14 @@ class SortiesController extends Controller
                 $sortie->setEtat($etatPasse);
             }
 
-
-
             //fin de gestion des états
-
-
 
             $em->persist($sortie);
             $em->flush();
             $this->addFlash("success", "Sortie créée !");
             return $this->redirectToRoute("sorties_home", [
                 "id" => $sortie->getId(),
-                "listeVilles => $listeVilles"]);
+                "listeVilles" => $listeVilles]);
         }
 
         return $this->render('sorties/gererSorties.html.twig', [
@@ -144,7 +136,6 @@ class SortiesController extends Controller
 
             $lieuxRepo = $this->getDoctrine()->getRepository(Lieux::class);
             $listeLieux = $lieuxRepo->findByVille($id);
-
 
             $json_data = array();
             $boucle = 0;
