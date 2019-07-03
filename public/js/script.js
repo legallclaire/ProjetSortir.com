@@ -324,4 +324,15 @@ function checkboxFiltre() {
         }
     }
 
+    if (checkBoxUser.checked === false) {
+        for (i=0; i<tr.length; i++){
+            td = tr[i].getElementsByTagName("td")[6];
+            if (td){
+                tr[i].style.display = "";
+
+            }
+
+        }
+    }
+
 }
