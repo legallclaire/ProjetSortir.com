@@ -22,7 +22,7 @@
             <div class="form-group">
                 <label for="villeOrga" class="col-form-label">Ville organisatrice</label>
                 {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-                <input type="text" class="form-control" id="villeOrga" name="villeOrga" value="{{ user.site.getNomSite() }}" disabled>
+                <input type="text" class="form-control" id="villeOrga" name="villeOrga" value="{{ app.user.site.getNomSite() }}" disabled>
                 {% endif %}
             </div>
             <div class="form-group mb-3">
@@ -71,9 +71,7 @@
             {{ form_row(sortieForm.SupprimerLaSortie) }}
             {{ form_row(sortieForm.Annuler) }}
         {% endif %}
-{#        <button type="submit" class="btn btn-lg btn-info mr-3">Enregistrer</button>#}
-{#        <button type="submit" class="btn btn-lg btn-info mr-3">Publier la sortie</button>#}
-{#        <button type="submit" class="btn btn-lg btn-info mr-3">Annuler</button>#}
+
     </div>
     {% if sortieForm is defined %}
         {{ form_end(sortieForm) }}
