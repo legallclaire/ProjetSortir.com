@@ -443,28 +443,31 @@ $(document).ready(function() {
     $('input[name=boutonAnnuler]').click(function() {
 
 
-        var idSortie = $(this).attr('id');
+        if (confirm('Etes-vous sûr de vouloir supprimer cette sortie ?')) {
 
 
-        $.ajax({
-            type: "POST",
-            url: "/sortir/public/annulation",
-            dataType: "json",
-            data: {id: idSortie},
-            cache: false,
-            success: function (data) {
+            var idSortie = $(this).attr('id');
 
 
-                $.notify("modification effectué")
-            },
-            error: function (data) {
-                console.log(data);
-            }
+            $.ajax({
+                type: "POST",
+                url: "/sortir/public/annulation",
+                dataType: "json",
+                data: {id: idSortie},
+                cache: false,
+                success: function (data) {
 
 
-        });
+                    $.notify("modification effectué")
+                },
+                error: function (data) {
+                    console.log(data);
+                }
 
 
+            });
+
+        }
     })
 
 })
