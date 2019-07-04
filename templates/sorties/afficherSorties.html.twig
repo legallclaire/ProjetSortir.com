@@ -98,7 +98,7 @@
                     <td>{{ recherche.dateclosure.format("d-M-Y") }}</td>
                     <td>{{ recherche.participants|length }}/{{ recherche.nbinscriptionsmax }}</td>
                     <td>{{ recherche.etat.libelle }}</td>
-                    <td></td>
+                    <td>{% if app.user in sortie.participants %}<strong>X</strong>{% endif %}</td>
                     <td>
                         <a href="{{ path("profil_afficher", {'id' : recherche.organisateur.getId() }) }}">{{ recherche.organisateur.prenom }}</a>
                     </td>
