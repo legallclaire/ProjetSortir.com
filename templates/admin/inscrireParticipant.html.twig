@@ -9,6 +9,7 @@
     <div class="col-4">
         <h1>Inscription</h1>
     {{ form_start(formParticipant) }}
+        {{ form_errors(formParticipant) }}
     {{ form_widget(formParticipant) }}
     <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" >Inscrire</button>
     {{ form_end(formParticipant) }}

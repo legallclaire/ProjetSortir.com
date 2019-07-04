@@ -40,7 +40,7 @@ class AdminController extends Controller
             $this->addFlash("success", "L'inscription est validée");
             return $this->redirectToRoute("profil_afficher", ['id' => $participant->getId()]);
 
-        }return $this->render('/admin/inscription.html.twig', [
+        }return $this->render('/admin/inscrireParticipant.html.twig', [
             'formParticipant'=> $participantForm->createView()
         ]);
     }
