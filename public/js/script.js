@@ -460,6 +460,40 @@ $(document).ready(function() {
             error: function (data) {
                 console.log(data);
             }
+
+
+        });
+
+
+    })
+
+})
+
+// publier une sortie (AJAX) :
+
+$(document).ready(function() {
+    $('input[name=boutonPublier]').click(function() {
+
+
+        var idSortie = $(this).attr('id');
+
+
+        $.ajax({
+            type: "POST",
+            url: "/sortir/public/publier",
+            dataType: "json",
+            data: {id: idSortie},
+            cache: false,
+            success: function (data) {
+
+
+                $.notify("modification effectué")
+            },
+            error: function (data) {
+                console.log(data);
+            }
+
+
         });
 
 

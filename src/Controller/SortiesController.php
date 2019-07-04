@@ -68,7 +68,7 @@ class SortiesController extends Controller
 
 
                 $sortie->setLieu($lieu);
-
+                $sortie->setIsPublished(false);
                 //début de gestion des états :
 
                 $etatRepo = $this->getDoctrine()->getRepository(Etats::class);
@@ -117,6 +117,67 @@ class SortiesController extends Controller
                     "listeVilles" => $listeVilles]);
 
             }
+
+            //si l'utilisateur clique sur le bouton "Publier la sortie":
+
+            if ('PublierLaSortie' === $sortieForm->getClickedButton()->getName()) {
+
+                $nomLieu = $request->get("select-lieux");
+                $lieuxRepo = $this->getDoctrine()->getRepository(Lieux::class);
+                $lieu = $lieuxRepo->findOneBy(["nom_lieu" => $nomLieu]);
+
+
+                $sortie->setLieu($lieu);
+                $sortie->setIsPublished(true);
+                //début de gestion des états :
+
+                $etatRepo = $this->getDoctrine()->getRepository(Etats::class);
+                $etatCree = $etatRepo->find(1);
+                $etatOuvert = $etatRepo->find(2);
+                $etatCloture = $etatRepo->find(3);
+                $etatActiviteEnCours = $etatRepo->find(4);
+                $etatPasse = $etatRepo->find(5);
+                $etatAnnule = $etatRepo->find(6);
+
+
+                $sortie->setEtat($etatCree);
+
+                $dateDuJour = new \DateTime('now');
+                $dateDebutSortie = $sortie->getDatedebut();
+                $dateCloture = $sortie->getDateclosure();
+                $dateFinSortie = $sortie->getDatefin();
+
+                if ($dateCloture > $dateDuJour) {
+
+                    $sortie->setEtat($etatOuvert);
+
+                } else {
+
+                    $sortie->setEtat($etatCloture);
+
+                }
+
+                if ($dateDebutSortie = $dateDuJour AND $dateFinSortie >= $dateDuJour) {
+
+                    $sortie->setEtat($etatActiviteEnCours);
+                }
+
+                if ($dateFinSortie < $dateDuJour) {
+
+                    $sortie->setEtat($etatPasse);
+                }
+
+                //fin de gestion des états
+
+                $em->persist($sortie);
+                $em->flush();
+                $this->addFlash("success", "Sortie publiée !");
+                return $this->redirectToRoute("sorties_home", [
+                    "id" => $sortie->getId(),
+                    "listeVilles" => $listeVilles]);
+            }
+
+
             //si l'utilisateur clique sur le boutton "supprimer" :
             if ('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
                 $em->remove($sortie);
@@ -356,12 +417,29 @@ class SortiesController extends Controller
 
             //si l'utilisateur clique sur le boutton "enregistrer" :
             if ('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
+
+                $sortie->setIsPublished(false);
                 $em->persist($sortie);
                 $em->flush();
 
                 $this->addFlash("success", "Modification enregistrée");
                 return $this->redirectToRoute("sortie_visualiser", ['id' => $sortie->getId()]);
             }
+
+
+            //si l'utilisateur clique sur le bouton "Publier la sortie":
+
+            if ('PublierLaSortie' === $sortieForm->getClickedButton()->getName()) {
+
+                $sortie->setIsPublished(true);
+                $em->persist($sortie);
+                $em->flush();
+
+                $this->addFlash("success", "Modification enregistrée");
+                return $this->redirectToRoute("sortie_visualiser", ['id' => $sortie->getId()]);
+            }
+
+
             //si l'utilisateur clique sur le boutton "supprimer" :
             if ('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
                 $em->remove($sortie);
@@ -540,6 +618,54 @@ class SortiesController extends Controller
         ]);
 
     }
+
+
+//publier une sortie :
+
+/**
+ * @Route("/publier", name="sortie_publier")
+ */
+public function publierSortie(Request $request, EntityManagerInterface $em)
+{
+
+    if ($request->request->get("id")){
+
+        $idSortie=$request->request->get("id");
+
+        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $sortie = $sortieRepo->find($idSortie);
+
+        $organisateur= $sortie->getOrganisateur();
+        $participant= $this->getUser();
+
+
+        if($participant===$organisateur) {
+
+            $sortie->setIsPublished(true);
+
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash("success", "Modification enregistrée");
+        }
+        return $this->redirectToRoute("sorties_home");
+    }
+
+
+    $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
+    $listeSites = $siteRepo->findAll();
+    $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+    $listeSorties = $sortieRepo->findAll();
+    $listeParticipants = $sortieRepo->findAllParticipants();
+
+    return $this->render('sorties/afficherSorties.html.twig', [
+        'controller_name' => 'SortiesController',
+        'listeSites' => $listeSites,
+        'listeSorties' => $listeSorties,
+        'participants' => $listeParticipants
+    ]);
+
+}
 
 
 

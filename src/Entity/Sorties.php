@@ -83,6 +83,11 @@ class Sorties
      */
     private $participants;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $IsPublished;
+
 
     public function __construct()
     {
@@ -238,6 +243,18 @@ class Sorties
         if ($this->participants->contains($participant)) {
             $this->participants->removeElement($participant);
         }
+
+        return $this;
+    }
+
+    public function getIsPublished(): ?bool
+    {
+        return $this->IsPublished;
+    }
+
+    public function setIsPublished(?bool $IsPublished): self
+    {
+        $this->IsPublished = $IsPublished;
 
         return $this;
     }

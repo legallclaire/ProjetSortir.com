@@ -133,6 +133,9 @@
                         {% if app.user not in sortie.participants and app.user!=sortie.organisateur %}
                         <input type="button" name='boutonInscription' value="s'inscrire" id="{{ sortie.id }}" class="btn btn-secondary">
                         {% endif %}
+                        {% if sortie.isPublished is same as(false) and app.user==sortie.organisateur %}
+                            <input type="button" name='boutonPublier' value="publier" id="{{ sortie.id }}" class="btn btn-danger">
+                        {% endif %}
                         {% if app.user in sortie.participants %}
                         <input type="button" name='boutonDesistement' value="se désister" id="{{ sortie.id }}" class="btn btn-danger">
                         {% endif %}
