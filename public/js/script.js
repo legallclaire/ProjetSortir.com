@@ -1,30 +1,30 @@
 //script de modification et de suppression des sites :
 
-    function modificationSite(elementModificationSite) {
+    // function modificationSite(elementModificationSite) {
+    //
+    //     var elementInputNomSite = elementModificationSite.parentNode.parentNode.querySelector('.inputNomSite');
+    //
+    //     elementInputNomSite.disabled = false;
+    //
+    //         elementInputNomSite.addEventListener('focus', function() {
+    //
+    //             elementModificationSite.innerHTML = "<button type='submit' id='enregistrerSite' value='Enregistrer' onclick='enregistrerModifSite' class='btn btn-success'>Enregistrer</button>"
+    //
+    //     });
+    //
+    //     elementInputNomSite.addEventListener('blur', function() {
+    //
+    //         elementInputNomSite.disabled = true;
+    //         elementModificationSite.innerHTML = "<button type='submit' id='enregistrerSite' value='Modifier' onclick='enregistrerModifSite' class='btn btn-warning'>Modifier</button>"
+    //
+    //     });
+    //
+    // }
 
-        var elementInputNomSite = elementModificationSite.parentNode.parentNode.querySelector('.inputNomSite');
-
-        elementInputNomSite.disabled = false;
-
-            elementInputNomSite.addEventListener('focus', function() {
-
-                elementModificationSite.innerHTML = "<button type='submit' id='enregistrerSite' value='Enregistrer' onclick='enregistrerModifSite' class='btn btn-success'>Enregistrer</button>"
-
-        });
-
-        elementInputNomSite.addEventListener('blur', function() {
-
-            elementInputNomSite.disabled = true;
-            elementModificationSite.innerHTML = "<button type='submit' id='enregistrerSite' value='Modifier' onclick='enregistrerModifSite' class='btn btn-warning'>Modifier</button>"
-
-        });
-
-    }
-
-function enregistrerModifSite (){
-
-    //à compléter
-}
+// function enregistrerModifSite (){
+//
+//     //à compléter
+// }
 
 // function ajouterSite () {
 //
@@ -300,41 +300,119 @@ $(document).ready(function() {
 
 })
 
-//modifier site :
-//
-// $(document).ready(function() {
-//     $('#boutonModifier').on('click',(function() {
-//
-// var site = $('#nomSite').val().trim();
-//
-//         if (site==="") {
-//
-//             $("#nomSite").notify("Ce champ est obligatoire");
-//
-//         }
-//
-//         $.ajax({
-//             type: "POST",
-//             url: "/sortir/public/admin/gererSites/ajoutSite",
-//             dataType: "json",
-//             data: {site: site},
-//             cache: false,
-//             success: function (data) {
-//
-//
-//                 $.notify("Ajout effectué")
-//             },
-//             error: function (data) {
-//                 console.log(data);
-//             }
-//         });
-//
-//
-//     }))
-//
-// })
+//modifier site sur la page de gestion des sites :
+
+$(document).ready(function() {
+    $('.btn.btn-warning').on('click',(function() {
+
+        var inputSite = $(this).parent().parent().find('input[type=text]');
+        inputSite.prop('disabled', false);
+        $(this).replaceWith("<button type='submit' id='boutonEnregistrer' value='Enregistrer' class='btn btn-success'>Enregistrer</button>");
 
 
+        $('#boutonEnregistrer').on('click', function() {
+
+            var inputSite = $(this).parent().parent().find('input[type=text]');
+            var valeurSite = inputSite.val();
+            var idSite =inputSite.attr('name');
+
+            $.ajax({
+                type: "POST",
+                url: "/sortir/public/admin/gererSites/modifierSite",
+                dataType: "json",
+                data: {valeurSite: valeurSite, idSite: idSite},
+                cache: false,
+                success: function (data) {
+
+
+                    $.notify("Modification effectué")
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        })
+
+    }))
+
+})
+
+
+//suppression site sur la page de gestion des sites :
+$(document).ready(function() {
+    $('.btn.btn-danger').on('click',(function() {
+
+    var inputSite = $(this).parent().parent().find('input[type=text]');
+    var valeurSite = inputSite.val();
+    var idSite =inputSite.attr('name');
+
+    $.ajax({
+        type: "POST",
+        url: "/sortir/public/admin/gererSites/supprimerSite",
+        dataType: "json",
+        data: {valeurSite: valeurSite, idSite: idSite},
+        cache: false,
+        success: function (data) {
+
+
+            $.notify("Ajout effectué")
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+
+
+}))
+})
+
+/*
+Gestion de gererVilles :
+ */
+
+//ajouter ville :
+
+$(document).ready(function() {
+    $('#boutonAjouterVille').on('click',(function() {
+
+        $('#nomVille').prop('required',true);
+        $('#codePostalVille').prop('required',true);
+
+
+        var nomVille = $('#nomVille').val().trim();
+        var codePostal = $('#codePostalVille').val().trim();
+
+        if (nomVille==="") {
+
+            $.notify("Ce champ est obligatoire");
+
+        }
+
+        if (codePostal==="") {
+
+            $.notify("Ce champ est obligatoire");
+
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/sortir/public/admin/gererVilles/ajoutVille",
+            dataType: "json",
+            data: {nomVille: nomVille, codePostal: codePostal },
+            cache: false,
+            success: function (data) {
+
+
+                $.notify("Ajout effectué")
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+    }))
+
+})
 
 
 
