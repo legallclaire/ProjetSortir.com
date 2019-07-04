@@ -14,33 +14,24 @@ class ProfilController extends Controller
     /**
      * @Route("/gererProfil/{id}", name="profil_gerer", requirements={"id"="\d+"})
      */
-    public function gererProfil($id, EntityManagerInterface $em, Request $request)
+    public function gererProfil(EntityManagerInterface $em, Request $request)
     {
-        $participant = $em->getRepository(Participants::class)->find($id);
-
+        $participant = $this->getUser();
         if ($participant == null) {
 
             throw $this->createNotFoundException("Participant inconnu");
         }
 
-        $participant->setPseudo($participant->getPseudo());
-        $participant->setNom($participant->getNom());
-        $participant->setPrenom($participant->getPrenom());
-
-        if ($participant->getTelephone() !== null) {
-            $participant->setTelephone($participant->getTelephone());
-        }
-
-
-        $participant->setMail($participant->getMail());
-        $participant->setSite($participant->getSite());
-
-
         $participantForm = $this->createForm(ParticipantsType::class, $participant);
 
         $participantForm->handleRequest($request);
         if ($participantForm->isSubmitted() && $participantForm->isValid()) {
-
+            if ($participantForm->get('urlPhoto')->getData() != null) {
+                $file = $participantForm->get('urlPhoto')->getData();
+                $fileName = $file->guessExtension();
+                $file->move($this->getParameter('user_photo_directory'), $this->getUser()->getPseudo().'.'.$fileName);
+                $participant->setUrlPhoto($this->getUser()->getPseudo().'.'.$fileName);
+            }
 
             $em->persist($participant);
             $em->flush();

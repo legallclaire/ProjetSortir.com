@@ -50,6 +50,7 @@ class Participants implements UserInterface
      * @ORM\Column(type="string", length=20, unique=true)
      * @Assert\Length(max=20, maxMessage="{{ limit }} caractères maxi")
      * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $mail;
 
