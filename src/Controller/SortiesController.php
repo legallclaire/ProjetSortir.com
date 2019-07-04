@@ -506,11 +506,10 @@ class SortiesController extends Controller
 
             $idSortie = $request->request->get("id");
 
-            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortieRepo = $em->getRepository(Sorties::class);
             $sortie = $sortieRepo->find($idSortie);
 
             $participant = $this->getUser();
-
             $sortie->addParticipant($participant);
 
             $em->persist($sortie);
