@@ -474,13 +474,16 @@ class SortiesController extends Controller
 
         $sortie = $em->getRepository(Sorties::class)->find($id);
 
+        $participants = $sortie->getParticipants();
+
         if ($sortie == null) {
 
             throw $this->createNotFoundException("Participant inconnu");
         }
 
         return $this->render('sorties/visualiserSortie.html.twig', [
-            "sortie" => $sortie
+            "sortie" => $sortie,
+            "participants" => $participants
 
         ]);
     }
