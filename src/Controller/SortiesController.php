@@ -495,20 +495,21 @@ class SortiesController extends Controller
 
 
     //inscription à une sortie :
+
     /**
      * @Route("/inscription", name="sortie_inscription")
      */
     public function inscriptionSortie(Request $request, EntityManagerInterface $em)
     {
 
-        if ($request->request->get("id")){
+        if ($request->request->get("id")) {
 
-            $idSortie=$request->request->get("id");
+            $idSortie = $request->request->get("id");
 
             $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
             $sortie = $sortieRepo->find($idSortie);
 
-            $participant= $this->getUser();
+            $participant = $this->getUser();
 
             $sortie->addParticipant($participant);
 
@@ -546,14 +547,14 @@ class SortiesController extends Controller
     public function desinscriptionSortie(Request $request, EntityManagerInterface $em)
     {
 
-        if ($request->request->get("id")){
+        if ($request->request->get("id")) {
 
-            $idSortie=$request->request->get("id");
+            $idSortie = $request->request->get("id");
 
             $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
             $sortie = $sortieRepo->find($idSortie);
 
-            $participant= $this->getUser();
+            $participant = $this->getUser();
 
             $sortie->removeParticipant($participant);
 
@@ -593,18 +594,18 @@ class SortiesController extends Controller
     public function annulerSortie(Request $request, EntityManagerInterface $em)
     {
 
-        if ($request->request->get("id")){
+        if ($request->request->get("id")) {
 
-            $idSortie=$request->request->get("id");
+            $idSortie = $request->request->get("id");
 
             $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
             $sortie = $sortieRepo->find($idSortie);
 
-            $organisateur= $sortie->getOrganisateur();
-            $participant= $this->getUser();
+            $organisateur = $sortie->getOrganisateur();
+            $participant = $this->getUser();
 
 
-            if($participant===$organisateur) {
+            if ($participant === $organisateur) {
 
 
                 $em->remove($sortie);
@@ -636,53 +637,52 @@ class SortiesController extends Controller
 
 //publier une sortie :
 
-/**
- * @Route("/publier", name="sortie_publier")
- */
-public function publierSortie(Request $request, EntityManagerInterface $em)
-{
+    /**
+     * @Route("/publier", name="sortie_publier")
+     */
+    public function publierSortie(Request $request, EntityManagerInterface $em)
+    {
 
-    if ($request->request->get("id")){
+        if ($request->request->get("id")) {
 
-        $idSortie=$request->request->get("id");
+            $idSortie = $request->request->get("id");
 
-        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
-        $sortie = $sortieRepo->find($idSortie);
+            $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+            $sortie = $sortieRepo->find($idSortie);
 
-        $organisateur= $sortie->getOrganisateur();
-        $participant= $this->getUser();
+            $organisateur = $sortie->getOrganisateur();
+            $participant = $this->getUser();
 
 
-        if($participant===$organisateur) {
+            if ($participant === $organisateur) {
 
-            $sortie->setIsPublished(true);
+                $sortie->setIsPublished(true);
 
-            $em->persist($sortie);
-            $em->flush();
+                $em->persist($sortie);
+                $em->flush();
 
-            $this->addFlash("success", "Modification enregistrée");
+                $this->addFlash("success", "Modification enregistrée");
+            }
+            $json_data = $sortie;
+
+            return new JsonResponse($json_data);
         }
-        $json_data = $sortie;
 
-        return new JsonResponse($json_data);
+
+        $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
+        $listeSites = $siteRepo->findAll();
+        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $listeSorties = $sortieRepo->findAll();
+        $listeParticipants = $sortieRepo->findAllParticipants();
+
+        return $this->render('sorties/afficherSorties.html.twig', [
+            'controller_name' => 'SortiesController',
+            'listeSites' => $listeSites,
+            'listeSorties' => $listeSorties,
+            'participants' => $listeParticipants
+        ]);
+
     }
-
-
-    $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
-    $listeSites = $siteRepo->findAll();
-    $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
-    $listeSorties = $sortieRepo->findAll();
-    $listeParticipants = $sortieRepo->findAllParticipants();
-
-    return $this->render('sorties/afficherSorties.html.twig', [
-        'controller_name' => 'SortiesController',
-        'listeSites' => $listeSites,
-        'listeSorties' => $listeSorties,
-        'participants' => $listeParticipants
-    ]);
-
-}
-
 
 
 }
