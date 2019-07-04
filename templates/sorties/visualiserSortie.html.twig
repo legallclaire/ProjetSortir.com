@@ -18,27 +18,60 @@
                     <p class="card-text">Date et heure de la sortie : {{ sortie.getDatedebut() | date }}</p>
                     <p class="card-text">Date limite d'inscription : {{ sortie.getDateclosure() | date }}</p>
                     <p class="card-text">Nombre de places : {{ sortie.getNbinscriptionsmax() }}</p>
-                    {% if sortie.getDescriptioninfos() is same as (0) %}
+                    {% if sortie.getDescriptioninfos() is not null %}
                     <p class="card-text">Description et infos : {{ sortie.getDescriptioninfos() }}</p>
                         {% endif %}
                     <p class="card-text">Ville Organisatrice : {{ sortie.getSite().getNomSite() }}</p>
                         <p class="card-text">Rue  : {{ sortie.getLieu().getRue() }}</p>
                         <p class="card-text">Code Postal  : {{ sortie.getLieu().getVille().getCodePostal() }}</p>
                         <p class="card-text">Ville  : {{ sortie.getLieu().getVille().getNomVille() }}</p>
-                    {% if sortie.getLieu().getLatitude() is same as (0) %}
+                    {% if sortie.getLieu().getLatitude() is not null %}
                         <p class="card-text">Latitude  : {{ sortie.getLieu().getLatitude() }}</p>
                         {% endif %}
-                    {% if sortie.getLieu().getLongitude() is same as (0) %}
+                    {% if sortie.getLieu().getLongitude() is not null %}
                         <p class="card-text">Longitude  : {{ sortie.getLieu().getLongitude() }}</p>
                     {% endif %}
-
                     {% endif %}
                     <div class="text-center">
                         <a href="{{ path("sorties_home") }}" class="btn btn-info">Retour</a>
                     </div></div>
             </div>
 
-            
+
+        </div></div>
+
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="card shadow-sm p-3 mb-5 bg-white rounded" style="width:400px">
+                <div class="card-header">
+                    <h4 class="card-title ">Liste des participants</h4>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Pseudo </th>
+                            <th scope="col">Prénom </th>
+                        </tr>
+                        </thead>
+                        {% if participants is defined and participants is not null %}
+                            {% for participant in participants %}
+                                <tr>
+                                    <th scope="row">{{ loop.index }}</th>
+                                    <td>{{ participant.pseudo }}</td>
+                                    <td>{{ participant.nom }}</td>
+                                </tr>
+
+                            {% endfor %}
+                        {% endif %}
+                    </table>
+
+                    </div>
+            </div>
+
 
         </div></div>
 

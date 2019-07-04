@@ -40,9 +40,7 @@
                     </div>
 
                     <label>Le nom de la sortie contient : </label>
-                    <input type="text" id="mot" name="mot"><a href="{{ path('sorties_rechercher') }}"><input
-                                type="submit" id="search" value="Rechercher"></a>
-
+                    <input type="text" id="mot" name="mot">
                     <div id="checkBox" class="col-md-9">
                         <div>
                             <input type="checkbox" id="SortiesOrganisateur" onclick="checkboxFiltre()">
@@ -98,7 +96,7 @@
                     <td>{{ recherche.nom }}</td>
                     <td>{{ recherche.datedebut.format("d-M-Y") }}</td>
                     <td>{{ recherche.dateclosure.format("d-M-Y") }}</td>
-                    <td>{{ recherche.listeParticipants }}/{{ recherche.nbinscriptionsmax }}</td>
+                    <td>{{ recherche.participants|length }}/{{ recherche.nbinscriptionsmax }}</td>
                     <td>{{ recherche.etat.libelle }}</td>
                     <td></td>
                     <td>
@@ -130,7 +128,8 @@
 {#                        <a href="#">Afficher</a> - <a href="#">S'inscrire</a>#}
                         <a href="{{ path('sortie_visualiser', {'id': sortie.id }) }}"><input type="button" value="afficher" class="btn btn-primary"></a>
 
-                        {% if app.user not in sortie.participants and app.user!=sortie.organisateur %}
+                        {% if app.user not in sortie.participants and app.user!=sortie.organisateur and (sortie.etat=="Clôturée"
+                            or sortie.etat=="Activité en cours" or sortie.etat=="Passée")%}
                         <input type="button" name='boutonInscription' value="s'inscrire" id="{{ sortie.id }}" class="btn btn-secondary">
                         {% endif %}
                         {% if sortie.isPublished is same as(false) and app.user==sortie.organisateur %}

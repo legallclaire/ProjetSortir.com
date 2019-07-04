@@ -74,5 +74,19 @@ class SortiesRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    //    Récupération de la liste des sortie en fonction du nom de la sortie et du site
+    public function findSortieFiltres($site,$mot)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->addSelect('si');
+        $qb->leftJoin('s.site', 'si');
+        $qb->where('si.nom_site = :site');
+        $qb->andWhere('s.nom LIKE :mot');
+        $qb->setParameter('site', $site);
+        $qb->setParameter('mot', '%'.$mot.'%');
+        $query=$qb->getQuery();
+        return $query->getResult();
+    }
+
 
 }
