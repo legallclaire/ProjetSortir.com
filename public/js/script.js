@@ -366,6 +366,56 @@ $('.btn.btn-danger').on('click',(function() {
 }))
 })
 
+/*
+Gestion de gererVilles :
+ */
+
+//ajouter ville :
+
+$(document).ready(function() {
+    $('#boutonAjouterVille').on('click',(function() {
+
+        $('#nomVille').prop('required',true);
+        $('#codePostalVille').prop('required',true);
+
+
+        var nomVille = $('#nomVille').val().trim();
+        var codePostal = $('#codePostalVille').val().trim();
+
+        if (nomVille==="") {
+
+            $.notify("Ce champ est obligatoire");
+
+        }
+
+        if (codePostal==="") {
+
+            $.notify("Ce champ est obligatoire");
+
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/sortir/public/admin/gererVilles/ajoutVille",
+            dataType: "json",
+            data: {nomVille: nomVille, codePostal: codePostal },
+            cache: false,
+            success: function (data) {
+
+
+                $.notify("Ajout effectué")
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+    }))
+
+})
+
+
+
 // Filtrer affichage sortie avec checkbox
 
 function checkboxFiltre() {
