@@ -43,9 +43,8 @@
     {% for site in sites %}
         <tr class="ligneSite">
             <td class="sites"><input type="text" class="inputNomSite" value="{{ site.getNomSite() }}" disabled></td>
-            <td><span class="modificationSite" onclick="modificationSite(this)"><button type="submit" id="boutonModifier" class="btn btn-warning" value="Supprimer">Modifier</button></span>
+            <td><button type="submit" id="boutonModifier" class="btn btn-warning" name="{{ site.id }}" value="Modifier">Modifier</button>
                 <button type="submit" id="boutonSupprimer" class="btn btn-danger" value="Supprimer" >Supprimer</button></td>
-{#                <input type="submit" value="Supprimer"></td>#}
         </tr>
     {%  endfor %}
         <tr id="derniereLigne">
