@@ -509,7 +509,9 @@ class SortiesController extends Controller
 
             $this->addFlash("success", "Inscription enregistrée");
 
-            return $this->redirectToRoute("sorties_home");
+            $json_data = $sortie;
+
+            return new JsonResponse($json_data);
         }
 
 
@@ -552,7 +554,9 @@ class SortiesController extends Controller
 
             $this->addFlash("success", "Modification enregistrée");
 
-            return $this->redirectToRoute("sorties_home");
+            $json_data = $sortie;
+
+            return new JsonResponse($json_data);
         }
 
 
@@ -600,7 +604,9 @@ class SortiesController extends Controller
 
                 $this->addFlash("success", "Modification enregistrée");
             }
-            return $this->redirectToRoute("sorties_home");
+            $json_data = $sortie;
+
+            return new JsonResponse($json_data);
         }
 
 
@@ -648,7 +654,9 @@ public function publierSortie(Request $request, EntityManagerInterface $em)
 
             $this->addFlash("success", "Modification enregistrée");
         }
-        return $this->redirectToRoute("sorties_home");
+        $json_data = $sortie;
+
+        return new JsonResponse($json_data);
     }
 
 
