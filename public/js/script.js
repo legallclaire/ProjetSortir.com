@@ -415,24 +415,25 @@ $(document).ready(function() {
 
         var idSortie = $(this).attr('id');
 
+        if (confirm('Etes-vous sûr de vouloir vous désinscrire de cette sortie ?')) {
 
-        $.ajax({
-            type: "POST",
-            url: "/sortir/public/desinscription",
-            dataType: "json",
-            data: {id: idSortie},
-            cache: false,
-            success: function (data) {
-
-
-                $.notify("modification effectué")
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
+            $.ajax({
+                type: "POST",
+                url: "/sortir/public/desinscription",
+                dataType: "json",
+                data: {id: idSortie},
+                cache: false,
+                success: function (data) {
 
 
+                    $.notify("modification effectué")
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+
+        }
     })
 
 })
