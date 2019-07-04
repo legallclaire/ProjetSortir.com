@@ -338,7 +338,33 @@ $(document).ready(function() {
 })
 
 
+//suppression site sur la page de gestion des sites :
+$(document).ready(function() {
+$('.btn.btn-danger').on('click',(function() {
 
+    var inputSite = $(this).parent().parent().find('input[type=text]');
+    var valeurSite = inputSite.val();
+    var idSite =inputSite.attr('name');
+
+    $.ajax({
+        type: "POST",
+        url: "/sortir/public/admin/gererSites/supprimerSite",
+        dataType: "json",
+        data: {valeurSite: valeurSite, idSite: idSite},
+        cache: false,
+        success: function (data) {
+
+
+            $.notify("Modification effectué")
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+
+
+}))
+})
 
 // Filtrer affichage sortie avec checkbox
 

@@ -138,4 +138,45 @@ class SitesController extends Controller
     }
 
 
+    /**
+     * @Route("/gererSites/supprimerSite", name="sites_supprimerSite")
+     */
+    public function supprimerSite(EntityManagerInterface $em, Request $request)
+    {
+
+        if (!$this->isGranted("ROLE_ADMIN")) {
+            throw new AccessDeniedException("Accès interdit !");
+        }
+
+        if($request->request->get("valeurSite")){
+
+            $nomSite=$request->request->get("valeurSite");
+            $id=$request->request->get("idSite");
+
+            $sitesRepo = $this->getDoctrine()->getRepository(Sites::class);
+            $site=$sitesRepo->find($id);
+
+
+            $em->remove($site);
+            $em->flush();
+
+
+            $json_data = $nomSite;
+
+            return new JsonResponse($json_data);
+
+        }
+
+        $sitesRepo = $this->getDoctrine()->getRepository(Sites::class);
+        $sites=$sitesRepo->findAll();
+        if ($sites==null){
+            throw $this->createNotFoundException("Aucun site");
+        }
+        return $this->render('sites/gererSites.html.twig', [
+            'sites' => $sites]);
+
+
+    }
+
+
 }
