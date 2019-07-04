@@ -120,12 +120,11 @@
                     <td>{{ sortie.dateclosure.format("d-M-Y") }}</td>
                     <td>{{ sortie.participants|length }}/{{ sortie.nbinscriptionsmax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
-                    <td></td>
+                    <td>{% if app.user in sortie.participants %}<strong>X</strong>{% endif %}</td>
                     <td>
                         <a href="{{ path("profil_afficher", {'id' : sortie.organisateur.getId() }) }}">{{ sortie.organisateur.pseudo }}</a>
                     </td>
                     <td>
-{#                        <a href="#">Afficher</a> - <a href="#">S'inscrire</a>#}
                         <a href="{{ path('sortie_visualiser', {'id': sortie.id }) }}"><input type="button" value="afficher" class="btn btn-info"></a>
 
                         {% if app.user not in sortie.participants and app.user!=sortie.organisateur and (sortie.etat!="Clôturée"
