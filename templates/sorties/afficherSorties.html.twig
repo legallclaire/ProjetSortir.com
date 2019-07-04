@@ -126,23 +126,23 @@
                     </td>
                     <td>
 {#                        <a href="#">Afficher</a> - <a href="#">S'inscrire</a>#}
-                        <a href="{{ path('sortie_visualiser', {'id': sortie.id }) }}"><input type="button" value="afficher" class="btn btn-primary"></a>
+                        <a href="{{ path('sortie_visualiser', {'id': sortie.id }) }}"><input type="button" value="afficher" class="btn btn-info"></a>
 
                         {% if app.user not in sortie.participants and app.user!=sortie.organisateur and (sortie.etat!="Clôturée"
                             or sortie.etat!="Activité en cours" or sortie.etat!="Passée")%}
-                        <input type="button" name='boutonInscription' value="s'inscrire" id="{{ sortie.id }}" class="btn btn-secondary">
+                        <input type="button" name='boutonInscription' value="s'inscrire" id="{{ sortie.id }}" class="btn btn-dark">
                         {% endif %}
                         {% if sortie.isPublished is same as(false) and app.user==sortie.organisateur %}
-                            <input type="button" name='boutonPublier' value="publier" id="{{ sortie.id }}" class="btn btn-danger">
+                            <input type="button" name='boutonPublier' value="publier" id="{{ sortie.id }}" class="btn btn-success">
                         {% endif %}
                         {% if app.user in sortie.participants %}
                         <input type="button" name='boutonDesistement' value="se désister" id="{{ sortie.id }}" class="btn btn-danger">
                         {% endif %}
                         {% if sortie.organisateur is same as(app.user) %}
                         <a href="{{ path('sorties_modifier', {'id': sortie.id }) }}">
-                            <input type="button" name='boutonModifier' value="modifier" id="{{ sortie.id }}" class="btn btn-warning">
+                            <input type="button" name='boutonModifier' value="modifier" id="{{ sortie.id }}" class="btn btn-dark">
                         </a>
-                        <input type="button" name='boutonAnnuler' value="annuler" id="{{ sortie.id }}" class="btn btn-warning">
+                        <input type="button" name='boutonAnnuler' value="annuler" id="{{ sortie.id }}" class="btn btn-danger">
                         {% endif %}
                     </td>
                 </tr>
