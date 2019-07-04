@@ -12,12 +12,10 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
     <div class="card shadow-sm p-3 mb-5 bg-white rounded" style="width:400px">
-        {% if (user.id) == (1) %}
-            <img class="card-img-top" src="../../public/image/avatar2.png" alt="Card image">
-        {% endif %}
-        {% if (user.id) == (2) %}
-            <img class="card-img-top" src="../../public/image/avatar-3.png" alt="Card image">
-        {% endif %}
+
+            <img class="card-img-top" src="{{ asset('image/') ~ app.user.urlPhoto }}" alt="Card image">
+
+
         <div class="card-header">
             {% if is_granted("IS_AUTHENTICATED_FULLY") %}
                 <h1 class="card-title ">{{ user.pseudo }}</h1>
