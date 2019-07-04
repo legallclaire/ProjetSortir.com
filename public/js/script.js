@@ -340,7 +340,7 @@ $(document).ready(function() {
 
 //suppression site sur la page de gestion des sites :
 $(document).ready(function() {
-$('.btn.btn-danger').on('click',(function() {
+    $('.btn.btn-danger').on('click',(function() {
 
     var inputSite = $(this).parent().parent().find('input[type=text]');
     var valeurSite = inputSite.val();
@@ -355,7 +355,7 @@ $('.btn.btn-danger').on('click',(function() {
         success: function (data) {
 
 
-            $.notify("Modification effectué")
+            $.notify("Ajout effectué")
         },
         error: function (data) {
             console.log(data);
