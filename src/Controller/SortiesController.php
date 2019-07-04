@@ -474,6 +474,8 @@ class SortiesController extends Controller
 
         $sortie = $em->getRepository(Sorties::class)->find($id);
 
+        $participants = [];
+
         $participants = $sortie->getParticipants();
 
         if ($sortie == null) {

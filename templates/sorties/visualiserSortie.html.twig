@@ -32,13 +32,21 @@
                         <p class="card-text">Longitude  : {{ sortie.getLieu().getLongitude() }}</p>
                     {% endif %}
 
+                        {% if participants is defined and participants is not null %}
+                            <p class="card-text">Participants :</p>
+                            {% for participant in participants %}
+
+                                <p > {{ participant.pseudo }} : {{ participant.nom }}</p>
+
+                            {% endfor %}
+                        {% endif %}
+
                     {% endif %}
                     <div class="text-center">
                         <a href="{{ path("sorties_home") }}" class="btn btn-info">Retour</a>
                     </div></div>
             </div>
 
-            
 
         </div></div>
 
