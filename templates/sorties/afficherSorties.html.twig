@@ -40,9 +40,7 @@
                     </div>
 
                     <label>Le nom de la sortie contient : </label>
-                    <input type="text" id="mot" name="mot"><a href="{{ path('sorties_rechercher') }}"><input
-                                type="submit" id="search" value="Rechercher"></a>
-
+                    <input type="text" id="mot" name="mot">
                     <div id="checkBox" class="col-md-9">
                         <div>
                             <input type="checkbox" id="SortiesOrganisateur" onclick="checkboxFiltre()">
@@ -98,7 +96,7 @@
                     <td>{{ recherche.nom }}</td>
                     <td>{{ recherche.datedebut.format("d-M-Y") }}</td>
                     <td>{{ recherche.dateclosure.format("d-M-Y") }}</td>
-                    <td>{{ recherche.listeParticipants }}/{{ recherche.nbinscriptionsmax }}</td>
+                    <td>{{ recherche.participants|length }}/{{ recherche.nbinscriptionsmax }}</td>
                     <td>{{ recherche.etat.libelle }}</td>
                     <td></td>
                     <td>
