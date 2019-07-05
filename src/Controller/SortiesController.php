@@ -97,7 +97,7 @@ class SortiesController extends Controller
 
                 }
 
-                if ($dateDebutSortie = $dateDuJour AND $dateFinSortie >= $dateDuJour) {
+                if ($dateDebutSortie == $dateDuJour AND $dateFinSortie >= $dateDuJour) {
 
                     $sortie->setEtat($etatActiviteEnCours);
                 }
@@ -157,7 +157,7 @@ class SortiesController extends Controller
 
                 }
 
-                if ($dateDebutSortie = $dateDuJour AND $dateFinSortie >= $dateDuJour) {
+                if ($dateDebutSortie == $dateDuJour AND $dateFinSortie >= $dateDuJour) {
 
                     $sortie->setEtat($etatActiviteEnCours);
                 }

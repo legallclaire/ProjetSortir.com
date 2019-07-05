@@ -103,23 +103,23 @@
                         <a href="{{ path("profil_afficher", {'id' : recherche.organisateur.getId() }) }}">{{ recherche.organisateur.prenom }}</a>
                     </td>
                     <td>
-                        <a href="{{ path('sortie_visualiser', {'id': sortie.id }) }}"><input type="button" value="afficher" class="btn btn-info"></a>
+                        <a href="{{ path('sortie_visualiser', {'id': recherche.id }) }}"><input type="button" value="afficher" class="btn btn-info"></a>
 
-                        {% if app.user not in sortie.participants and app.user!=sortie.organisateur and (sortie.etat!="Clôturée"
-                            or sortie.etat!="Activité en cours" or sortie.etat!="Passée")%}
-                            <input type="button" name='boutonInscription' value="s'inscrire" id="{{ sortie.id }}" class="btn btn-dark">
+                        {% if app.user not in recherche.participants and app.user!=recherche.organisateur and (recherche.etat!="Clôturée"
+                            or recherche.etat!="Activité en cours" or recherche.etat!="Passée")%}
+                            <input type="button" name='boutonInscription' value="s'inscrire" id="{{ recherche.id }}" class="btn btn-dark">
                         {% endif %}
-                        {% if sortie.isPublished is same as(false) and app.user==sortie.organisateur %}
-                            <input type="button" name='boutonPublier' value="publier" id="{{ sortie.id }}" class="btn btn-success">
+                        {% if recherche.isPublished is same as(false) and app.user==recherche.organisateur %}
+                            <input type="button" name='boutonPublier' value="publier" id="{{ recherche.id }}" class="btn btn-success">
                         {% endif %}
-                        {% if app.user in sortie.participants %}
-                            <input type="button" name='boutonDesistement' value="se désister" id="{{ sortie.id }}" class="btn btn-danger">
+                        {% if app.user in recherche.participants %}
+                            <input type="button" name='boutonDesistement' value="se désister" id="{{ recherche.id }}" class="btn btn-danger">
                         {% endif %}
-                        {% if sortie.organisateur is same as(app.user) %}
-                            <a href="{{ path('sorties_modifier', {'id': sortie.id }) }}">
-                                <input type="button" name='boutonModifier' value="modifier" id="{{ sortie.id }}" class="btn btn-dark">
+                        {% if recherche.organisateur is same as(app.user) %}
+                            <a href="{{ path('sorties_modifier', {'id': recherche.id }) }}">
+                                <input type="button" name='boutonModifier' value="modifier" id="{{ recherche.id }}" class="btn btn-dark">
                             </a>
-                            <input type="button" name='boutonAnnuler' value="annuler" id="{{ sortie.id }}" class="btn btn-danger">
+                            <input type="button" name='boutonAnnuler' value="annuler" id="{{ recherche.id }}" class="btn btn-danger">
                         {% endif %}
                     </td>
                 </tr>
