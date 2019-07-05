@@ -97,7 +97,7 @@ class SortiesController extends Controller
 
                 }
 
-                if ($dateDebutSortie = $dateDuJour AND $dateFinSortie >= $dateDuJour) {
+                if ($dateDebutSortie == $dateDuJour AND $dateFinSortie >= $dateDuJour) {
 
                     $sortie->setEtat($etatActiviteEnCours);
                 }
@@ -157,7 +157,7 @@ class SortiesController extends Controller
 
                 }
 
-                if ($dateDebutSortie = $dateDuJour AND $dateFinSortie >= $dateDuJour) {
+                if ($dateDebutSortie == $dateDuJour AND $dateFinSortie >= $dateDuJour) {
 
                     $sortie->setEtat($etatActiviteEnCours);
                 }
@@ -189,8 +189,6 @@ class SortiesController extends Controller
             //si l'utilisateur clique sur le boutton "annuler" :
             if ('Annuler' === $sortieForm->getClickedButton()->getName()) {
 
-                $em->remove($sortie);
-                $em->flush();
 
                 return $this->redirectToRoute("sorties_home");
             }
@@ -418,7 +416,7 @@ class SortiesController extends Controller
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
-            //si l'utilisateur clique sur le boutton "enregistrer" :
+            //si l'utilisateur clique sur le bouton "enregistrer" :
             if ('Enregistrer' === $sortieForm->getClickedButton()->getName()) {
 
                 $sortie->setIsPublished(false);
@@ -443,7 +441,7 @@ class SortiesController extends Controller
             }
 
 
-            //si l'utilisateur clique sur le boutton "supprimer" :
+            //si l'utilisateur clique sur le bouton "supprimer" :
             if ('SupprimerLaSortie' === $sortieForm->getClickedButton()->getName()) {
                 $em->remove($sortie);
                 $em->flush();
