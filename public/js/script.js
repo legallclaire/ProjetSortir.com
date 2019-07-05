@@ -457,32 +457,24 @@ function checkboxFiltre() {
 
 // s'inscrire à une sortie (AJAX) :
 
-
 $(document).ready(function() {
     $('input[name=boutonInscription]').click(function() {
 
+        // Récupération de l'id de la sortie
         var idSortie = $(this).attr('id');
 
-
-        $.ajax({
-            type: "POST",
-            url: "/sortir/public/inscription",
-            dataType: "json",
-            data: {id: idSortie},
-            cache: false,
-            success: function (data) {
-
-
-                $.notify("modification effectuée")
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-
-
+        if (confirm('Comfirmation d\'inscription ?')) {
+            //Envoi de la requête avec ses données en Ajax
+            $.ajax({
+                type: "POST",
+                url: "/sortir/public/inscription",
+                cache: false,
+                dataType: "json",
+                // Données envoyées dans la requête
+                data: {id: idSortie}
+            });
+        }
     })
-
 })
 
 // se désister (AJAX):
@@ -500,14 +492,12 @@ $(document).ready(function() {
                 dataType: "json",
                 data: {id: idSortie},
                 cache: false,
-                success: function (data) {
-
-
-                    $.notify("modification effectué")
-                },
-                error: function (data) {
-                    console.log(data);
-                }
+                // success: function (data) {
+                //     $.notify("modification effectué")
+                // },
+                // error: function (data) {
+                //     console.log(data);
+                // }
             });
 
         }

@@ -66,9 +66,9 @@ class SortiesController extends Controller
                 $lieuxRepo = $this->getDoctrine()->getRepository(Lieux::class);
                 $lieu = $lieuxRepo->findOneBy(["nom_lieu" => $nomLieu]);
 
-
                 $sortie->setLieu($lieu);
                 $sortie->setIsPublished(false);
+
                 //début de gestion des états :
 
                 $etatRepo = $this->getDoctrine()->getRepository(Etats::class);
@@ -494,21 +494,18 @@ class SortiesController extends Controller
     }
 
 
-    //inscription à une sortie :
+    //Inscription à une sortie :
 
     /**
      * @Route("/inscription", name="sortie_inscription")
      */
     public function inscriptionSortie(Request $request, EntityManagerInterface $em)
     {
-
         if ($request->request->get("id")) {
 
             $idSortie = $request->request->get("id");
-
             $sortieRepo = $em->getRepository(Sorties::class);
             $sortie = $sortieRepo->find($idSortie);
-
             $participant = $this->getUser();
             $sortie->addParticipant($participant);
 
@@ -516,12 +513,10 @@ class SortiesController extends Controller
             $em->flush();
 
             $this->addFlash("success", "Inscription enregistrée");
-
             $json_data = $sortie;
 
             return new JsonResponse($json_data);
         }
-
 
         $siteRepo = $this->getDoctrine()->getRepository(Sites::class);
         $listeSites = $siteRepo->findAll();
@@ -535,7 +530,6 @@ class SortiesController extends Controller
             'listeSorties' => $listeSorties,
             'participants' => $listeParticipants
         ]);
-
     }
 
 //désinscription à une sortie :
